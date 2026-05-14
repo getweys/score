@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { LaybySection } from "@/components/sections/layby-section";
 import { MissionSection } from "@/components/sections/mission-section";
 import { ProjectSection } from "@/components/sections/project-section";
+import { PromoVideoSection } from "@/components/sections/promo-video-section";
 import { ResponsibilitiesSection } from "@/components/sections/responsibilities-section";
 import { SiteFooter } from "@/components/sections/site-footer";
 import { SiteHeader } from "@/components/sections/site-header";
@@ -19,6 +20,7 @@ export default function Home() {
         <ResponsibilitiesSection />
         <TeamSection />
         <MissionSection />
+        <PromoVideoSection />
         <ContactSection />
         <FinancialSection />
         {/* <LaybySection /> */}

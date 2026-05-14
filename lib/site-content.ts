@@ -53,6 +53,10 @@ export const heroSlides = [
   "/images/n2-1024x682-1.jpg",
 ] as const;
 
+/** Homepage promo clip (plays when scrolled into view). */
+export const promoVideoFilename = "WhatsApp Video 2026-05-14 at 6.47.07 PM.mp4";
+export const promoVideoSrc = `/images/${encodeURIComponent(promoVideoFilename)}`;
+
 export const projectCarouselImages = [
   "/images/1.png",
   "/images/2.png",
