@@ -16,6 +16,12 @@
   --secondary: #0f172a;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 html {
   color-scheme: light;
   scrollbar-gutter: stable;

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import type { TeamMember } from "@/lib/site-content";
 import { teamEyebrow, teamHeading, teamMembers, teamSubheading } from "@/lib/site-content";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, headerStagger, riseSoft, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 
 interface TeamMemberTileProps {
   member: TeamMember;
@@ -14,7 +14,7 @@ function TeamMemberTile({ member }: TeamMemberTileProps) {
   return (
     <motion.div
       className="flex w-[42%] max-w-46 flex-col items-center text-center sm:w-[28%] sm:max-w-50 lg:w-[22%] lg:max-w-54"
-      variants={fadeUp}
+      variants={riseSoft}
     >
       <div className="group relative mx-auto aspect-square w-full max-w-37 overflow-hidden rounded-full bg-zinc-100 shadow-[0_12px_40px_-16px_rgba(15,23,42,0.22)] ring-[3px] ring-white transition duration-500 ease-out group-hover:shadow-[0_16px_44px_-14px_rgba(225,29,72,0.28)] group-hover:ring-primary/25 sm:max-w-42 lg:max-w-44">
         <Image
@@ -43,19 +43,30 @@ export function TeamSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mx-auto max-w-3xl text-center"
+          variants={headerStagger}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          variants={fadeUp}
         >
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{teamEyebrow}</p>
-          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl">
+          <motion.p
+            className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+            variants={fadeUp}
+          >
+            {teamEyebrow}
+          </motion.p>
+          <motion.h2
+            className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl"
+            variants={fadeUp}
+          >
             {teamHeading}
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg">{teamSubheading}</p>
-          <div
+          </motion.h2>
+          <motion.p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg" variants={fadeUp}>
+            {teamSubheading}
+          </motion.p>
+          <motion.div
             className="mx-auto mt-8 h-px max-w-[min(12rem,40vw)] bg-linear-to-r from-transparent via-primary/30 to-transparent sm:mt-10"
             aria-hidden
+            variants={fadeUp}
           />
         </motion.div>
 

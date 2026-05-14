@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 import {
   projectCarouselImages,
   projectReadMoreHref,
@@ -7,6 +10,12 @@ import {
   projectShowcaseHighlights,
   projectShowcaseLead,
 } from "@/lib/site-content";
+import {
+  fadeUp,
+  staggerContainer,
+  staggerGallery,
+  viewportOnce,
+} from "@/lib/motion-variants";
 
 function PrimaryCheckIcon() {
   return (
@@ -82,20 +91,22 @@ export function ProjectSection() {
   return (
     <section id="projects" className="scroll-mt-24 bg-white py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
-          <div className="lg:col-span-3">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
-              {projectSectionEyebrow}
-            </p>
-          </div>
+        <motion.div
+          className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
+          <motion.div className="lg:col-span-3" variants={fadeUp}>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{projectSectionEyebrow}</p>
+          </motion.div>
 
-          <div className="lg:col-span-9">
+          <motion.div className="lg:col-span-9" variants={fadeUp}>
             <h2 className="text-2xl font-bold leading-snug tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl">
               {projectShowcaseHeading}
             </h2>
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">
-              {projectShowcaseLead}
-            </p>
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">{projectShowcaseLead}</p>
 
             <ul className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-4">
               {projectShowcaseHighlights.map((line) => (
@@ -114,21 +125,29 @@ export function ProjectSection() {
             >
               Read More
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="mt-8 flex w-full flex-col gap-1.5 sm:mt-10 lg:mt-12">
+        <motion.div
+          className="mt-8 flex w-full flex-col gap-1.5 sm:mt-10 lg:mt-12"
+          variants={staggerGallery}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
           {firstTriple.length === 3 ? (
-            <ProjectBentoRow
-              topLeftSrc={firstTriple[0]}
-              bottomLeftSrc={firstTriple[1]}
-              rightSrc={firstTriple[2]}
-              photoIndexStart={0}
-            />
+            <motion.div variants={fadeUp}>
+              <ProjectBentoRow
+                topLeftSrc={firstTriple[0]}
+                bottomLeftSrc={firstTriple[1]}
+                rightSrc={firstTriple[2]}
+                photoIndexStart={0}
+              />
+            </motion.div>
           ) : null}
 
           {bottomRowImages.length > 0 ? (
-            <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+            <motion.div variants={fadeUp} className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
               {bottomRowImages.map((src, index) => (
                 <div
                   key={src}
@@ -143,9 +162,9 @@ export function ProjectSection() {
                   />
                 </div>
               ))}
-            </div>
+            </motion.div>
           ) : null}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

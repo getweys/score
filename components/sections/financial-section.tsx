@@ -7,7 +7,7 @@ import {
   financialIntro,
   financialRows,
 } from "@/lib/site-content";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, headerStagger, staggerGallery, viewportOnce } from "@/lib/motion-variants";
 
 const btnOutline =
   "inline-flex items-center justify-center gap-2 rounded-md border-2 border-primary px-3.5 py-2 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:px-4 sm:text-sm";
@@ -21,26 +21,37 @@ export function FinancialSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mx-auto max-w-3xl text-center"
+          variants={headerStagger}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          variants={fadeUp}
         >
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{financialEyebrow}</p>
-          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl">
+          <motion.p
+            className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+            variants={fadeUp}
+          >
+            {financialEyebrow}
+          </motion.p>
+          <motion.h2
+            className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl"
+            variants={fadeUp}
+          >
             {financialHeading}
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg">{financialIntro}</p>
-          <div
+          </motion.h2>
+          <motion.p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg" variants={fadeUp}>
+            {financialIntro}
+          </motion.p>
+          <motion.div
             className="mx-auto mt-8 h-px max-w-[min(12rem,40vw)] bg-linear-to-r from-transparent via-primary/30 to-transparent sm:mt-10"
             aria-hidden
+            variants={fadeUp}
           />
         </motion.div>
 
         <motion.ul
           className="mx-auto mt-12 max-w-4xl list-none space-y-3 sm:mt-14 sm:space-y-3.5"
           role="list"
-          variants={staggerContainer}
+          variants={staggerGallery}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}

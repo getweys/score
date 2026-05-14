@@ -92,7 +92,6 @@ export function ContactSection() {
             whileInView="visible"
             viewport={viewportOnce}
             variants={fadeUp}
-            transition={{ delay: 0.06 }}
           >
             <form
               className="bg-transparent lg:max-w-none"

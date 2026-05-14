@@ -10,7 +10,7 @@ import {
   responsibilitiesHeading,
   responsibilitiesIntro,
 } from "@/lib/site-content";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, headerStagger, riseSoft, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 
 const cardShellClass =
   "flex h-full flex-col rounded-md border border-zinc-200/90 bg-white p-4 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-md sm:p-5";
@@ -45,7 +45,7 @@ function ResponsibilityCardStatic({
 
 function ResponsibilityCardMotion({ card }: { card: ResponsibilityCardData }) {
   return (
-    <motion.article className={cardShellClass} variants={fadeUp}>
+    <motion.article className={cardShellClass} variants={riseSoft}>
       <ResponsibilityCardInner card={card} />
     </motion.article>
   );
@@ -68,24 +68,34 @@ export function ResponsibilitiesSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mx-auto max-w-3xl text-center"
+          variants={headerStagger}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          variants={fadeUp}
         >
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{responsibilitiesEyebrow}</p>
-          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl">
+          <motion.p
+            className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+            variants={fadeUp}
+          >
+            {responsibilitiesEyebrow}
+          </motion.p>
+          <motion.h2
+            className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl"
+            variants={fadeUp}
+          >
             {responsibilitiesHeading}
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg">{responsibilitiesIntro}</p>
+          </motion.h2>
+          <motion.p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg" variants={fadeUp}>
+            {responsibilitiesIntro}
+          </motion.p>
         </motion.div>
 
         <motion.div
           className="relative mt-10 lg:hidden"
+          variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          variants={fadeUp}
         >
           <motion.button
             type="button"

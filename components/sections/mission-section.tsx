@@ -9,15 +9,15 @@ import {
   missionParagraphs,
   missionSignature,
 } from "@/lib/site-content";
-import { fadeUp, slideInLeft, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, viewportOnce } from "@/lib/motion-variants";
 
 /** Section-level stagger: header → prose block → signature */
 const missionReveal: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.14,
-      delayChildren: 0.05,
+      staggerChildren: 0.16,
+      delayChildren: 0.08,
     },
   },
 };
@@ -27,8 +27,8 @@ const proseReveal: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.11,
-      delayChildren: 0.02,
+      staggerChildren: 0.13,
+      delayChildren: 0.04,
     },
   },
 };
@@ -58,7 +58,7 @@ export function MissionSection() {
           variants={missionReveal}
           initial="hidden"
           whileInView="visible"
-          viewport={{ ...viewportOnce, margin: "-72px 0px -80px 0px" }}
+          viewport={viewportOnce}
         >
           <motion.header variants={fadeUp}>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{missionEyebrow}</p>
@@ -70,12 +70,12 @@ export function MissionSection() {
 
           <motion.div variants={proseReveal} className="relative mt-12 sm:mt-14">
             <div className="space-y-8 sm:space-y-9">
-              <motion.p variants={slideInLeft} className={dropCapClass}>
+              <motion.p variants={fadeUp} className={dropCapClass}>
                 {opening}
               </motion.p>
 
               {following.map((paragraph, index) => (
-                <motion.p key={`mission-${index}`} variants={slideInLeft} className={bodyClass}>
+                <motion.p key={`mission-${index}`} variants={fadeUp} className={bodyClass}>
                   {paragraph}
                 </motion.p>
               ))}

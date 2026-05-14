@@ -11,7 +11,7 @@ import {
   footerLinks,
   footerTagline,
 } from "@/lib/site-content";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, staggerGallery, viewportOnce } from "@/lib/motion-variants";
 
 export function SiteFooter() {
   return (
@@ -24,7 +24,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="flex flex-col gap-10 pt-12 pb-10 sm:gap-12 sm:pt-14 sm:pb-12 lg:flex-row lg:items-start lg:justify-between lg:gap-14 lg:pt-16 lg:pb-14"
-          variants={staggerContainer}
+          variants={staggerGallery}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
