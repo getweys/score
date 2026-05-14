@@ -48,19 +48,19 @@ export const projectShowcaseHighlights = [
 export const projectReadMoreHref = "https://score.com.pk/about-us/";
 
 export const heroSlides = [
-  "/images/7.jpg",
+  "/images/14.jpeg",
   "/images/n51-1024x682-1.jpg",
   "/images/n2-1024x682-1.jpg",
 ] as const;
 
 export const projectCarouselImages = [
-  "/images/1.jpg",
-  "/images/2.jpg",
-  "/images/3.jpg",
-  "/images/4.jpg",
-  "/images/5.jpg",
-  "/images/6.jpg",
-  "/images/7.jpg",
+  "/images/1.png",
+  "/images/2.png",
+  "/images/3.png",
+  "/images/4.png",
+  "/images/5.jpeg",
+  "/images/6.jpeg",
+  "/images/7.jpeg",
 ] as const;
 
 export const responsibilitiesHeading = "Our Responsibilities";
