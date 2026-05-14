@@ -2,111 +2,82 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { heroLead, heroSlides, heroTitleLine1, heroTitleLine2 } from "@/lib/site-content";
-import { fadeUp, imageReveal, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, viewportOnce } from "@/lib/motion-variants";
+
+const heroImage = heroSlides[0];
 
 export function HeroSection() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % heroSlides.length);
-    }, 5000);
-    return () => window.clearInterval(id);
-  }, []);
-
   return (
-    <section className="relative overflow-hidden bg-white">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14 lg:py-20">
-        <div>
+    <section
+      id="home"
+      className="relative isolate m-2 scroll-mt-24 flex min-h-[calc(100dvh-1.5rem)] flex-col overflow-hidden rounded-2xl bg-white"
+    >
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={heroImage}
+          alt=""
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+          priority
+          fetchPriority="high"
+        />
+      </div>
+
+      <div
+        className="pointer-events-none absolute inset-0 z-1 bg-black/55"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-1 bg-[linear-gradient(to_bottom,rgba(15,23,42,0.55)_0%,transparent_42%,rgba(0,0,0,0.35)_100%)]"
+        aria-hidden
+      />
+
+      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-5 pb-20 pt-24 text-center sm:px-8 sm:pb-24 sm:pt-28 lg:max-w-6xl lg:px-10">
+        <div className="mx-auto w-full max-w-4xl">
           <motion.h1
-            className="text-3xl font-bold leading-tight tracking-tight text-secondary sm:text-4xl lg:text-5xl"
+            className="text-2xl font-bold uppercase leading-[1.12] tracking-[0.06em] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] sm:text-4xl sm:tracking-wider md:text-5xl lg:text-6xl"
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
             variants={fadeUp}
+            transition={{ delay: 0.04 }}
           >
-            {heroTitleLine1}
-            <br />
-            {heroTitleLine2}
+            <span className="block">{heroTitleLine1}</span>
+            <span className="mt-1 block sm:mt-1.5">{heroTitleLine2}</span>
           </motion.h1>
+
           <motion.p
-            className="mt-5 max-w-xl text-base leading-relaxed text-zinc-600 sm:text-lg"
+            className="mx-auto mt-4 max-w-2xl text-[0.98rem] font-normal leading-relaxed text-white/92 drop-shadow-[0_2px_14px_rgba(0,0,0,0.45)] sm:mt-5 sm:text-lg sm:leading-relaxed"
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
             variants={fadeUp}
-            transition={{ delay: 0.08 }}
+            transition={{ delay: 0.1 }}
           >
             {heroLead}
           </motion.p>
+
           <motion.div
-            className="mt-8 flex flex-wrap gap-3 sm:gap-4"
+            className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-7 sm:gap-4"
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
             variants={fadeUp}
-            transition={{ delay: 0.14 }}
+            transition={{ delay: 0.15 }}
           >
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.98 }}>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="#services"
-                className="inline-flex min-h-11 items-center justify-center rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/25 transition-shadow hover:shadow-lg"
+                className="inline-flex min-h-10 items-center justify-center rounded-lg bg-primary px-6 py-2.5 text-xs font-medium uppercase tracking-[0.1em] text-white shadow-[0_10px_40px_-10px_rgba(225,29,72,0.65)] transition hover:bg-primary/95 hover:shadow-[0_14px_44px_-10px_rgba(225,29,72,0.7)] sm:min-h-11 sm:px-8 sm:text-sm sm:tracking-[0.08em]"
               >
-                Our Services
-              </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                href="#contact"
-                className="inline-flex min-h-11 items-center justify-center rounded-xl border-2 border-primary bg-white px-6 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/5"
-              >
-                Contact Us
+                Discover more
               </Link>
             </motion.div>
           </motion.div>
         </div>
-
-        <motion.div
-          className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-zinc-100 shadow-xl shadow-zinc-900/10 ring-1 ring-zinc-200/80 lg:aspect-[16/11]"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={imageReveal}
-        >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={heroSlides[index]}
-              className="absolute inset-0"
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -16 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Image
-                src={heroSlides[index]}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority={index === 0}
-              />
-            </motion.div>
-          </AnimatePresence>
-          <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-            {heroSlides.map((_, i) => (
-              <button
-                key={heroSlides[i]}
-                type="button"
-                aria-label={`Slide ${i + 1}`}
-                className={`h-2 rounded-full transition-all ${i === index ? "w-8 bg-primary" : "w-2 bg-white/70"}`}
-                onClick={() => setIndex(i)}
-              />
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );

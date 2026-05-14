@@ -1,7 +1,9 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import {
+  contactEyebrow,
   contactHeading,
   contactIntro,
   emailDisplay,
@@ -12,131 +14,148 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 const phoneHref = `tel:${phoneDisplay.replace(/-/g, "")}`;
 const mailHref = `mailto:${emailDisplay}`;
 
+const inputClass =
+  "w-full rounded-md border border-zinc-200 bg-white px-3.5 py-2.5 text-sm text-secondary outline-none transition placeholder:text-zinc-400 focus:border-primary/45 focus:ring-2 focus:ring-primary/12";
+
+function ContactIconWrap({ children }: { children: ReactNode }) {
+  return (
+    <span className="flex shrink-0 items-center justify-center text-primary" aria-hidden>
+      {children}
+    </span>
+  );
+}
+
 export function ContactSection() {
   return (
-    <section id="contact" className="bg-white py-16 lg:py-24">
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 lg:grid-cols-2 lg:gap-16">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={staggerContainer}
-        >
-          <motion.h3
-            className="text-2xl font-bold tracking-tight text-secondary sm:text-3xl"
-            variants={fadeUp}
+    <section id="contact" className="scroll-mt-24 border-t border-zinc-100 bg-white py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-12">
+          <motion.div
+            className="flex min-w-0 flex-col gap-5 sm:gap-6 lg:col-span-5"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
           >
-            {contactHeading}
-          </motion.h3>
-          <motion.p className="mt-4 max-w-md text-base leading-relaxed text-zinc-600" variants={fadeUp}>
-            {contactIntro}
-          </motion.p>
-          <motion.ul className="mt-10 space-y-8" variants={fadeUp}>
-            <li className="flex gap-4">
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary text-white shadow-md shadow-primary/25">
-                <PhoneGlyph className="size-5" />
-              </span>
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wide text-secondary">Call</h4>
-                <a href={phoneHref} className="mt-1 block text-lg text-zinc-700 transition hover:text-primary">
+            <motion.div variants={fadeUp} className="min-w-0 text-left">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{contactEyebrow}</p>
+              <h2 className="mt-2.5 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]">
+                {contactHeading}
+              </h2>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-600 sm:text-base">{contactIntro}</p>
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-3">
+              <ContactIconWrap>
+                <PhoneGlyph className="size-5 sm:size-[1.35rem]" />
+              </ContactIconWrap>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Phone</p>
+                <a
+                  href={phoneHref}
+                  className="mt-1 block text-sm font-semibold text-secondary transition-colors hover:text-primary sm:text-[0.9375rem]"
+                >
                   {phoneDisplay}
                 </a>
               </div>
-            </li>
-            <li className="flex gap-4">
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary text-white shadow-md shadow-primary/25">
-                <MailGlyph className="size-5" />
-              </span>
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wide text-secondary">Mail</h4>
-                <a href={mailHref} className="mt-1 block text-lg text-zinc-700 transition hover:text-primary">
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-3">
+              <ContactIconWrap>
+                <MailGlyph className="size-5 sm:size-[1.35rem]" />
+              </ContactIconWrap>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Email</p>
+                <a
+                  href={mailHref}
+                  className="mt-1 block wrap-break-word text-sm font-semibold text-secondary transition-colors hover:text-primary sm:text-[0.9375rem]"
+                >
                   {emailDisplay}
                 </a>
               </div>
-            </li>
-            <li className="flex gap-4">
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary text-white shadow-md shadow-primary/25">
-                <ClockGlyph className="size-5" />
-              </span>
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wide text-secondary">Office Hours</h4>
-                <p className="mt-1 text-lg text-zinc-700">9 am to 6 pm</p>
-              </div>
-            </li>
-          </motion.ul>
-        </motion.div>
+            </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={fadeUp}
-          transition={{ delay: 0.08 }}
-        >
-          <form
-            className="rounded-2xl border border-zinc-100 bg-zinc-50/50 p-6 shadow-lg shadow-zinc-900/5 sm:p-8"
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
+            <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-3">
+              <ContactIconWrap>
+                <ClockGlyph className="size-5 sm:size-[1.35rem]" />
+              </ContactIconWrap>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Office hours</p>
+                <p className="mt-1 text-sm font-semibold text-secondary sm:text-[0.9375rem]">9 am to 6 pm</p>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            className="min-w-0 lg:col-span-7"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={fadeUp}
+            transition={{ delay: 0.06 }}
           >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="sr-only" htmlFor="contact-name">
-                Name
+            <form
+              className="bg-transparent lg:max-w-none"
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <h3 className="text-base font-semibold text-secondary sm:text-lg">Send a message</h3>
+              <p className="mt-1 text-sm text-slate-600">We&apos;ll get back to you as soon as we can.</p>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 sm:gap-3">
+                <label className="sr-only" htmlFor="contact-name">
+                  Name
+                </label>
+                <input id="contact-name" name="name" type="text" placeholder="Full name" className={inputClass} />
+                <label className="sr-only" htmlFor="contact-email">
+                  Email
+                </label>
+                <input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Email"
+                  className={inputClass}
+                />
+              </div>
+              <label className="sr-only" htmlFor="contact-phone">
+                Phone
               </label>
               <input
-                id="contact-name"
-                name="name"
-                type="text"
-                placeholder="Name"
-                className="rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-secondary outline-none ring-primary/0 transition placeholder:text-zinc-400 focus:border-primary/40 focus:ring-4 focus:ring-primary/10"
-              />
-              <label className="sr-only" htmlFor="contact-email">
-                Email
-              </label>
-              <input
-                id="contact-email"
-                name="email"
-                type="email"
+                id="contact-phone"
+                name="phone"
+                type="tel"
                 required
-                placeholder="Email"
-                className="rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-secondary outline-none transition placeholder:text-zinc-400 focus:border-primary/40 focus:ring-4 focus:ring-primary/10"
+                placeholder="Phone number"
+                pattern="[0-9()#&+*\\-.=]+"
+                title="Only numbers and phone characters (#, -, *, etc) are accepted."
+                className={`${inputClass} mt-3`}
               />
-            </div>
-            <label className="sr-only" htmlFor="contact-phone">
-              Phone
-            </label>
-            <input
-              id="contact-phone"
-              name="phone"
-              type="tel"
-              required
-              placeholder="Phone Number"
-              pattern="[0-9()#&+*\\-.=]+"
-              title="Only numbers and phone characters (#, -, *, etc) are accepted."
-              className="mt-4 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-secondary outline-none transition placeholder:text-zinc-400 focus:border-primary/40 focus:ring-4 focus:ring-primary/10"
-            />
-            <label className="sr-only" htmlFor="contact-message">
-              Message
-            </label>
-            <textarea
-              id="contact-message"
-              name="message"
-              rows={4}
-              placeholder="Message"
-              className="mt-4 w-full resize-y rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-secondary outline-none transition placeholder:text-zinc-400 focus:border-primary/40 focus:ring-4 focus:ring-primary/10"
-            />
-            <div className="mt-6 flex justify-end">
-              <motion.button
-                type="submit"
-                className="inline-flex min-w-[8rem] items-center justify-center rounded-xl bg-primary px-8 py-3 text-sm font-semibold text-white shadow-md shadow-primary/25 transition hover:shadow-lg"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Submit
-              </motion.button>
-            </div>
-          </form>
-        </motion.div>
+              <label className="sr-only" htmlFor="contact-message">
+                Message
+              </label>
+              <textarea
+                id="contact-message"
+                name="message"
+                rows={4}
+                placeholder="Your message"
+                className={`${inputClass} mt-3 resize-y`}
+              />
+              <div className="mt-5 flex justify-end sm:mt-6">
+                <motion.button
+                  type="submit"
+                  className="inline-flex min-h-9 w-full items-center justify-center rounded-lg bg-primary px-6 py-2 text-xs font-medium uppercase tracking-widest text-white shadow-[0_8px_28px_-14px_rgba(225,29,72,0.55)] transition hover:bg-primary/95 sm:w-auto sm:min-h-10 sm:px-7 sm:py-2.5 sm:text-sm sm:tracking-[0.08em]"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Submit
+                </motion.button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

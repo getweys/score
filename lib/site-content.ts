@@ -9,12 +9,12 @@ export const phoneDisplay = "021-37188215";
 export const emailDisplay = "info@score.com.pk";
 
 export const navLinks = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: "#home" },
   { label: "Our Services", href: "#services" },
-  { label: "About Us", href: "https://score.com.pk/about-us/" },
-  { label: "Our Team", href: "https://score.com.pk/our-team/" },
-  { label: "Financial Statements", href: "https://score.com.pk/financial-statements/" },
-  { label: "Contact Us", href: "https://score.com.pk/contact-us/" },
+  { label: "About Us", href: "#mission" },
+  { label: "Our Team", href: "#team" },
+  { label: "Financial Statements", href: "#financial" },
+  { label: "Contact Us", href: "#contact" },
 ] as const;
 
 export const heroTitleLine1 = "Connecting People,";
@@ -27,6 +27,25 @@ export const projectHeading = "Karachi – Hyderabad Motorway (M-9) Project";
 
 export const projectBody =
   "The Karachi – Hyderabad Motorway (M-9) is a Six Lane, 136 KM long Motorway that connects two major cities Karachi & Hyderabad of Sindh province. The project is open for traffic and is the first project in Sindh province of its kind. The project includes the construction of several bridges, underpasses, interchanges, service road, fence and provision of ETTM/ITS facility. It will bring enormous economic benefit to the less developed parts of the country. Hyderabad – Karachi, a four Lane Express Way was converted into six Lane Motorway. Project activities were undertaken on BOT basis for 25 years with an estimated cost of Rs 44.20 Bn. The project was smoothly executed despite being flooded by heavy traffic connecting Karachi, an economic hub of Pakistan, with rest of the country. With construction of M-9 as per standard specifications, travelling time between Karachi and Hyderabad has considerably reduced from 120-150 to 75-90 mins ensuring safety protocols.";
+
+/** Projects section UI (reference layout): eyebrow label. */
+export const projectSectionEyebrow = "Projects";
+
+/** Large showcase title beside the eyebrow (reference-style headline). */
+export const projectShowcaseHeading =
+  "Built on trust, backed by experience, driven by quality — committed to safety and precision for a better journey on M-9.";
+
+/** Short lead under the showcase title. */
+export const projectShowcaseLead =
+  "SCORE is a team of motorway professionals entrusted with operating and maintaining the Karachi–Hyderabad corridor. We combine FWO-backed engineering, intelligent tolling, and disciplined maintenance to protect commuters and keep Sindh’s first six-lane motorway running at its best — from minor repairs to full rehabilitation.";
+
+export const projectShowcaseHighlights = [
+  "Built on trust & reliability",
+  "Skilled across build, operate & maintain",
+  "Fast response, every kilometre",
+] as const;
+
+export const projectReadMoreHref = "https://score.com.pk/about-us/";
 
 export const heroSlides = [
   "/images/7.jpg",
@@ -42,10 +61,11 @@ export const projectCarouselImages = [
   "/images/5.jpg",
   "/images/6.jpg",
   "/images/7.jpg",
-  "/images/Screenshot_26.jpg",
 ] as const;
 
 export const responsibilitiesHeading = "Our Responsibilities";
+
+export const responsibilitiesEyebrow = "Services";
 
 export const responsibilitiesIntro =
   "SCORE primarily focuses on safe, sustainable highway construction and maintenance, delivering effective, reliable solutions.";
@@ -79,12 +99,15 @@ export const responsibilityCards: ResponsibilityCard[] = [
   {
     iconSrc: "/images/Icon-4-01-1024x1024.png",
     number: "4",
-    title: "Pantation & Road Cleaning",
+    title: "Plantation & Road Cleaning",
     body: "New plantation, trimming, watering, and hoeing enhance roadside greenery and aesthetics. Median cleaning, road cleanliness, garbage collection, and rainwater removal ensure a tidy and safe environment.",
   },
 ];
 
 export const teamHeading = "Our Team";
+
+export const teamEyebrow = "Leadership";
+
 export const teamSubheading = "Meet team of SCORE";
 
 export interface TeamMember {
@@ -138,13 +161,28 @@ export const missionParagraphs = [
   "At SCORE, we understand that this project is not just about building and maintaining roads; it is about enabling progress, supporting communities, and fostering national development.",
 ] as const;
 
+export const missionEyebrow = "Mission";
+
+export const missionHeading = "Our Mission";
+
+export const missionIntro =
+  "Building and maintaining the corridor between Karachi and Hyderabad with engineering discipline, safety, and long-term stewardship.";
+
 export const missionSignature = "-Adnan Akhter Ali";
 
 export const contactHeading = "Contact Us";
+
+export const contactEyebrow = "Get in touch";
+
 export const contactIntro =
   "Your input helps us enhance our services and create a better experience for everyone.";
 
 export const financialHeading = "Financial Statements";
+
+export const financialEyebrow = "Reports";
+
+export const financialIntro =
+  "Audited financial statements and disclosures for shareholders and the public.";
 
 export interface FinancialRow {
   title: string;
@@ -199,6 +237,9 @@ export const footerLinks = [
   { label: "Privacy Policy", href: "https://score.com.pk/privacy-policy/" },
   { label: "Terms & Conditions", href: "https://score.com.pk/terms-of-use/" },
 ] as const;
+
+export const footerTagline =
+  "Superhighway Construction Operation and Rehabilitation Engineering — M-9 Motorway.";
 
 export const footerCopyright = "© 2025 Score.com.pk. All rights reserved.";
 export const footerCreditLabel = "Developed By ";

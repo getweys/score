@@ -3,82 +3,74 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { TeamMember } from "@/lib/site-content";
-import { teamHeading, teamMembers, teamSubheading } from "@/lib/site-content";
+import { teamEyebrow, teamHeading, teamMembers, teamSubheading } from "@/lib/site-content";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 
-export function TeamSection() {
-  const firstRow = teamMembers.slice(0, 4);
-  const secondRow = teamMembers.slice(4);
+interface TeamMemberTileProps {
+  member: TeamMember;
+}
 
+function TeamMemberTile({ member }: TeamMemberTileProps) {
   return (
-    <section className="bg-zinc-50/80 py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4">
-        <motion.h3
-          className="text-center text-2xl font-bold tracking-tight text-secondary sm:text-3xl"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={fadeUp}
-        >
-          {teamHeading}
-        </motion.h3>
-        <motion.p
-          className="mt-3 text-center text-base text-zinc-600 sm:text-lg"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={fadeUp}
-          transition={{ delay: 0.05 }}
-        >
-          {teamSubheading}
-        </motion.p>
+    <motion.div
+      className="flex w-[42%] max-w-46 flex-col items-center text-center sm:w-[28%] sm:max-w-50 lg:w-[22%] lg:max-w-54"
+      variants={fadeUp}
+    >
+      <div className="group relative mx-auto aspect-square w-full max-w-37 overflow-hidden rounded-full bg-zinc-100 shadow-[0_12px_40px_-16px_rgba(15,23,42,0.22)] ring-[3px] ring-white transition duration-500 ease-out group-hover:shadow-[0_16px_44px_-14px_rgba(225,29,72,0.28)] group-hover:ring-primary/25 sm:max-w-42 lg:max-w-44">
+        <Image
+          src={member.imageSrc}
+          alt={member.name}
+          fill
+          className="object-cover object-top transition duration-500 ease-out group-hover:scale-[1.03]"
+          sizes="(max-width: 640px) 148px, 176px"
+        />
+      </div>
+      <div className="pointer-events-none mt-1 h-px w-8 rounded-full bg-primary/35 opacity-80 sm:mt-1.5 sm:w-10" aria-hidden />
+      <h3 className="mt-3 text-[0.8125rem] font-semibold leading-snug text-secondary sm:text-base">{member.name}</h3>
+      <p className="mt-1.5 max-w-52 text-xs leading-snug text-slate-600 sm:text-[0.8125rem] sm:leading-relaxed">
+        {member.role}
+      </p>
+    </motion.div>
+  );
+}
 
+export function TeamSection() {
+  return (
+    <section
+      id="team"
+      className="scroll-mt-24 border-t border-zinc-100 bg-white py-16 sm:py-20 lg:py-24"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="mt-12 grid grid-cols-2 gap-8 sm:gap-10 lg:grid-cols-4"
-          variants={staggerContainer}
+          className="mx-auto max-w-3xl text-center"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
+          variants={fadeUp}
         >
-          {firstRow.map((member, i) => (
-            <TeamCard key={member.name} member={member} index={i} />
-          ))}
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{teamEyebrow}</p>
+          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl">
+            {teamHeading}
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg">{teamSubheading}</p>
+          <div
+            className="mx-auto mt-8 h-px max-w-[min(12rem,40vw)] bg-linear-to-r from-transparent via-primary/30 to-transparent sm:mt-10"
+            aria-hidden
+          />
         </motion.div>
 
         <motion.div
-          className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-8 sm:gap-10 lg:grid-cols-3"
+          className="mt-12 flex w-full flex-wrap justify-center gap-x-6 gap-y-11 sm:gap-x-10 sm:gap-y-14 lg:mt-16 lg:gap-x-12 lg:gap-y-16"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
         >
-          {secondRow.map((member, i) => (
-            <TeamCard key={member.name} member={member} index={i + 4} />
+          {teamMembers.map((member) => (
+            <TeamMemberTile key={member.name} member={member} />
           ))}
         </motion.div>
       </div>
     </section>
-  );
-}
-
-interface TeamCardProps {
-  member: TeamMember;
-  index: number;
-}
-
-function TeamCard({ member, index }: TeamCardProps) {
-  return (
-    <motion.div
-      className="flex flex-col items-center text-center"
-      variants={fadeUp}
-      transition={{ delay: index * 0.04 }}
-      whileHover={{ y: -4 }}
-    >
-      <div className="relative size-28 overflow-hidden rounded-full border-2 border-white shadow-lg ring-2 ring-zinc-100 transition hover:ring-primary/30 sm:size-32 lg:size-36">
-        <Image src={member.imageSrc} alt={member.name} fill className="object-cover" sizes="144px" />
-      </div>
-      <h4 className="mt-4 text-sm font-bold text-secondary sm:text-base">{member.name}</h4>
-      <p className="mt-1 max-w-[14rem] text-xs leading-snug text-zinc-600 sm:text-sm">{member.role}</p>
-    </motion.div>
   );
 }

@@ -12,7 +12,7 @@ import { TeamSection } from "@/components/sections/team-section";
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-white text-secondary">
-      <SiteHeader />
+      <SiteHeader variant="overlay" />
       <main className="flex-1">
         <HeroSection />
         <ProjectSection />
@@ -21,7 +21,7 @@ export default function Home() {
         <MissionSection />
         <ContactSection />
         <FinancialSection />
-        <LaybySection />
+        {/* <LaybySection /> */}
       </main>
       <SiteFooter />
     </div>

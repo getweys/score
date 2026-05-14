@@ -1,83 +1,104 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { financialHeading, financialRows } from "@/lib/site-content";
-import { fadeUp, slideInLeft, viewportOnce } from "@/lib/motion-variants";
+import {
+  financialEyebrow,
+  financialHeading,
+  financialIntro,
+  financialRows,
+} from "@/lib/site-content";
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+
+const btnOutline =
+  "inline-flex items-center justify-center gap-2 rounded-md border-2 border-primary px-3.5 py-2 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:px-4 sm:text-sm";
 
 export function FinancialSection() {
   return (
-    <section className="bg-zinc-50/80 py-16 lg:py-24">
-      <div className="mx-auto max-w-4xl px-4">
-        <motion.h3
-          className="text-center text-2xl font-bold tracking-tight text-secondary sm:text-3xl"
+    <section
+      id="financial"
+      className="scroll-mt-24 border-t border-zinc-100 bg-white py-16 sm:py-20 lg:py-24"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="mx-auto max-w-3xl text-center"
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
           variants={fadeUp}
         >
-          {financialHeading}
-        </motion.h3>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{financialEyebrow}</p>
+          <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl">
+            {financialHeading}
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg">{financialIntro}</p>
+          <div
+            className="mx-auto mt-8 h-px max-w-[min(12rem,40vw)] bg-linear-to-r from-transparent via-primary/30 to-transparent sm:mt-10"
+            aria-hidden
+          />
+        </motion.div>
 
-        <ul className="mt-12 space-y-4" role="list">
-          {financialRows.map((row, i) => (
+        <motion.ul
+          className="mx-auto mt-12 max-w-4xl list-none space-y-3 sm:mt-14 sm:space-y-3.5"
+          role="list"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
+          {financialRows.map((row) => (
             <motion.li
               key={row.title}
-              className="flex flex-col gap-4 rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-md shadow-zinc-900/5 transition hover:shadow-lg sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-6"
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-              variants={slideInLeft}
-              transition={{ delay: i * 0.06 }}
-              whileHover={{ y: -2 }}
+              variants={fadeUp}
+              className="flex flex-col gap-4 rounded-md border border-zinc-200/90 bg-white p-4 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-md sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5"
             >
-              <h6 className="text-left text-base font-semibold leading-snug text-secondary sm:max-w-[55%] sm:text-lg">
+              <h3 className="text-left text-[0.9375rem] font-semibold leading-snug text-secondary sm:max-w-[58%] sm:text-base lg:text-lg">
                 {row.title}
-              </h6>
-              <div className="flex flex-wrap items-center justify-end gap-3 sm:shrink-0">
+              </h3>
+              <div className="flex flex-wrap items-center gap-2 sm:shrink-0 sm:justify-end sm:gap-3">
                 <motion.a
                   href={row.downloadHref}
                   target="_blank"
                   rel="nofollow noopener noreferrer"
                   download
-                  className="inline-flex items-center gap-2 rounded-xl border border-primary px-4 py-2.5 text-sm font-medium text-primary transition hover:bg-primary hover:text-white"
-                  whileHover={{ scale: 1.03 }}
+                  className={btnOutline}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <DownloadIcon className="size-4" />
+                  <DownloadIcon className="size-3.5 sm:size-4" />
                   Download
                 </motion.a>
                 <motion.a
                   href={row.previewHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl border border-primary px-4 py-2.5 text-sm font-medium text-primary transition hover:bg-primary hover:text-white"
-                  whileHover={{ scale: 1.03 }}
+                  className={btnOutline}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <EyeIcon className="size-4" />
+                  <EyeIcon className="size-3.5 sm:size-4" />
                   Preview
                 </motion.a>
               </div>
             </motion.li>
           ))}
-        </ul>
+        </motion.ul>
 
         <motion.div
-          className="mt-10 flex justify-center"
-          initial={{ y: 16 }}
-          whileInView={{ y: 0 }}
+          className="mt-10 flex justify-center sm:mt-12"
+          initial="hidden"
+          whileInView="visible"
           viewport={viewportOnce}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          variants={fadeUp}
         >
           <motion.a
             href="https://score.com.pk/financial-statements/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-xl bg-primary px-8 py-3 text-sm font-semibold text-white shadow-md shadow-primary/25"
-            whileHover={{ scale: 1.05 }}
+            className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-8 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white shadow-[0_12px_36px_-14px_rgba(225,29,72,0.5)] transition-colors hover:bg-primary/95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            View More
+            View more
           </motion.a>
         </motion.div>
       </div>

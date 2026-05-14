@@ -1,118 +1,152 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { projectBody, projectCarouselImages, projectHeading } from "@/lib/site-content";
-import { fadeUp, viewportOnce } from "@/lib/motion-variants";
+import {
+  projectCarouselImages,
+  projectReadMoreHref,
+  projectSectionEyebrow,
+  projectShowcaseHeading,
+  projectShowcaseHighlights,
+  projectShowcaseLead,
+} from "@/lib/site-content";
+
+function PrimaryCheckIcon() {
+  return (
+    <span
+      className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-primary text-white"
+      aria-hidden
+    >
+      <svg className="size-3" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M2.5 6L5 8.5L9.5 3.5"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+interface ProjectBentoRowProps {
+  topLeftSrc: string;
+  bottomLeftSrc: string;
+  rightSrc: string;
+  photoIndexStart: number;
+}
+
+function ProjectBentoRow({
+  topLeftSrc,
+  bottomLeftSrc,
+  rightSrc,
+  photoIndexStart,
+}: ProjectBentoRowProps) {
+  return (
+    <div className="flex flex-col gap-1.5 lg:flex-row lg:items-stretch lg:gap-1.5">
+      <div className="flex w-full flex-col gap-1.5 lg:w-[32%] lg:shrink-0">
+        <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-slate-200 shadow-sm">
+          <Image
+            src={topLeftSrc}
+            alt={`M-9 project gallery — photo ${photoIndexStart + 1}`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 32vw"
+          />
+        </div>
+        <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-slate-200 shadow-sm">
+          <Image
+            src={bottomLeftSrc}
+            alt={`M-9 project gallery — photo ${photoIndexStart + 2}`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 32vw"
+          />
+        </div>
+      </div>
+      <div className="relative min-h-44 w-full flex-1 overflow-hidden rounded-sm bg-slate-200 shadow-sm lg:min-h-0">
+        <Image
+          src={rightSrc}
+          alt={`M-9 project gallery — photo ${photoIndexStart + 3}`}
+          fill
+          className="object-cover"
+          sizes="(max-width: 1024px) 100vw, 70vw"
+        />
+      </div>
+    </div>
+  );
+}
 
 export function ProjectSection() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % projectCarouselImages.length);
-    }, 5000);
-    return () => window.clearInterval(id);
-  }, []);
+  const firstTriple = projectCarouselImages.slice(0, 3);
+  const bottomRowImages = projectCarouselImages.slice(3);
 
   return (
-    <section className="bg-zinc-50/80 py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4">
-        <motion.h2
-          className="text-center text-2xl font-bold tracking-tight text-secondary sm:text-3xl lg:text-4xl"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={fadeUp}
-        >
-          {projectHeading}
-        </motion.h2>
-        <motion.p
-          className="mx-auto mt-6 max-w-4xl text-center text-base leading-relaxed text-zinc-600 sm:text-lg"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={fadeUp}
-          transition={{ delay: 0.06 }}
-        >
-          {projectBody}
-        </motion.p>
+    <section id="projects" className="scroll-mt-24 bg-white py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
+          <div className="lg:col-span-3">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
+              {projectSectionEyebrow}
+            </p>
+          </div>
 
-        <motion.div
-          className="relative mx-auto mt-12 max-w-6xl overflow-hidden rounded-2xl bg-zinc-200 shadow-lg ring-1 ring-zinc-200/80"
-          initial={{ y: 28 }}
-          whileInView={{ y: 0 }}
-          viewport={viewportOnce}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="relative aspect-[16/10] w-full sm:aspect-[21/9]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={projectCarouselImages[index]}
-                className="absolute inset-0"
-                initial={{ opacity: 0, scale: 1.02 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <Image
-                  src={projectCarouselImages[index]}
-                  alt=""
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 80vw"
-                />
-              </motion.div>
-            </AnimatePresence>
+          <div className="lg:col-span-9">
+            <h2 className="text-2xl font-bold leading-snug tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl">
+              {projectShowcaseHeading}
+            </h2>
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">
+              {projectShowcaseLead}
+            </p>
+
+            <ul className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-4">
+              {projectShowcaseHighlights.map((line) => (
+                <li key={line} className="flex max-w-xs gap-2.5 text-sm font-medium text-secondary sm:text-base">
+                  <PrimaryCheckIcon />
+                  <span className="leading-snug">{line}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={projectReadMoreHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-10 inline-flex items-center justify-center border-2 border-primary px-7 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              Read More
+            </a>
           </div>
-          <button
-            type="button"
-            className="absolute left-3 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-primary shadow-md backdrop-blur transition hover:scale-105 hover:bg-white"
-            aria-label="Previous slide"
-            onClick={() =>
-              setIndex((i) => (i - 1 + projectCarouselImages.length) % projectCarouselImages.length)
-            }
-          >
-            <ChevronLeft />
-          </button>
-          <button
-            type="button"
-            className="absolute right-3 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-primary shadow-md backdrop-blur transition hover:scale-105 hover:bg-white"
-            aria-label="Next slide"
-            onClick={() => setIndex((i) => (i + 1) % projectCarouselImages.length)}
-          >
-            <ChevronRight />
-          </button>
-          <div className="flex justify-center gap-2 py-4">
-            {projectCarouselImages.map((_, i) => (
-              <button
-                key={projectCarouselImages[i]}
-                type="button"
-                aria-label={`Project image ${i + 1}`}
-                className={`h-2 rounded-full transition-all ${i === index ? "w-8 bg-primary" : "w-2 bg-zinc-300"}`}
-                onClick={() => setIndex(i)}
-              />
-            ))}
-          </div>
-        </motion.div>
+        </div>
+
+        <div className="mt-8 flex w-full flex-col gap-1.5 sm:mt-10 lg:mt-12">
+          {firstTriple.length === 3 ? (
+            <ProjectBentoRow
+              topLeftSrc={firstTriple[0]}
+              bottomLeftSrc={firstTriple[1]}
+              rightSrc={firstTriple[2]}
+              photoIndexStart={0}
+            />
+          ) : null}
+
+          {bottomRowImages.length > 0 ? (
+            <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+              {bottomRowImages.map((src, index) => (
+                <div
+                  key={src}
+                  className="relative aspect-video overflow-hidden rounded-sm bg-slate-200 shadow-sm"
+                >
+                  <Image
+                    src={src}
+                    alt={`M-9 project gallery — photo ${4 + index}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
       </div>
     </section>
-  );
-}
-
-function ChevronLeft() {
-  return (
-    <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function ChevronRight() {
-  return (
-    <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }

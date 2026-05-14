@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   emailDisplay,
@@ -11,84 +11,137 @@ import {
   topBarTaglineDesktop,
   topBarTaglineMobile,
 } from "@/lib/site-content";
+import { navHrefMatchesActiveSection, useActiveSection } from "@/hooks/use-active-section";
 
 const phoneHref = `tel:${phoneDisplay.replace(/-/g, "")}`;
 const mailHref = `mailto:${emailDisplay}`;
 
-export function SiteHeader() {
+const logoColorSrc = "/images/score-logo-png-01.png";
+const logoWhiteSrc = "/images/logo-white.png";
+
+export interface SiteHeaderProps {
+  /** Transparent nav over hero; solid bar after scroll. */
+  variant?: "solid" | "overlay";
+}
+
+function mobileNavLinkClass(navOnDark: boolean, isActive: boolean): string {
+  const base = "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors";
+  if (navOnDark) {
+    return `${base} ${isActive ? "text-primary" : "text-white/95 hover:bg-white/10 hover:text-white"}`;
+  }
+  return `${base} ${isActive ? "text-primary" : "text-secondary hover:bg-zinc-50 hover:text-primary"}`;
+}
+
+export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const activeSection = useActiveSection();
+  const isOverlay = variant === "overlay";
+
+  useEffect(() => {
+    if (!isOverlay) return;
+    function onScroll() {
+      setScrolled(window.scrollY > 48);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isOverlay]);
+
+  const navOnDark = isOverlay && !scrolled;
+  const logoSrc = navOnDark ? logoWhiteSrc : logoColorSrc;
+  const linkClass = (isActive: boolean) =>
+    navOnDark
+      ? isActive
+        ? "text-primary"
+        : "text-white/95 hover:text-white"
+      : isActive
+        ? "text-primary"
+        : "text-secondary/90 hover:text-primary";
 
   return (
-    <header className="sticky top-0 z-50">
-      <motion.div
-        className="bg-secondary text-white/95"
-        initial={{ y: -12 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2.5 text-xs sm:flex-row sm:items-center sm:justify-between sm:text-sm">
-          <p className="text-center text-white/90 sm:text-left">
-            <span className="hidden lg:inline">{topBarTaglineDesktop}</span>
-            <span className="lg:hidden">{topBarTaglineMobile}</span>
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 sm:justify-end">
-            <a
-              href={phoneHref}
-              className="inline-flex items-center gap-2 transition-colors hover:text-white"
-            >
-              <PhoneIcon className="size-3.5 shrink-0 text-primary" />
-              <span>{phoneDisplay}</span>
-            </a>
-            <a
-              href={mailHref}
-              className="inline-flex items-center gap-2 transition-colors hover:text-white"
-            >
-              <MailIcon className="size-3.5 shrink-0 text-primary" />
-              <span>{emailDisplay}</span>
-            </a>
+    <header
+      className={
+        isOverlay ? "fixed inset-x-0 top-0 z-50 w-full" : "sticky top-0 z-50"
+      }
+    >
+      {!isOverlay ? (
+        <motion.div
+          className="bg-secondary text-white/95"
+          initial={{ y: -12 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 text-xs sm:flex-row sm:items-center sm:justify-between sm:text-sm">
+            <p className="text-center text-white/90 sm:text-left">
+              <span className="hidden lg:inline">{topBarTaglineDesktop}</span>
+              <span className="lg:hidden">{topBarTaglineMobile}</span>
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 sm:justify-end">
+              <a
+                href={phoneHref}
+                className="inline-flex items-center gap-2 transition-colors hover:text-white"
+              >
+                <PhoneIcon className="size-3.5 shrink-0 text-primary" />
+                <span>{phoneDisplay}</span>
+              </a>
+              <a
+                href={mailHref}
+                className="inline-flex items-center gap-2 transition-colors hover:text-white"
+              >
+                <MailIcon className="size-3.5 shrink-0 text-primary" />
+                <span>{emailDisplay}</span>
+              </a>
+            </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      ) : null}
 
       <motion.nav
-        className="border-b border-zinc-200/80 bg-white/95 text-secondary shadow-sm backdrop-blur-md"
+        className={
+          navOnDark
+            ? "border-b border-transparent bg-transparent text-white transition-colors duration-300"
+            : "border-b border-zinc-200/80 bg-white/95 text-secondary shadow-sm backdrop-blur-md transition-colors duration-300"
+        }
         initial={{ y: -6 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.4, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.4, delay: isOverlay ? 0 : 0.05, ease: [0.22, 1, 0.36, 1] }}
         aria-label="Primary"
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:py-4">
-          <Link href="/" className="relative block w-36 shrink-0 sm:w-44 lg:w-52">
+        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:min-h-17 lg:py-3">
+          <Link
+            href="/"
+            className={`relative z-2 block w-32 shrink-0`}
+          >
             <Image
-              src="/images/score-logo-png-01.png"
+              key={logoSrc}
+              src={logoSrc}
               alt="SCORE"
-              width={636}
-              height={231}
+              width={1000}
+              height={1000}
               className="h-auto w-full object-contain"
               priority
             />
           </Link>
 
-          <ul className="hidden items-center gap-1 text-sm font-medium text-secondary xl:flex">
+          <ul className="col-span-2 hidden min-w-0 items-center justify-center justify-self-center gap-x-1 text-sm font-medium leading-snug lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:flex lg:flex-nowrap lg:px-1">
             {navLinks.map((item) => {
               const isHash = item.href.startsWith("#");
-              const isActive = item.href === "/";
-              const className = isActive
-                ? "text-primary"
-                : "text-secondary/90 hover:text-primary";
+              const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection });
+              const className = linkClass(isActive);
               return (
-                <li key={item.label}>
+                <li key={item.label} className="shrink-0">
                   {isHash ? (
                     <Link
                       href={item.href}
-                      className={`rounded-full px-3 py-2 transition-colors ${className}`}
+                      className={`block whitespace-nowrap rounded-lg px-2 py-1.5 transition-colors lg:px-2.5 lg:py-1.5 xl:px-3 ${className}`}
                     >
                       {item.label}
                     </Link>
                   ) : (
                     <a
                       href={item.href}
-                      className={`rounded-full px-3 py-2 transition-colors ${className}`}
+                      className={`block whitespace-nowrap rounded-lg px-2 py-1.5 transition-colors lg:px-2.5 lg:py-1.5 xl:px-3 ${className}`}
                     >
                       {item.label}
                     </a>
@@ -98,34 +151,52 @@ export function SiteHeader() {
             })}
           </ul>
 
-          <div className="hidden shrink-0 xl:block">
+          <div className="relative z-2 flex min-h-10 shrink-0 items-center justify-end justify-self-end gap-2 sm:min-h-0 sm:gap-3 lg:gap-4">
+            <a
+              href={phoneHref}
+              className={`hidden items-center gap-1.5 text-sm font-medium leading-snug transition-colors sm:inline-flex ${navOnDark ? "text-white/95 hover:text-white" : "text-secondary/90 hover:text-primary"
+                }`}
+            >
+              <PhoneIcon
+                className={`size-3.5 shrink-0 ${navOnDark ? "text-white/90" : "text-primary"}`}
+              />
+              <span className="hidden sm:inline">{phoneDisplay}</span>
+            </a>
+
             <motion.a
               href="#contact"
-              className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/25 transition-shadow hover:shadow-lg hover:shadow-primary/30"
-              whileHover={{ scale: 1.04 }}
+              className="hidden items-center justify-center rounded-lg bg-primary px-3 py-2 text-[11px] font-normal uppercase tracking-[0.08em] text-white shadow-md shadow-primary/25 transition-shadow hover:shadow-lg hover:shadow-primary/30 sm:inline-flex sm:px-4 sm:py-2 sm:text-xs sm:tracking-wide"
+              whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
               Get in Touch
             </motion.a>
-          </div>
 
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-xl border border-zinc-200 p-2.5 text-secondary xl:hidden"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-nav"
-            onClick={() => setMenuOpen((o) => !o)}
-          >
-            <span className="sr-only">Menu</span>
-            {menuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
+            <button
+              type="button"
+              className={`inline-flex items-center justify-center rounded-lg border p-2.5 lg:hidden ${navOnDark
+                ? "border-white/35 bg-white/10 text-white backdrop-blur-sm"
+                : "border-zinc-200 text-secondary"
+                }`}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
+              onClick={() => setMenuOpen((o) => !o)}
+            >
+              <span className="sr-only">Menu</span>
+              {menuOpen ? <CloseIcon /> : <MenuIcon />}
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>
           {menuOpen ? (
             <motion.div
               id="mobile-nav"
-              className="border-t border-zinc-100 bg-white xl:hidden"
+              className={
+                isOverlay
+                  ? "border-t border-white/10 bg-secondary/95 text-white backdrop-blur-md lg:hidden"
+                  : "border-t border-zinc-100 bg-white lg:hidden"
+              }
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -134,22 +205,20 @@ export function SiteHeader() {
               <ul className="flex flex-col gap-1 px-4 py-4 text-sm font-medium">
                 {navLinks.map((item) => {
                   const isHash = item.href.startsWith("#");
+                  const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection });
+                  const linkMobile = mobileNavLinkClass(isOverlay, isActive);
                   return (
                     <li key={`m-${item.label}`}>
                       {isHash ? (
                         <Link
                           href={item.href}
-                          className="block rounded-lg px-3 py-2.5 text-secondary hover:bg-zinc-50 hover:text-primary"
+                          className={linkMobile}
                           onClick={() => setMenuOpen(false)}
                         >
                           {item.label}
                         </Link>
                       ) : (
-                        <a
-                          href={item.href}
-                          className="block rounded-lg px-3 py-2.5 text-secondary hover:bg-zinc-50 hover:text-primary"
-                          onClick={() => setMenuOpen(false)}
-                        >
+                        <a href={item.href} className={linkMobile} onClick={() => setMenuOpen(false)}>
                           {item.label}
                         </a>
                       )}
@@ -159,7 +228,7 @@ export function SiteHeader() {
                 <li className="pt-2">
                   <motion.a
                     href="#contact"
-                    className="flex w-full items-center justify-center rounded-xl bg-primary py-3 text-sm font-semibold text-white"
+                    className="flex w-full items-center justify-center rounded-lg bg-primary py-2.5 text-xs font-medium uppercase tracking-wide text-white"
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setMenuOpen(false)}
                   >

@@ -1,49 +1,91 @@
 "use client";
 
+import type { Variants } from "framer-motion";
 import { motion } from "framer-motion";
-import { missionParagraphs, missionSignature } from "@/lib/site-content";
-import { fadeUp, viewportOnce } from "@/lib/motion-variants";
+import {
+  missionEyebrow,
+  missionHeading,
+  missionIntro,
+  missionParagraphs,
+  missionSignature,
+} from "@/lib/site-content";
+import { fadeUp, slideInLeft, viewportOnce } from "@/lib/motion-variants";
+
+/** Section-level stagger: header → prose block → signature */
+const missionReveal: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.14,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+/** Inner stagger for each paragraph (scroll-linked narrative reveal) */
+const proseReveal: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.11,
+      delayChildren: 0.02,
+    },
+  },
+};
 
 export function MissionSection() {
-  const [first, ...rest] = missionParagraphs;
-  const drop = first[0];
-  const firstBody = first.slice(1);
+  const [opening, ...following] = missionParagraphs;
+
+  const bodyClass =
+    "text-[0.9375rem] leading-[1.88] text-slate-700 antialiased sm:text-[1.0625rem] sm:leading-[1.84]";
+
+  const dropCapClass =
+    `${bodyClass} after:block after:h-0 after:clear-both after:content-[''] [&:first-letter]:float-left [&:first-letter]:mr-3 [&:first-letter]:mt-1 [&:first-letter]:font-serif [&:first-letter]:font-semibold [&:first-letter]:text-[3.35rem] [&:first-letter]:leading-[0.92] [&:first-letter]:text-primary sm:[&:first-letter]:mr-4 sm:[&:first-letter]:text-[4rem]`;
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-zinc-50 to-white py-16 lg:py-24">
+    <section
+      id="mission"
+      className="relative scroll-mt-24 overflow-hidden border-t border-zinc-100 bg-white py-16 sm:py-20 lg:py-24"
+    >
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%230f172a' stroke-width='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
+        className="pointer-events-none absolute left-0 top-1/4 h-[min(22rem,55vw)] w-[min(22rem,55vw)] -translate-x-1/3 rounded-full bg-primary/5 blur-3xl"
+        aria-hidden
       />
-      <div className="relative mx-auto max-w-4xl px-4">
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="space-y-6 text-base leading-relaxed text-zinc-700 sm:text-lg"
+          className="w-full text-left"
+          variants={missionReveal}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportOnce}
-          variants={fadeUp}
+          viewport={{ ...viewportOnce, margin: "-72px 0px -80px 0px" }}
         >
-          <p>
-            <span className="float-left mr-3 mt-1 flex h-[3.25rem] w-12 items-center justify-center rounded-lg bg-primary/10 text-4xl font-bold leading-none text-primary sm:h-16 sm:w-14 sm:text-5xl">
-              {drop}
-            </span>
-            <span>{firstBody}</span>
-          </p>
-          {rest.map((paragraph, idx) => (
-            <p key={idx}>{paragraph}</p>
-          ))}
+          <motion.header variants={fadeUp}>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{missionEyebrow}</p>
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-secondary sm:mt-3.5 sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]">
+              {missionHeading}
+            </h2>
+            <p className="mt-4 max-w-5xl text-sm leading-relaxed text-slate-600 sm:text-base">{missionIntro}</p>
+          </motion.header>
+
+          <motion.div variants={proseReveal} className="relative mt-12 sm:mt-14">
+            <div className="space-y-8 sm:space-y-9">
+              <motion.p variants={slideInLeft} className={dropCapClass}>
+                {opening}
+              </motion.p>
+
+              {following.map((paragraph, index) => (
+                <motion.p key={`mission-${index}`} variants={slideInLeft} className={bodyClass}>
+                  {paragraph}
+                </motion.p>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.footer variants={fadeUp} className="mt-14 pt-10 sm:mt-16 sm:pt-14">
+            <p className="text-[1.06rem] font-medium italic leading-snug text-secondary sm:text-xl">{missionSignature}</p>
+          </motion.footer>
         </motion.div>
-        <motion.h2
-          className="mt-10 text-right text-xl font-semibold text-secondary sm:text-2xl"
-          initial={{ y: 16 }}
-          whileInView={{ y: 0 }}
-          viewport={viewportOnce}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {missionSignature}
-        </motion.h2>
       </div>
     </section>
   );
