@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { heroLead, heroSlides, heroTitleLine1, heroTitleLine2 } from "@/lib/site-content";
 import { fadeUp, headerStagger, imageReveal, viewportHero } from "@/lib/motion-variants";
-
+// Hero Section
 const heroImage = heroSlides[0];
 
 export function HeroSection() {
