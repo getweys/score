@@ -7,7 +7,7 @@ import { fadeUp, viewportOnce } from "@/lib/motion-variants";
 
 function tryPlay(video: HTMLVideoElement | null) {
   if (!video) return;
-  void video.play().catch(() => {});
+  void video.play().catch(() => { });
 }
 
 export function PromoVideoSection() {
@@ -26,7 +26,7 @@ export function PromoVideoSection() {
 
   return (
     <section id="promo-video" className="scroll-mt-24 bg-white py-8 sm:py-10 lg:py-12" aria-label="Video">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -41,7 +41,6 @@ export function PromoVideoSection() {
             muted
             playsInline
             loop
-            controls
             preload="auto"
             onLoadedData={() => tryPlay(videoRef.current)}
           >
