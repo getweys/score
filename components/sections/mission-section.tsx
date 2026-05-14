@@ -45,7 +45,7 @@ export function MissionSection() {
   return (
     <section
       id="mission"
-      className="relative scroll-mt-24 overflow-hidden border-t border-zinc-100 bg-white py-16 sm:py-20 lg:py-24"
+      className="relative scroll-mt-24 overflow-hidden bg-white py-16 sm:py-20 lg:py-24"
     >
       <div
         className="pointer-events-none absolute left-0 top-1/4 h-[min(22rem,55vw)] w-[min(22rem,55vw)] -translate-x-1/3 rounded-full bg-primary/5 blur-3xl"

@@ -38,7 +38,7 @@ export function TeamSection() {
   return (
     <section
       id="team"
-      className="scroll-mt-24 border-t border-zinc-100 bg-white py-16 sm:py-20 lg:py-24"
+      className="scroll-mt-24 bg-white py-16 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -60,14 +60,10 @@ export function TeamSection() {
           >
             {teamHeading}
           </motion.h2>
-          <motion.p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg" variants={fadeUp}>
+          <motion.p className="mt-2 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg" variants={fadeUp}>
             {teamSubheading}
           </motion.p>
-          <motion.div
-            className="mx-auto mt-8 h-px max-w-[min(12rem,40vw)] bg-linear-to-r from-transparent via-primary/30 to-transparent sm:mt-10"
-            aria-hidden
-            variants={fadeUp}
-          />
+
         </motion.div>
 
         <motion.div

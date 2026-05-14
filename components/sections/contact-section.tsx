@@ -27,7 +27,7 @@ function ContactIconWrap({ children }: { children: ReactNode }) {
 
 export function ContactSection() {
   return (
-    <section id="contact" className="scroll-mt-24 border-t border-zinc-100 bg-white py-16 sm:py-20 lg:py-24">
+    <section id="contact" className="scroll-mt-24 bg-white py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-12">
           <motion.div
