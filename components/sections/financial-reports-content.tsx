@@ -8,7 +8,7 @@ import {
   financialRows,
   financialViewMoreHref,
 } from "@/lib/site-content";
-import { fadeUp, headerStagger, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, fadeUpBlur, headerStagger, listRowReveal, viewportOnce, viewportRow } from "@/lib/motion-variants";
 
 const btnDownload =
   "inline-flex min-h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:min-h-10 sm:px-5 sm:text-sm";
@@ -94,7 +94,7 @@ export function FinancialReportsContent({ showViewMore = true }: FinancialReport
         </motion.p>
         <motion.h2
           className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl"
-          variants={fadeUp}
+          variants={fadeUpBlur}
         >
           {financialHeading}
         </motion.h2>
@@ -103,24 +103,23 @@ export function FinancialReportsContent({ showViewMore = true }: FinancialReport
         </motion.p>
       </motion.div>
 
-      <motion.ul
+      <ul
         className="mx-auto mt-10 max-w-5xl list-none border-t border-brand-green/25 pt-2 sm:mt-14 sm:pt-3"
         role="list"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
       >
         {financialRows.map((row, index) => (
           <motion.li
             key={row.title}
-            variants={fadeUp}
             className="border-b border-brand-green/25 last:border-b-0"
+            variants={listRowReveal}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportRow}
           >
             <FinancialReportRow row={row} index={index} />
           </motion.li>
         ))}
-      </motion.ul>
+      </ul>
 
       {showViewMore ? (
         <motion.div

@@ -11,7 +11,7 @@ import {
   heroTitleLine2,
   heroTitleLine3,
 } from "@/lib/site-content";
-import { fadeUp, headerStagger, imageReveal } from "@/lib/motion-variants";
+import { fadeUp, fadeUpBlur, headerStagger, imageReveal, viewportHero } from "@/lib/motion-variants";
 
 export function HeroSection() {
   return (
@@ -25,14 +25,21 @@ export function HeroSection() {
           variants={headerStagger}
           initial="hidden"
           animate="visible"
+          viewport={viewportHero}
         >
           <motion.h1
             className="max-w-xl text-3xl font-medium leading-[1.12] tracking-tight text-slate-800 sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-[1.1] xl:text-6xl"
-            variants={fadeUp}
+            variants={headerStagger}
           >
-            <span className="block">{heroTitleLine1}</span>
-            <span className="block">{heroTitleLine2}</span>
-            <span className="block">{heroTitleLine3}</span>
+            <motion.span className="block" variants={fadeUpBlur}>
+              {heroTitleLine1}
+            </motion.span>
+            <motion.span className="block" variants={fadeUpBlur}>
+              {heroTitleLine2}
+            </motion.span>
+            <motion.span className="block" variants={fadeUpBlur}>
+              {heroTitleLine3}
+            </motion.span>
           </motion.h1>
 
           <motion.p
@@ -48,9 +55,10 @@ export function HeroSection() {
           variants={headerStagger}
           initial="hidden"
           animate="visible"
+          viewport={viewportHero}
         >
           <motion.div
-            className="relative w-full shrink-0 aspect-16/7.5 sm:aspect-16/6.75 lg:aspect-16/5.75 h-96"
+            className="relative h-96 w-full shrink-0 aspect-16/7.5 sm:aspect-16/6.75 lg:aspect-16/5.75"
             variants={imageReveal}
           >
             <Image

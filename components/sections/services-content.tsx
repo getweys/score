@@ -9,7 +9,16 @@ import {
   responsibilitiesHeading,
   responsibilitiesIntro,
 } from "@/lib/site-content";
-import { fadeUp, headerStagger, riseSoft, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import {
+  fadeUp,
+  fadeUpBlur,
+  headerStagger,
+  listRowReveal,
+  riseSoft,
+  staggerContainer,
+  viewportOnce,
+  viewportRow,
+} from "@/lib/motion-variants";
 
 export const serviceCardClass =
   "group flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition-[border-color,background-color] duration-300 hover:border-zinc-300 hover:bg-slate-50/50 sm:p-6";
@@ -65,7 +74,7 @@ export function ServicesSectionHeader({ align = "center" }: { align?: "center" |
       </motion.p>
       <motion.h2
         className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl"
-        variants={fadeUp}
+        variants={fadeUpBlur}
       >
         {responsibilitiesHeading}
       </motion.h2>
@@ -142,23 +151,20 @@ export function ServicesAccordionList({ showTopBorder = true }: ServicesAccordio
   const listBorderClass = showTopBorder ? "border-t border-brand-green/25 pt-2 sm:pt-3" : "";
 
   return (
-    <motion.ul
-      className={listBorderClass}
-      variants={staggerContainer}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewportOnce}
-    >
+    <ul className={listBorderClass} role="list">
       {responsibilityCards.map((card) => (
         <motion.li
           key={card.title}
-          variants={fadeUp}
           className="border-b border-brand-green/25 last:border-b-0"
+          variants={listRowReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportRow}
         >
           <ServiceAccordionRow card={card} />
         </motion.li>
       ))}
-    </motion.ul>
+    </ul>
   );
 }
 

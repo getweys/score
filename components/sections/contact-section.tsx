@@ -9,7 +9,7 @@ import {
   emailDisplay,
   phoneDisplay,
 } from "@/lib/site-content";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, fadeUpBlur, headerStagger, slideInRight, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 
 const phoneHref = `tel:${phoneDisplay.replace(/-/g, "")}`;
 const mailHref = `mailto:${emailDisplay}`;
@@ -40,12 +40,22 @@ export function ContactSection() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <motion.div variants={fadeUp} className="min-w-0 text-left">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{contactEyebrow}</p>
-              <h2 className="mt-2.5 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]">
+            <motion.div className="min-w-0 text-left" variants={headerStagger}>
+              <motion.p
+                variants={fadeUp}
+                className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+              >
+                {contactEyebrow}
+              </motion.p>
+              <motion.h2
+                variants={fadeUpBlur}
+                className="mt-2.5 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]"
+              >
                 {contactHeading}
-              </h2>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-600 sm:text-base">{contactIntro}</p>
+              </motion.h2>
+              <motion.p variants={fadeUp} className="mt-3 max-w-md text-sm leading-relaxed text-slate-600 sm:text-base">
+                {contactIntro}
+              </motion.p>
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-3">
@@ -94,7 +104,7 @@ export function ContactSection() {
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
-            variants={fadeUp}
+            variants={slideInRight}
           >
             <form
               className="bg-transparent lg:max-w-none"

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { fadeUp, headerStagger } from "@/lib/motion-variants";
+import { fadeUp, fadeUpBlur, headerStagger, viewportHero } from "@/lib/motion-variants";
 
 interface PageHeroProps {
   breadcrumbLabel: string;
@@ -19,6 +19,7 @@ export function PageHero({ breadcrumbLabel, eyebrow, title, intro }: PageHeroPro
         variants={headerStagger}
         initial="hidden"
         animate="visible"
+        viewport={viewportHero}
       >
         <motion.nav variants={fadeUp} aria-label="Breadcrumb" className="mb-5 text-sm text-slate-500">
           <ol className="flex flex-wrap items-center gap-2">
@@ -40,14 +41,14 @@ export function PageHero({ breadcrumbLabel, eyebrow, title, intro }: PageHeroPro
           {eyebrow}
         </motion.p>
         <motion.h1
-          variants={fadeUp}
+          variants={fadeUpBlur}
           className="mt-3 max-w-3xl text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl"
         >
           {title}
         </motion.h1>
         {intro ? (
           <motion.p
-            variants={fadeUp}
+            variants={fadeUpBlur}
             className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg"
           >
             {intro}

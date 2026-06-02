@@ -11,6 +11,7 @@ import {
 } from "@/lib/site-content";
 import {
   fadeUp,
+  fadeUpBlur,
   headerStagger,
   imageReveal,
   riseSoft,
@@ -80,7 +81,7 @@ export function WeighStationSection() {
           <motion.h2
             id="weigh-station-heading"
             className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-[2.35rem]"
-            variants={fadeUp}
+            variants={fadeUpBlur}
           >
             {weighStationHeading}
           </motion.h2>

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import type { TeamMember } from "@/lib/site-content";
 import { teamEyebrow, teamHeading, teamMembers, teamSubheading } from "@/lib/site-content";
-import { fadeUp, headerStagger, riseSoft, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, fadeUpBlur, headerStagger, riseSoft, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 
 interface TeamMemberTileProps {
   member: TeamMember;
@@ -56,7 +56,7 @@ export function TeamSection() {
           </motion.p>
           <motion.h2
             className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl"
-            variants={fadeUp}
+            variants={fadeUpBlur}
           >
             {teamHeading}
           </motion.h2>

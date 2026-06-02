@@ -15,7 +15,7 @@ import {
   aboutServicesCtaHref,
   aboutServicesCtaLabel,
 } from "@/lib/site-content";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, fadeUpBlur, listRowReveal, staggerContainer, viewportOnce, viewportRow } from "@/lib/motion-variants";
 
 const pillarHoverEase = "ease-[cubic-bezier(0.4,0,0.2,1)]";
 const pillarHoverDuration = "duration-500";
@@ -108,7 +108,7 @@ export function AboutContentSection() {
               Who we are
             </motion.p>
             <motion.h2
-              variants={fadeUp}
+              variants={fadeUpBlur}
               className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl"
             >
               A subsidiary of FWO, built for the M-9 corridor
@@ -152,28 +152,31 @@ export function AboutContentSection() {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
                 {aboutPillarsEyebrow}
               </p>
-              <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl">
+              <motion.h2
+                variants={fadeUpBlur}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOnce}
+                className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl"
+              >
                 {aboutPillarsHeading}
-              </h2>
+              </motion.h2>
             </motion.div>
 
-            <motion.ul
-              className="border-t border-brand-green/25"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-            >
+            <ul className="border-t border-brand-green/25" role="list">
               {aboutPillars.map((pillar, index) => (
                 <motion.li
                   key={pillar.title}
-                  variants={fadeUp}
                   className="border-b border-brand-green/25 last:border-b-0"
+                  variants={listRowReveal}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewportRow}
                 >
                   <AboutPillarRow pillar={pillar} index={index} />
                 </motion.li>
               ))}
-            </motion.ul>
+            </ul>
           </motion.div>
         </div>
       </section>

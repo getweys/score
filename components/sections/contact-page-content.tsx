@@ -10,14 +10,11 @@ import {
   contactIntro,
   contactMapEmbedUrl,
 } from "@/lib/site-content";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { listRowReveal, slideInRight, viewportOnce, viewportRow } from "@/lib/motion-variants";
 
 function ContactDetailRow({ item }: { item: ContactDetailItem }) {
   return (
-    <motion.div
-      variants={fadeUp}
-      className="border-b border-brand-green/25 py-5 last:border-b-0 sm:py-6"
-    >
+    <div className="border-b border-brand-green/25 py-5 last:border-b-0 sm:py-6">
       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">{item.label}</p>
       {item.href ? (
         <a
@@ -29,7 +26,7 @@ function ContactDetailRow({ item }: { item: ContactDetailItem }) {
       ) : (
         <p className="mt-2 text-base font-medium leading-snug text-secondary sm:text-lg">{item.value}</p>
       )}
-    </motion.div>
+    </div>
   );
 }
 
@@ -39,20 +36,28 @@ export function ContactPageContent() {
       <PageHero breadcrumbLabel={contactHeading} eyebrow={contactEyebrow} title={contactHeading} intro={contactIntro} />
       <section className="border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start lg:gap-12 xl:gap-14"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          >
-            <motion.div className="border-t border-brand-green/25" variants={staggerContainer}>
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start lg:gap-12 xl:gap-14">
+            <ul className="list-none border-t border-brand-green/25" role="list">
               {contactDetails.map((item) => (
-                <ContactDetailRow key={item.label} item={item} />
+                <motion.li
+                  key={item.label}
+                  variants={listRowReveal}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewportRow}
+                >
+                  <ContactDetailRow item={item} />
+                </motion.li>
               ))}
-            </motion.div>
+            </ul>
 
-            <motion.div variants={fadeUp} className="min-h-72 lg:min-h-112">
+            <motion.div
+              className="min-h-72 lg:min-h-112"
+              variants={slideInRight}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
               <div className="overflow-hidden rounded-lg border border-brand-green/30 bg-brand-green/9 shadow-[0_8px_28px_-14px_rgba(74,93,66,0.3)] ring-1 ring-secondary/6">
                 <iframe
                   title="SCORE office location on Google Maps"
@@ -64,7 +69,7 @@ export function ContactPageContent() {
                 />
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </>

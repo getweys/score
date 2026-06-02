@@ -13,8 +13,11 @@ import {
 } from "@/lib/site-content";
 import {
   fadeUp,
+  fadeUpBlur,
   headerStagger,
+  riseSoft,
   staggerContainer,
+  staggerTight,
   viewportOnce,
 } from "@/lib/motion-variants";
 
@@ -205,7 +208,7 @@ function ProjectGallery({ images }: ProjectGalleryProps) {
         </motion.p>
         <motion.h3
           className="mt-2 text-xl font-bold tracking-tight text-secondary sm:text-2xl"
-          variants={fadeUp}
+          variants={fadeUpBlur}
         >
           Along the M-9 corridor
         </motion.h3>
@@ -264,30 +267,56 @@ export function ProjectSection() {
             </motion.div>
 
             <motion.div className="lg:col-span-9" variants={fadeUp}>
-              <h2 className="text-2xl font-bold leading-snug tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl">
+              <motion.h2
+                variants={fadeUpBlur}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOnce}
+                className="text-2xl font-bold leading-snug tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl"
+              >
                 {projectShowcaseHeading}
-              </h2>
-              <p className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">
+              </motion.h2>
+              <motion.p
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOnce}
+                className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg"
+              >
                 {projectShowcaseLead}
-              </p>
+              </motion.p>
 
-              <ul className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-4">
+              <motion.ul
+                className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-4"
+                variants={staggerTight}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOnce}
+              >
                 {projectShowcaseHighlights.map((line) => (
-                  <li key={line} className="flex max-w-xs gap-2.5 text-sm font-medium text-secondary sm:text-base">
+                  <motion.li
+                    key={line}
+                    variants={riseSoft}
+                    className="flex max-w-xs gap-2.5 text-sm font-medium text-secondary sm:text-base"
+                  >
                     <PrimaryCheckIcon />
                     <span className="leading-snug">{line}</span>
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
 
-              <a
+              <motion.a
                 href={projectReadMoreHref}
                 target="_blank"
                 rel="noopener noreferrer"
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOnce}
                 className="mt-10 inline-flex items-center justify-center border-2 border-primary px-7 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 Read More
-              </a>
+              </motion.a>
             </motion.div>
           </motion.div>
         </div>
