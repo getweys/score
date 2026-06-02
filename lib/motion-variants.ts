@@ -57,6 +57,16 @@ export const staggerGallery: Variants = {
   },
 };
 
+/** Individual gallery tiles — masked motion so photos read crisp on enter */
+export const galleryTile: Variants = {
+  hidden: { y: 36, scale: 0.96 },
+  visible: {
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.62, ease: easeSmooth },
+  },
+};
+
 /** Split eyebrow → title → intro */
 export const headerStagger: Variants = {
   hidden: {},

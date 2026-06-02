@@ -9,12 +9,12 @@ export const phoneDisplay = "021-37188215";
 export const emailDisplay = "info@score.com.pk";
 
 export const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Our Services", href: "#services" },
-  { label: "About Us", href: "#mission" },
-  { label: "Our Team", href: "#team" },
-  { label: "Financial Statements", href: "#financial" },
-  { label: "Contact Us", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Our Services", href: "/services" },
+  { label: "About Us", href: "/about" },
+  { label: "Our Team", href: "/team" },
+  { label: "Financial Statements", href: "/financial" },
+  { label: "Contact Us", href: "/contact" },
 ] as const;
 
 export const heroTitleLine1 = "Connecting People,";
@@ -74,6 +74,45 @@ export const responsibilitiesEyebrow = "Services";
 export const responsibilitiesIntro =
   "SCORE primarily focuses on safe, sustainable highway construction and maintenance, delivering effective, reliable solutions.";
 
+export const servicesPageHeroImage = "/images/14.jpeg";
+
+export const weighStationEyebrow = "Smart Infrastructure";
+
+export const weighStationHeading = "Karachi Smart Weigh Station";
+
+export const weighStationIntro =
+  "SCORE, FWO has transformed the Karachi Weigh Station into a modern five-lane smart facility. Previously operating with only two lanes, the weigh station faced severe congestion, long queues, and slow processing on a daily basis.";
+
+export const weighStationParagraphs = [
+  "Using advanced weigh-in-motion technology, vehicles are screened and processed within seconds without unnecessary delays.",
+  "The upgraded system enables instant axle load detection, automated fine processing, and seamless M-Tag integration.",
+  "With the complete process finalized in approximately 30 seconds, the facility significantly reduces congestion and improves transparency.",
+] as const;
+
+export const weighStationTagline =
+  "A smarter system delivering faster mobility, efficient traffic flow, and stronger infrastructure management.";
+
+export const weighStationHighlights = [
+  {
+    label: "5 Lanes",
+    description: "Upgraded from two lanes to a modern five-lane smart facility",
+  },
+  {
+    label: "Weigh-in-Motion",
+    description: "Advanced screening with seconds-level processing",
+  },
+  {
+    label: "M-Tag Ready",
+    description: "Instant axle detection, automated fines, and seamless integration",
+  },
+  {
+    label: "~30 Seconds",
+    description: "End-to-end process time for faster, transparent flow",
+  },
+] as const;
+
+export const weighStationVideoSrc = "/images/video.mp4";
+
 export interface ResponsibilityCard {
   iconSrc: string;
   number: string;
@@ -120,26 +159,34 @@ export interface TeamMember {
   role: string;
 }
 
-export const teamMembers: TeamMember[] = [
+export const boardOfDirectors: TeamMember[] = [
   {
     imageSrc: "/images/DG-FWO-Web-Icon-Image-1-1.webp",
-    name: "Engineer Abdul Sami ",
+    name: "Engineer Abdul Sami",
     role: "Chairman",
   },
   {
     imageSrc: "/images/Adnan-Akhtar-Ali.jpg",
-    name: "Engineer Adnan Akhtar Ali ",
+    name: "Engineer Adnan Akhtar Ali",
     role: "CEO/Director",
   },
   {
     imageSrc: "/images/Shahzad-Anjum-Ansari.jpg",
-    name: "Engineer Shahzad Anjum Ansari ",
+    name: "Engineer Shahzad Anjum Ansari",
     role: "Director",
   },
   {
     imageSrc: "/images/Sohail-Safdar.jpg",
-    name: "Engineer Sohail Safdar ",
+    name: "Engineer Sohail Safdar",
     role: "Independent Director",
+  },
+];
+
+export const companyManagement: TeamMember[] = [
+  {
+    imageSrc: "/images/Adnan-Akhtar-Ali.jpg",
+    name: "Engineer Adnan Akhtar Ali",
+    role: "CEO/Director",
   },
   {
     imageSrc: "/images/Untitled-1-min.jpg",
@@ -153,8 +200,60 @@ export const teamMembers: TeamMember[] = [
   },
   {
     imageSrc: "/images/Muhammad-Adil.jpg",
-    name: "Muhammad Adil ",
+    name: "Muhammad Adil",
     role: "Company Secretary (CS)/DyCFO",
+  },
+];
+
+/** All unique members for homepage one-grid section */
+export const teamMembers: TeamMember[] = [
+  ...boardOfDirectors,
+  ...companyManagement.filter((m) => !boardOfDirectors.some((b) => b.name === m.name)),
+];
+
+export const teamPageHeroImage = "/images/14.jpeg";
+
+export const aboutHeroImage = "/images/14.jpeg";
+
+export const aboutHeroSubtitle =
+  "Construction, operation & maintenance of the Karachi–Hyderabad Motorway (M-9)";
+
+export const aboutEyebrow = "About Us";
+
+export const aboutHeading = "We Are Leading International Company In The World";
+
+export const aboutParagraphs = [
+  "Superhighway Construction Operation & Rehabilitation Engineering (SCORE Pvt Ltd) was incorporated as a private limited company as per SECP regulations in 2015. SCORE is a Special Project Company (SPC) with registered office based in Karachi, Sindh and is wholly owned subsidiary of Frontier Works Organization (FWO). The company is formed for the purpose of construction, operation and maintenance of Karachi-Hyderabad Motorway (M-9), which connects Karachi to Hyderabad via 6 lane 136 KM road having 11 interchanges.",
+  "The Project was awarded to SCORE Pvt Ltd in year 2015 under the Public Private Partnership (PPP) regime on BOT basis. Sponsors of the company is Frontier Works Organization (FWO). The company has entered into a concession agreement for a period of 25 years with National Highway Authority (NHA). SCORE (Pvt.) Ltd. will operate and manage this road till the year 2040 and then will be transferred to NHA. During this period, besides routine maintenance, two asphaltic overlays will be provided after 10- and 20- years intervals respectively.",
+] as const;
+
+export const aboutServicesCtaLabel = "Our Services";
+export const aboutServicesCtaHref = "/services";
+
+export const aboutPillarsEyebrow = "Our purpose";
+export const aboutPillarsHeading = "Objective, vision & mission";
+
+export interface AboutPillar {
+  title: string;
+  body: string;
+  icon: "objective" | "vision" | "mission";
+}
+
+export const aboutPillars: AboutPillar[] = [
+  {
+    icon: "objective",
+    title: "Objective",
+    body: "To ensure safe, efficient, and reliable connectivity between Karachi and Hyderabad through top-tier motorway construction and management.",
+  },
+  {
+    icon: "vision",
+    title: "Vision",
+    body: "To set new benchmarks in infrastructure excellence, fostering sustainable growth and enhancing national connectivity.",
+  },
+  {
+    icon: "mission",
+    title: "Mission",
+    body: "To operate and maintain the M-9 Motorway with the highest standards of safety, service, and sustainability, contributing to Pakistan's infrastructure development.",
   },
 ];
 
@@ -180,6 +279,39 @@ export const contactEyebrow = "Get in touch";
 
 export const contactIntro =
   "Your input helps us enhance our services and create a better experience for everyone.";
+
+export const contactAddress =
+  "Zenith Plaza 10th Floor, Precinct – 1, Near Tauheed Square, Bahria Town Karachi";
+
+export const contactEmergencyNumber = "1313";
+
+export const contactFax = "021-37188216";
+
+export const contactOfficeHours = "09:00 AM to 06:00 PM";
+
+/** Google Maps embed — Zenith Plaza / SCORE office, Bahria Town Karachi */
+export const contactMapEmbedUrl =
+  "https://maps.google.com/maps?q=Zenith+Plaza+FWO+SCORE+Office+Bahria+Town+Karachi&z=14&output=embed";
+
+export const contactPageHeroImage = "/images/14.jpeg";
+
+export interface ContactDetailItem {
+  label: string;
+  value: string;
+  href?: string;
+}
+
+export const contactDetails: ContactDetailItem[] = [
+  { label: "Address", value: contactAddress },
+  { label: "Phone", value: phoneDisplay, href: `tel:${phoneDisplay.replace(/-/g, "")}` },
+  { label: "Emergency Number", value: contactEmergencyNumber, href: "tel:1313" },
+  { label: "Fax", value: contactFax, href: `tel:${contactFax.replace(/-/g, "")}` },
+  { label: "Email", value: emailDisplay, href: `mailto:${emailDisplay}` },
+  { label: "Office Timing", value: contactOfficeHours },
+];
+
+export const financialPageHeroImage = "/images/14.jpeg";
+export const financialViewMoreHref = "https://score.com.pk/financial-statements/";
 
 export const financialHeading = "Financial Statements";
 

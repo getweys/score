@@ -10,7 +10,7 @@ interface TeamMemberTileProps {
   member: TeamMember;
 }
 
-function TeamMemberTile({ member }: TeamMemberTileProps) {
+export function TeamMemberTile({ member }: TeamMemberTileProps) {
   return (
     <motion.div
       className="flex w-[42%] max-w-46 flex-col items-center text-center sm:w-[28%] sm:max-w-50 lg:w-[22%] lg:max-w-54"
@@ -38,7 +38,7 @@ export function TeamSection() {
   return (
     <section
       id="team"
-      className="scroll-mt-24 bg-white py-16 sm:py-20 lg:py-24"
+      className="scroll-mt-24 bg-gray-50 py-16 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div

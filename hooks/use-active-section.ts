@@ -28,15 +28,35 @@ function computeActiveSection(): ActiveSectionId {
 export function navHrefMatchesActiveSection({
   href,
   activeSection,
+  pathname,
 }: {
   href: string;
   activeSection: ActiveSectionId;
+  pathname: string;
 }): boolean {
-  if (href === "/" || href === "#home") {
-    return activeSection === "home" || activeSection === "projects";
+  if (href === "/about") {
+    return pathname === "/about";
   }
-  if (!href.startsWith("#")) return false;
-  return href.slice(1) === activeSection;
+  if (href === "/team") {
+    return pathname === "/team";
+  }
+  if (href === "/contact") {
+    return pathname === "/contact";
+  }
+  if (href === "/financial") {
+    return pathname === "/financial";
+  }
+  if (href === "/services") {
+    return pathname === "/services";
+  }
+  if (href === "/" || href === "#home") {
+    return pathname === "/" && (activeSection === "home" || activeSection === "projects");
+  }
+  const hashIndex = href.indexOf("#");
+  if (hashIndex === -1) return false;
+  const hash = href.slice(hashIndex + 1);
+  if (pathname !== "/" && hash) return false;
+  return hash === activeSection;
 }
 
 export function useActiveSection(): ActiveSectionId {

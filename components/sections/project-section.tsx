@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   projectCarouselImages,
@@ -10,12 +11,7 @@ import {
   projectShowcaseHighlights,
   projectShowcaseLead,
 } from "@/lib/site-content";
-import {
-  fadeUp,
-  staggerContainer,
-  staggerGallery,
-  viewportOnce,
-} from "@/lib/motion-variants";
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 
 function PrimaryCheckIcon() {
   return (
@@ -36,61 +32,83 @@ function PrimaryCheckIcon() {
   );
 }
 
-interface ProjectBentoRowProps {
-  topLeftSrc: string;
-  bottomLeftSrc: string;
-  rightSrc: string;
-  photoIndexStart: number;
+interface AccordionGalleryProps {
+  images: readonly string[];
 }
 
-function ProjectBentoRow({
-  topLeftSrc,
-  bottomLeftSrc,
-  rightSrc,
-  photoIndexStart,
-}: ProjectBentoRowProps) {
+function AccordionGallery({ images }: AccordionGalleryProps) {
+  const [hovered, setHovered] = useState<number | null>(null);
+
   return (
-    <div className="flex flex-col gap-1.5 lg:flex-row lg:items-stretch lg:gap-1.5">
-      <div className="flex w-full flex-col gap-1.5 lg:w-[32%] lg:shrink-0">
-        <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-slate-200 shadow-sm">
-          <Image
-            src={topLeftSrc}
-            alt={`M-9 project gallery — photo ${photoIndexStart + 1}`}
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 32vw"
-          />
-        </div>
-        <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-slate-200 shadow-sm">
-          <Image
-            src={bottomLeftSrc}
-            alt={`M-9 project gallery — photo ${photoIndexStart + 2}`}
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 32vw"
-          />
-        </div>
+    <div className="w-full">
+      {/* Desktop: horizontal accordion */}
+      <div className="hidden h-[420px] items-stretch gap-2.5 overflow-hidden rounded-2xl sm:flex lg:h-[480px]">
+        {images.map((src, idx) => (
+          <div
+            key={src}
+            className="relative min-w-0 shrink-0 cursor-pointer overflow-hidden rounded-xl transition-[flex-grow] duration-500 ease-in-out"
+            style={{ flexGrow: hovered === idx ? 5 : 1 }}
+            onMouseEnter={() => setHovered(idx)}
+            onMouseLeave={() => setHovered(null)}
+          >
+            <Image
+              src={src}
+              alt={`M-9 project gallery — photo ${idx + 1} of ${images.length}`}
+              fill
+              className="object-cover transition-transform duration-700 ease-in-out"
+              style={{ transform: hovered === idx ? "scale(1.06)" : "scale(1.0)" }}
+              sizes="(max-width: 768px) 100vw, 20vw"
+              priority={idx === 0}
+            />
+            {/* dark gradient at bottom */}
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-secondary/70 to-transparent"
+              aria-hidden
+            />
+            {/* label — only visible when expanded */}
+            <div
+              className="absolute inset-x-0 bottom-0 flex flex-col gap-1 px-4 pb-4 transition-opacity duration-300"
+              style={{ opacity: hovered === idx ? 1 : 0 }}
+            >
+              <span className="text-[0.6rem] font-bold uppercase tracking-[0.18em] text-white/70">
+                M-9 Gallery
+              </span>
+              <span className="text-sm font-semibold tabular-nums text-white drop-shadow-sm">
+                {idx + 1} / {images.length}
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
-      <div className="relative min-h-44 w-full flex-1 overflow-hidden rounded-sm bg-slate-200 shadow-sm lg:min-h-0">
-        <Image
-          src={rightSrc}
-          alt={`M-9 project gallery — photo ${photoIndexStart + 3}`}
-          fill
-          className="object-cover"
-          sizes="(max-width: 1024px) 100vw, 70vw"
-        />
+
+      {/* Mobile: 2-column grid */}
+      <div className="grid grid-cols-2 gap-2.5 sm:hidden">
+        {images.map((src, idx) => (
+          <div
+            key={src}
+            className="relative aspect-4/3 overflow-hidden rounded-xl bg-slate-200 shadow-sm"
+          >
+            <Image
+              src={src}
+              alt={`M-9 project gallery — photo ${idx + 1} of ${images.length}`}
+              fill
+              className="object-cover"
+              sizes="46vw"
+              priority={idx < 2}
+            />
+          </div>
+        ))}
       </div>
+
     </div>
   );
 }
 
 export function ProjectSection() {
-  const firstTriple = projectCarouselImages.slice(0, 3);
-  const bottomRowImages = projectCarouselImages.slice(3);
-
   return (
     <section id="projects" className="scroll-mt-24 bg-white py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* copy block */}
         <motion.div
           className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14"
           variants={staggerContainer}
@@ -99,14 +117,18 @@ export function ProjectSection() {
           viewport={viewportOnce}
         >
           <motion.div className="lg:col-span-3" variants={fadeUp}>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">{projectSectionEyebrow}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
+              {projectSectionEyebrow}
+            </p>
           </motion.div>
 
           <motion.div className="lg:col-span-9" variants={fadeUp}>
             <h2 className="text-2xl font-bold leading-snug tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl">
               {projectShowcaseHeading}
             </h2>
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">{projectShowcaseLead}</p>
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">
+              {projectShowcaseLead}
+            </p>
 
             <ul className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-4">
               {projectShowcaseHighlights.map((line) => (
@@ -128,42 +150,15 @@ export function ProjectSection() {
           </motion.div>
         </motion.div>
 
+        {/* gallery */}
         <motion.div
-          className="mt-8 flex w-full flex-col gap-1.5 sm:mt-10 lg:mt-12"
-          variants={staggerGallery}
+          className="mt-10 sm:mt-12 lg:mt-14"
+          variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
         >
-          {firstTriple.length === 3 ? (
-            <motion.div variants={fadeUp}>
-              <ProjectBentoRow
-                topLeftSrc={firstTriple[0]}
-                bottomLeftSrc={firstTriple[1]}
-                rightSrc={firstTriple[2]}
-                photoIndexStart={0}
-              />
-            </motion.div>
-          ) : null}
-
-          {bottomRowImages.length > 0 ? (
-            <motion.div variants={fadeUp} className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
-              {bottomRowImages.map((src, index) => (
-                <div
-                  key={src}
-                  className="relative aspect-video overflow-hidden rounded-sm bg-slate-200 shadow-sm"
-                >
-                  <Image
-                    src={src}
-                    alt={`M-9 project gallery — photo ${4 + index}`}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                  />
-                </div>
-              ))}
-            </motion.div>
-          ) : null}
+          <AccordionGallery images={projectCarouselImages} />
         </motion.div>
       </div>
     </section>

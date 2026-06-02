@@ -7,7 +7,7 @@ import { fadeUp, viewportOnce } from "@/lib/motion-variants";
 
 export function LaybySection() {
   return (
-    <section className="bg-white pb-16 lg:pb-24">
+    <section className="bg-gray-50 pb-16 lg:pb-24">
       <div className="mx-auto max-w-7xl px-4">
         <motion.h3
           className="text-center text-2xl font-bold tracking-tight text-secondary sm:text-3xl"

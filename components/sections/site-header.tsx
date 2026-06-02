@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -22,19 +23,22 @@ const logoWhiteSrc = "/images/logo-white.png";
 export interface SiteHeaderProps {
   /** Transparent nav over hero; solid bar after scroll. */
   variant?: "solid" | "overlay";
+  /** Dark tagline + contact strip above nav (homepage default). */
+  showTopBar?: boolean;
 }
 
 function mobileNavLinkClass(navOnDark: boolean, isActive: boolean): string {
-  const base = "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors";
+  const base = "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors border-b border-white/10";
   if (navOnDark) {
     return `${base} ${isActive ? "text-primary" : "text-white/95 hover:bg-white/10 hover:text-white"}`;
   }
   return `${base} ${isActive ? "text-primary" : "text-secondary hover:bg-zinc-50 hover:text-primary"}`;
 }
 
-export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
+export function SiteHeader({ variant = "solid", showTopBar = true }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   const activeSection = useActiveSection();
   const isOverlay = variant === "overlay";
 
@@ -65,7 +69,7 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
         isOverlay ? "fixed inset-x-0 top-0 z-50 w-full" : "sticky top-0 z-50"
       }
     >
-      {!isOverlay ? (
+      {!isOverlay && showTopBar ? (
         <motion.div
           className="bg-secondary text-white/95"
           initial={{ y: -12 }}
@@ -108,10 +112,10 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
         transition={{ duration: 0.4, delay: isOverlay ? 0 : 0.05, ease: [0.22, 1, 0.36, 1] }}
         aria-label="Primary"
       >
-        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:min-h-17 lg:py-3">
+        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3.5 lg:min-h-16 lg:gap-4 lg:py-3.5">
           <Link
             href="/"
-            className={`relative z-2 block w-32 shrink-0`}
+            className="relative z-2 block w-24 shrink-0 sm:w-28"
           >
             <Image
               key={logoSrc}
@@ -124,49 +128,39 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
             />
           </Link>
 
-          <ul className="col-span-2 hidden min-w-0 items-center justify-center justify-self-center gap-x-1 text-sm font-medium leading-snug lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:flex lg:flex-nowrap lg:px-1">
+          <ul className="col-span-2 hidden min-w-0 items-center justify-center justify-self-center gap-x-0 text-[10px] font-medium uppercase leading-snug tracking-[0.06em] lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:flex lg:flex-nowrap lg:text-[11px] lg:tracking-[0.08em] xl:text-xs">
             {navLinks.map((item) => {
-              const isHash = item.href.startsWith("#");
-              const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection });
+              const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
               const className = linkClass(isActive);
               return (
                 <li key={item.label} className="shrink-0">
-                  {isHash ? (
-                    <Link
-                      href={item.href}
-                      className={`block whitespace-nowrap rounded-lg px-2 py-1.5 transition-colors lg:px-2.5 lg:py-1.5 xl:px-3 ${className}`}
-                    >
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <a
-                      href={item.href}
-                      className={`block whitespace-nowrap rounded-lg px-2 py-1.5 transition-colors lg:px-2.5 lg:py-1.5 xl:px-3 ${className}`}
-                    >
-                      {item.label}
-                    </a>
-                  )}
+                  <Link
+                    href={item.href}
+                    className={`block whitespace-nowrap rounded-md px-1.5 py-1 transition-colors lg:px-2 lg:py-1 ${className}`}
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               );
             })}
           </ul>
 
-          <div className="relative z-2 flex min-h-10 shrink-0 items-center justify-end justify-self-end gap-2 sm:min-h-0 sm:gap-3 lg:gap-4">
+          <motion.div className="relative z-2 flex shrink-0 items-center justify-end justify-self-end gap-2 sm:gap-2.5 lg:gap-3">
             <a
               href={phoneHref}
-              className={`hidden items-center gap-1.5 text-sm font-medium leading-snug transition-colors sm:inline-flex ${navOnDark ? "text-white/95 hover:text-white" : "text-secondary/90 hover:text-primary"
+              className={`hidden items-center gap-1 text-[10px] font-medium leading-snug transition-colors sm:inline-flex lg:text-[11px] ${navOnDark ? "text-white/95 hover:text-white" : "text-secondary/90 hover:text-primary"
                 }`}
             >
               <PhoneIcon
-                className={`size-3.5 shrink-0 ${navOnDark ? "text-white/90" : "text-primary"}`}
+                className={`size-3 shrink-0 ${navOnDark ? "text-white/90" : "text-primary"}`}
               />
               <span className="hidden sm:inline">{phoneDisplay}</span>
             </a>
 
             <motion.a
-              href="#contact"
-              className="hidden items-center justify-center rounded-lg bg-primary px-3 py-2 text-[11px] font-normal uppercase tracking-[0.08em] text-white shadow-md shadow-primary/25 transition-shadow hover:shadow-lg hover:shadow-primary/30 sm:inline-flex sm:px-4 sm:py-2 sm:text-xs sm:tracking-wide"
-              whileHover={{ scale: 1.03 }}
+              href="/#contact"
+              className="hidden items-center justify-center rounded-md bg-primary px-2.5 py-1 text-[9px] font-medium uppercase tracking-widest text-white shadow-sm shadow-primary/20 transition-shadow hover:bg-primary/95 hover:shadow-md hover:shadow-primary/25 sm:inline-flex sm:px-3 sm:py-1.5 sm:text-[10px]"
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               Get in Touch
@@ -174,7 +168,7 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
 
             <button
               type="button"
-              className={`inline-flex items-center justify-center rounded-lg border p-2.5 lg:hidden ${navOnDark
+              className={`inline-flex items-center justify-center rounded-md border p-2 lg:hidden ${navOnDark
                 ? "border-white/35 bg-white/10 text-white backdrop-blur-sm"
                 : "border-zinc-200 text-secondary"
                 }`}
@@ -185,7 +179,7 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
               <span className="sr-only">Menu</span>
               {menuOpen ? <CloseIcon /> : <MenuIcon />}
             </button>
-          </div>
+          </motion.div>
         </div>
 
         <AnimatePresence>
@@ -204,31 +198,20 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
             >
               <ul className="flex flex-col gap-1 px-4 py-4 text-sm font-medium">
                 {navLinks.map((item) => {
-                  const isHash = item.href.startsWith("#");
-                  const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection });
+                  const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
                   const linkMobile = mobileNavLinkClass(isOverlay, isActive);
                   return (
                     <li key={`m-${item.label}`}>
-                      {isHash ? (
-                        <Link
-                          href={item.href}
-                          className={linkMobile}
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      ) : (
-                        <a href={item.href} className={linkMobile} onClick={() => setMenuOpen(false)}>
-                          {item.label}
-                        </a>
-                      )}
+                      <Link href={item.href} className={linkMobile} onClick={() => setMenuOpen(false)}>
+                        {item.label}
+                      </Link>
                     </li>
                   );
                 })}
                 <li className="pt-2">
                   <motion.a
-                    href="#contact"
-                    className="flex w-full items-center justify-center rounded-lg bg-primary py-2.5 text-xs font-medium uppercase tracking-wide text-white"
+                    href="/#contact"
+                    className="flex w-full items-center justify-center rounded-md bg-primary py-2 text-[10px] font-medium uppercase tracking-wide text-white"
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setMenuOpen(false)}
                   >
@@ -262,7 +245,7 @@ function MailIcon({ className }: { className?: string }) {
 
 function MenuIcon() {
   return (
-    <svg className="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M4 6h16M4 12h16M4 18h16" />
     </svg>
   );
@@ -270,7 +253,7 @@ function MenuIcon() {
 
 function CloseIcon() {
   return (
-    <svg className="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M6 6l12 12M18 6L6 18" />
     </svg>
   );

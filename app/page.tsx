@@ -9,6 +9,7 @@ import { ResponsibilitiesSection } from "@/components/sections/responsibilities-
 import { SiteFooter } from "@/components/sections/site-footer";
 import { SiteHeader } from "@/components/sections/site-header";
 import { TeamSection } from "@/components/sections/team-section";
+import { WeighStationSection } from "@/components/sections/weigh-station-section";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <HeroSection />
         <ProjectSection />
         <ResponsibilitiesSection />
+        <WeighStationSection />
         <TeamSection />
         <MissionSection />
         <PromoVideoSection />

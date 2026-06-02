@@ -1,53 +1,27 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useRef } from "react";
 import { motion } from "framer-motion";
-import type { ResponsibilityCard as ResponsibilityCardData } from "@/lib/site-content";
+import { responsibilityCards } from "@/lib/site-content";
 import {
-  responsibilityCards,
-  responsibilitiesEyebrow,
-  responsibilitiesHeading,
-  responsibilitiesIntro,
-} from "@/lib/site-content";
-import { fadeUp, headerStagger, riseSoft, staggerContainer, viewportOnce } from "@/lib/motion-variants";
-
-const cardShellClass =
-  "flex h-full flex-col rounded-md border border-zinc-200/90 bg-white p-4 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-md sm:p-5";
-
-function ResponsibilityCardInner({ card }: { card: ResponsibilityCardData }) {
-  return (
-    <>
-      <div className="mb-3 flex items-center justify-between gap-3 sm:mb-4">
-        <div className="relative size-11 shrink-0 overflow-hidden rounded-sm sm:size-12">
-          <Image src={card.iconSrc} alt="" fill className="object-contain p-1.5" sizes="60px" />
-        </div>
-      </div>
-      <h3 className="text-base font-semibold leading-snug text-secondary sm:text-lg">{card.title}</h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600 sm:mt-3 sm:text-[15px]">{card.body}</p>
-    </>
-  );
-}
+  ServiceCardInner,
+  ServicesCardsGrid,
+  ServicesSectionHeader,
+  serviceCardClass,
+} from "@/components/sections/services-content";
+import { fadeUp, viewportOnce } from "@/lib/motion-variants";
 
 function ResponsibilityCardStatic({
   card,
   className,
 }: {
-  card: ResponsibilityCardData;
+  card: (typeof responsibilityCards)[number];
   className?: string;
 }) {
   return (
-    <article className={[cardShellClass, className].filter(Boolean).join(" ")}>
-      <ResponsibilityCardInner card={card} />
+    <article className={[serviceCardClass, className].filter(Boolean).join(" ")}>
+      <ServiceCardInner card={card} />
     </article>
-  );
-}
-
-function ResponsibilityCardMotion({ card }: { card: ResponsibilityCardData }) {
-  return (
-    <motion.article className={cardShellClass} variants={riseSoft}>
-      <ResponsibilityCardInner card={card} />
-    </motion.article>
   );
 }
 
@@ -64,31 +38,9 @@ export function ResponsibilitiesSection() {
   }, []);
 
   return (
-    <section id="services" className="scroll-mt-24 bg-white py-16 sm:py-20 lg:py-24">
+    <section id="services" className="scroll-mt-24 bg-gray-50 py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          className="mx-auto max-w-3xl text-center"
-          variants={headerStagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-        >
-          <motion.p
-            className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
-            variants={fadeUp}
-          >
-            {responsibilitiesEyebrow}
-          </motion.p>
-          <motion.h2
-            className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl"
-            variants={fadeUp}
-          >
-            {responsibilitiesHeading}
-          </motion.h2>
-          <motion.p className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg" variants={fadeUp}>
-            {responsibilitiesIntro}
-          </motion.p>
-        </motion.div>
+        <ServicesSectionHeader />
 
         <motion.div
           className="relative mt-10 lg:hidden"
@@ -133,17 +85,7 @@ export function ResponsibilitiesSection() {
           </div>
         </motion.div>
 
-        <motion.div
-          className="mt-10 hidden grid-cols-2 gap-2 lg:grid xl:grid-cols-4"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-        >
-          {responsibilityCards.map((card) => (
-            <ResponsibilityCardMotion key={card.title} card={card} />
-          ))}
-        </motion.div>
+        <ServicesCardsGrid className="mt-10 hidden lg:grid" />
       </div>
     </section>
   );
