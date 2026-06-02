@@ -73,6 +73,8 @@ export const projectCarouselImages = [
   "/images/5.png",
   "/images/6.png",
   "/images/7.png",
+  "/images/8.png",
+  "/images/9.png",
 ] as const;
 
 export const responsibilitiesHeading = "Our Responsibilities";

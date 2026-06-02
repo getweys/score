@@ -62,7 +62,7 @@ export function ContactPageContent() {
                 <iframe
                   title="SCORE office location on Google Maps"
                   src={contactMapEmbedUrl}
-                  className="h-72 w-full border-0 sm:h-80 lg:h-112"
+                  className="h-56 w-full border-0 sm:h-80 lg:h-112"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   allowFullScreen

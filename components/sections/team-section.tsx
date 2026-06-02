@@ -13,7 +13,7 @@ interface TeamMemberTileProps {
 export function TeamMemberTile({ member }: TeamMemberTileProps) {
   return (
     <motion.div
-      className="flex w-[42%] max-w-46 flex-col items-center text-center sm:w-[28%] sm:max-w-50 lg:w-[22%] lg:max-w-54"
+      className="flex w-[calc(50%-0.75rem)] max-w-44 flex-col items-center text-center sm:w-[28%] sm:max-w-50 lg:w-[22%] lg:max-w-54"
       variants={riseSoft}
     >
       <div className="group relative mx-auto aspect-square w-full max-w-37 overflow-hidden rounded-full bg-zinc-100 shadow-[0_12px_40px_-16px_rgba(15,23,42,0.22)] ring-[3px] ring-white transition duration-500 ease-out group-hover:shadow-[0_16px_44px_-14px_rgba(225,29,72,0.28)] group-hover:ring-primary/25 sm:max-w-42 lg:max-w-44">
@@ -67,7 +67,7 @@ export function TeamSection() {
         </motion.div>
 
         <motion.div
-          className="mt-12 flex w-full flex-wrap justify-center gap-x-6 gap-y-11 sm:gap-x-10 sm:gap-y-14 lg:mt-16 lg:gap-x-12 lg:gap-y-16"
+          className="mt-10 flex w-full flex-wrap justify-center gap-x-4 gap-y-10 sm:mt-12 sm:gap-x-10 sm:gap-y-14 lg:mt-16 lg:gap-x-12 lg:gap-y-16"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"

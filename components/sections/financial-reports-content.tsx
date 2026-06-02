@@ -11,10 +11,10 @@ import {
 import { fadeUp, fadeUpBlur, headerStagger, listRowReveal, viewportOnce, viewportRow } from "@/lib/motion-variants";
 
 const btnDownload =
-  "inline-flex min-h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:min-h-10 sm:px-5 sm:text-sm";
+  "inline-flex min-h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:min-h-10 sm:w-auto sm:px-5 sm:text-sm";
 
 const btnPreview =
-  "inline-flex min-h-9 items-center justify-center rounded-md border border-brand-green/40 bg-transparent px-4 py-2 text-xs font-semibold text-secondary transition-colors hover:border-brand-green-dark hover:bg-brand-green/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary group-hover:border-on-green-dark/40 group-hover:text-on-green-dark group-hover:hover:bg-white/10 sm:min-h-10 sm:px-5 sm:text-sm";
+  "inline-flex min-h-10 w-full items-center justify-center rounded-md border border-brand-green/40 bg-transparent px-4 py-2 text-xs font-semibold text-secondary transition-colors hover:border-brand-green-dark hover:bg-brand-green/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary group-hover:border-on-green-dark/40 group-hover:text-on-green-dark group-hover:hover:bg-white/10 sm:min-h-10 sm:w-auto sm:px-5 sm:text-sm";
 
 const rowHover =
   "transition-colors duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hover:bg-brand-green-dark motion-reduce:transition-none";
@@ -39,17 +39,17 @@ function FinancialReportRow({ row, index }: FinancialReportRowProps) {
 
   return (
     <div
-      className={`group grid grid-cols-1 gap-4 px-3 py-7 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-6 sm:px-6 sm:py-9 lg:gap-8 lg:px-8 lg:py-10 ${rowHover}`}
+      className={`group grid grid-cols-1 gap-3 px-4 py-6 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-6 sm:px-6 sm:py-9 lg:gap-8 lg:px-8 lg:py-10 ${rowHover}`}
     >
       <span className="text-sm font-medium tabular-nums text-secondary/60 transition-colors duration-500 group-hover:text-on-green-dark sm:text-base">
         ({reportNo})
       </span>
 
-      <h3 className="min-w-0 text-xl font-medium leading-snug text-secondary transition-colors duration-500 group-hover:text-on-green-dark sm:text-2xl lg:text-[1.75rem] lg:leading-tight">
+      <h3 className="min-w-0 text-lg font-medium leading-snug text-secondary transition-colors duration-500 group-hover:text-on-green-dark sm:text-xl lg:text-[1.75rem] lg:leading-tight">
         {displayTitle}
       </h3>
 
-      <div className="flex flex-wrap items-center gap-2.5 sm:shrink-0 sm:justify-end">
+      <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-2.5 sm:shrink-0 sm:justify-end">
         <a
           href={row.downloadHref}
           target="_blank"

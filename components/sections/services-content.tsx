@@ -108,7 +108,7 @@ function ServiceAccordionRow({ card }: { card: ResponsibilityCardData }) {
 
   return (
     <div
-      className={`group grid cursor-default grid-cols-[auto_1fr_auto] items-start gap-5 px-3 py-9 transition-colors ${serviceHoverDuration} ${serviceHoverEase} hover:bg-brand-green-dark focus-within:bg-brand-green-dark sm:gap-8 sm:px-6 sm:py-11 lg:px-8 lg:py-12`}
+      className={`group grid cursor-default grid-cols-[auto_1fr_auto] items-start gap-2 px-3 py-6 transition-colors max-lg:active:bg-brand-green-dark sm:gap-5 sm:px-5 sm:py-8 ${serviceHoverDuration} ${serviceHoverEase} lg:gap-8 lg:px-8 lg:py-12 lg:hover:bg-brand-green-dark lg:focus-within:bg-brand-green-dark`}
       tabIndex={0}
       role="group"
       aria-label={card.title}
@@ -121,16 +121,16 @@ function ServiceAccordionRow({ card }: { card: ResponsibilityCardData }) {
 
       <div className="min-w-0">
         <h3
-          className={`text-xl font-medium leading-snug text-secondary transition-colors ${serviceHoverDuration} ${serviceHoverEase} group-hover:text-on-green-dark group-focus-within:text-on-green-dark sm:text-2xl lg:text-[1.75rem] lg:leading-tight`}
+          className={`text-base font-medium leading-snug text-secondary transition-colors sm:text-xl lg:text-[1.75rem] lg:leading-tight ${serviceHoverDuration} ${serviceHoverEase} max-lg:group-active:text-on-green-dark lg:group-hover:text-on-green-dark lg:group-focus-within:text-on-green-dark`}
         >
           {card.title}
         </h3>
         <div
-          className={`grid grid-rows-[0fr] transition-[grid-template-rows] ${serviceHoverDuration} ${serviceHoverEase} group-hover:grid-rows-[1fr] group-focus-within:grid-rows-[1fr]`}
+          className={`grid grid-rows-[1fr] transition-[grid-template-rows] max-lg:opacity-100 lg:grid-rows-[0fr] ${serviceHoverDuration} ${serviceHoverEase} lg:group-hover:grid-rows-[1fr] lg:group-focus-within:grid-rows-[1fr]`}
         >
           <div className="overflow-hidden">
             <p
-              className={`pt-0 text-sm leading-relaxed text-on-green-dark/90 opacity-0 transition-[opacity,padding] delay-75 ${serviceHoverDuration} ${serviceHoverEase} group-hover:pt-5 group-hover:opacity-100 group-focus-within:pt-5 group-focus-within:opacity-100 sm:text-[15px]`}
+              className={`pt-3 text-sm leading-relaxed text-slate-600 transition-[opacity,padding] max-lg:opacity-100 sm:text-[15px] lg:pt-0 lg:text-on-green-dark/90 lg:opacity-0 lg:delay-75 ${serviceHoverDuration} ${serviceHoverEase} lg:group-hover:pt-5 lg:group-hover:opacity-100 lg:group-focus-within:pt-5 lg:group-focus-within:opacity-100 lg:group-hover:text-on-green-dark/90`}
             >
               {card.body}
             </p>

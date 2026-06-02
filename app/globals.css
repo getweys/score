@@ -78,6 +78,7 @@ body::-webkit-scrollbar {
 html,
 body {
   font-family: var(--font-roboto), "Roboto", sans-serif;
+  overflow-x: clip;
 }
 
 body {
@@ -87,6 +88,12 @@ body {
   scrollbar-width: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+img,
+video,
+iframe {
+  max-width: 100%;
 }
 
 button,

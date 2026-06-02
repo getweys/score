@@ -136,7 +136,7 @@ export function MissionSection() {
     "text-[0.9375rem] leading-[1.88] text-slate-700 antialiased sm:text-[1.0625rem] sm:leading-[1.84]";
 
   const dropCapClass =
-    `${bodyClass} after:block after:h-0 after:clear-both after:content-[''] [&:first-letter]:float-left [&:first-letter]:mr-3 [&:first-letter]:mt-1 [&:first-letter]:font-sans [&:first-letter]:font-semibold [&:first-letter]:text-[3.35rem] [&:first-letter]:leading-[0.92] [&:first-letter]:text-primary sm:[&:first-letter]:mr-4 sm:[&:first-letter]:text-[4rem]`;
+    `${bodyClass} after:block after:h-0 after:clear-both after:content-[''] [&:first-letter]:float-left [&:first-letter]:mr-2.5 [&:first-letter]:mt-0.5 [&:first-letter]:font-sans [&:first-letter]:font-semibold [&:first-letter]:text-[2.65rem] [&:first-letter]:leading-[0.92] [&:first-letter]:text-primary sm:[&:first-letter]:mr-4 sm:[&:first-letter]:mt-1 sm:[&:first-letter]:text-[3.35rem] lg:[&:first-letter]:text-[4rem]`;
 
   return (
     <section
@@ -183,7 +183,7 @@ export function MissionSection() {
             </motion.p>
           </motion.header>
 
-          <div className="mt-10 grid grid-cols-1 items-start gap-10 sm:mt-12 lg:grid-cols-2 lg:gap-10 xl:gap-14">
+          <div className="mt-8 grid grid-cols-1 items-start gap-8 sm:mt-12 sm:gap-10 lg:grid-cols-2 lg:gap-10 xl:gap-14">
             <motion.div
               className="min-w-0"
               variants={prose}

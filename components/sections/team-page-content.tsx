@@ -14,7 +14,7 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 import { TeamMemberTile } from "@/components/sections/team-section";
 
 const teamGridClass =
-  "mt-8 flex w-full flex-wrap justify-center gap-x-6 gap-y-11 sm:mt-10 sm:gap-x-10 sm:gap-y-14 lg:gap-x-12 lg:gap-y-16";
+  "mt-8 flex w-full flex-wrap justify-center gap-x-4 gap-y-10 sm:mt-10 sm:gap-x-10 sm:gap-y-14 lg:gap-x-12 lg:gap-y-16";
 
 interface TeamGroupSectionProps {
   title: string;

@@ -11,6 +11,7 @@ import {
   projectShowcaseHighlights,
   projectShowcaseLead,
 } from "@/lib/site-content";
+import { useMediaQuery } from "@/lib/use-media-query";
 import {
   fadeUp,
   fadeUpBlur,
@@ -55,48 +56,90 @@ function galleryHeading(index: number) {
   return `Photograph ${String(index + 1).padStart(2, "0")}`;
 }
 
+interface GalleryRowContentProps {
+  photoNo: string;
+  heading: string;
+  index: number;
+  total: number;
+  isActive: boolean;
+}
+
+function GalleryRowContent({ photoNo, heading, index, total, isActive }: GalleryRowContentProps) {
+  return (
+    <>
+      <span
+        className={`text-xs font-medium tabular-nums transition-colors ${galleryRowEase} ${
+          isActive ? "text-on-green-dark/70" : "text-secondary/55"
+        }`}
+      >
+        ({photoNo})
+      </span>
+      <span className="min-w-0 text-sm font-medium leading-snug sm:text-base lg:text-[1.05rem]">{heading}</span>
+      <span
+        className={`text-[0.65rem] font-semibold tabular-nums transition-colors ${galleryRowEase} ${
+          isActive ? "text-on-green-dark/80" : "text-slate-500"
+        }`}
+      >
+        {index + 1}/{total}
+      </span>
+    </>
+  );
+}
+
 function GalleryPinnedPanel({
   images,
   activeIndex,
+  onSelectIndex,
 }: {
   images: readonly string[];
   activeIndex: number;
+  onSelectIndex?: (index: number) => void;
 }) {
   const total = images.length;
 
   return (
-    <div className="grid w-full min-w-0 grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
-      <ul className="order-2 min-w-0 list-none border-t border-brand-green/25 lg:order-1" role="list">
+    <div className="grid w-full min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,0.34fr)_minmax(0,0.66fr)] lg:items-start lg:gap-8 xl:gap-10">
+      <ul className="order-2 min-w-0 list-none lg:order-1" role="list">
         {images.map((src, idx) => {
           const isActive = activeIndex === idx;
           const photoNo = String(idx + 1).padStart(2, "0");
 
           return (
             <li key={src} className="border-b border-brand-green/25 last:border-b-0">
-              <div
-                className={`grid w-full grid-cols-[auto_1fr_auto] items-center gap-3 px-3 py-3.5 text-left transition-colors ${galleryRowEase} sm:gap-3.5 sm:px-4 sm:py-4 lg:px-3 lg:py-4 ${
-                  isActive ? "bg-brand-green-dark text-on-green-dark" : "text-secondary"
-                }`}
-                aria-current={isActive ? "true" : undefined}
-              >
-                <span
-                  className={`text-xs font-medium tabular-nums transition-colors ${galleryRowEase} ${
-                    isActive ? "text-on-green-dark/70" : "text-secondary/55"
+              {onSelectIndex ? (
+                <button
+                  type="button"
+                  onClick={() => onSelectIndex(idx)}
+                  className={`grid w-full grid-cols-[auto_1fr_auto] items-center gap-2 px-3 py-3 text-left transition-colors ${galleryRowEase} sm:gap-3 sm:px-4 sm:py-3.5 ${
+                    isActive ? "bg-brand-green-dark text-on-green-dark" : "text-secondary"
                   }`}
+                  aria-current={isActive ? "true" : undefined}
+                  aria-label={`View ${galleryHeading(idx)}`}
                 >
-                  ({photoNo})
-                </span>
-                <span className="text-base font-medium leading-snug sm:text-[1.05rem]">
-                  {galleryHeading(idx)}
-                </span>
-                <span
-                  className={`text-[0.65rem] font-semibold tabular-nums transition-colors ${galleryRowEase} ${
-                    isActive ? "text-on-green-dark/80" : "text-slate-500"
+                  <GalleryRowContent
+                    photoNo={photoNo}
+                    heading={galleryHeading(idx)}
+                    index={idx}
+                    total={total}
+                    isActive={isActive}
+                  />
+                </button>
+              ) : (
+                <div
+                  className={`grid w-full grid-cols-[auto_1fr_auto] items-center gap-2 px-3 py-3 text-left transition-colors ${galleryRowEase} sm:gap-3 sm:px-4 sm:py-3.5 lg:gap-3.5 lg:px-3 lg:py-4 ${
+                    isActive ? "bg-brand-green-dark text-on-green-dark" : "text-secondary"
                   }`}
+                  aria-current={isActive ? "true" : undefined}
                 >
-                  {idx + 1}/{total}
-                </span>
-              </div>
+                  <GalleryRowContent
+                    photoNo={photoNo}
+                    heading={galleryHeading(idx)}
+                    index={idx}
+                    total={total}
+                    isActive={isActive}
+                  />
+                </div>
+              )}
             </li>
           );
         })}
@@ -113,7 +156,7 @@ function GalleryPinnedPanel({
               className={`absolute inset-0 object-cover transition-opacity ${galleryImageEase} ${
                 activeIndex === idx ? "z-10 opacity-100" : "z-0 opacity-0"
               }`}
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              sizes="(max-width: 1024px) 100vw, 66vw"
               priority={idx < 2}
             />
           ))}
@@ -125,11 +168,13 @@ function GalleryPinnedPanel({
 
 function ProjectGallery({ images }: ProjectGalleryProps) {
   const reduceMotion = useReducedMotion();
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const useScrollPin = isDesktop && !reduceMotion;
   const [activeIndex, setActiveIndex] = useState(0);
   const pinRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (reduceMotion) return;
+    if (!useScrollPin) return;
 
     function updateActiveIndex() {
       const pin = pinRef.current;
@@ -185,7 +230,7 @@ function ProjectGallery({ images }: ProjectGalleryProps) {
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
     };
-  }, [images.length, reduceMotion]);
+  }, [images.length, useScrollPin]);
 
   if (images.length === 0) return null;
 
@@ -217,7 +262,7 @@ function ProjectGallery({ images }: ProjectGalleryProps) {
         </motion.p>
       </motion.div>
 
-      {reduceMotion ? (
+      {!useScrollPin ? (
         <motion.div
           className="mt-8 sm:mt-10"
           variants={fadeUp}
@@ -225,7 +270,11 @@ function ProjectGallery({ images }: ProjectGalleryProps) {
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <GalleryPinnedPanel images={images} activeIndex={activeIndex} />
+          <GalleryPinnedPanel
+            images={images}
+            activeIndex={activeIndex}
+            onSelectIndex={setActiveIndex}
+          />
         </motion.div>
       ) : (
         <div
@@ -250,9 +299,9 @@ export function ProjectSection() {
     <>
       <section
         id="projects"
-        className="scroll-mt-24 flex min-h-screen items-center border-t border-brand-green/20 bg-surface-green"
+        className="scroll-mt-24 flex min-h-0 items-stretch border-t border-brand-green/20 bg-surface-green py-14 sm:py-20 lg:min-h-screen lg:items-center lg:py-24"
       >
-        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14"
             variants={staggerContainer}

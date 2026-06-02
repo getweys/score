@@ -55,30 +55,35 @@ function AboutPillarRow({ pillar, index }: { pillar: AboutPillar; index: number 
 
   return (
     <article
-      className={`group grid cursor-default grid-cols-[auto_1fr_auto] items-start gap-5 px-3 py-9 transition-colors ${pillarHoverDuration} ${pillarHoverEase} hover:bg-brand-green-dark focus-within:bg-brand-green-dark sm:gap-8 sm:px-6 sm:py-11 lg:px-8 lg:py-12`}
+      className={`group grid cursor-default grid-cols-1 gap-4 px-4 py-7 transition-colors max-lg:active:bg-brand-green-dark sm:px-5 sm:py-8 ${pillarHoverDuration} ${pillarHoverEase} lg:grid-cols-[auto_1fr_auto] lg:items-start lg:gap-8 lg:px-8 lg:py-12 lg:hover:bg-brand-green-dark lg:focus-within:bg-brand-green-dark`}
       tabIndex={0}
       aria-label={pillar.title}
     >
-      <span
-        className={`pt-1 text-sm font-medium tabular-nums text-secondary/60 transition-colors ${pillarHoverDuration} ${pillarHoverEase} group-hover:text-on-green-dark group-focus-within:text-on-green-dark sm:text-base`}
-      >
-        ({pillarIndex})
-      </span>
+      <div className="flex items-start justify-between gap-3 lg:contents">
+        <span
+          className={`pt-0.5 text-sm font-medium tabular-nums text-secondary/60 transition-colors sm:text-base ${pillarHoverDuration} ${pillarHoverEase} lg:pt-1 lg:group-hover:text-on-green-dark lg:group-focus-within:text-on-green-dark`}
+        >
+          ({pillarIndex})
+        </span>
+        <div className="flex shrink-0 items-start lg:hidden" aria-hidden>
+          <AboutPillarIcon icon={pillar.icon} className={iconClass} />
+        </div>
+      </div>
 
       <div className="min-w-0">
         <h3
-          className={`text-xl font-medium leading-snug text-secondary transition-colors ${pillarHoverDuration} ${pillarHoverEase} group-hover:text-on-green-dark group-focus-within:text-on-green-dark sm:text-2xl lg:text-[1.75rem] lg:leading-tight`}
+          className={`text-lg font-medium leading-snug text-secondary transition-colors sm:text-xl lg:text-[1.75rem] lg:leading-tight ${pillarHoverDuration} ${pillarHoverEase} lg:group-hover:text-on-green-dark lg:group-focus-within:text-on-green-dark`}
         >
           {pillar.title}
         </h3>
         <p
-          className={`mt-4 text-sm leading-relaxed text-slate-600 transition-colors ${pillarHoverDuration} ${pillarHoverEase} group-hover:text-on-green-dark/90 group-focus-within:text-on-green-dark/90 sm:mt-5 sm:text-[15px]`}
+          className={`mt-3 text-sm leading-relaxed text-slate-600 transition-colors sm:mt-4 sm:text-[15px] lg:mt-5 ${pillarHoverDuration} ${pillarHoverEase} lg:group-hover:text-on-green-dark/90 lg:group-focus-within:text-on-green-dark/90`}
         >
           {pillar.body}
         </p>
       </div>
 
-      <div className="flex shrink-0 items-start pt-0.5 sm:pt-1" aria-hidden>
+      <div className="hidden shrink-0 items-start pt-1 lg:flex" aria-hidden>
         <AboutPillarIcon icon={pillar.icon} className={iconClass} />
       </div>
     </article>
@@ -134,7 +139,7 @@ export function AboutContentSection() {
             <motion.div variants={fadeUp} className="flex justify-center pt-4">
               <Link
                 href={aboutServicesCtaHref}
-                className="inline-flex min-h-11 items-center justify-center border-2 border-primary px-8 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                className="inline-flex min-h-11 w-full max-w-xs items-center justify-center border-2 border-primary px-8 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-auto sm:max-w-none"
               >
                 {aboutServicesCtaLabel}
               </Link>

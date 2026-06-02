@@ -19,16 +19,16 @@ export function HeroSection() {
       id="home"
       className="relative -mt-14 scroll-mt-20 border-b border-brand-green/15 bg-surface-green pt-14 text-secondary"
     >
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14 lg:py-20 xl:gap-16 xl:py-24">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14 lg:py-20 xl:gap-16 xl:py-24">
         <motion.div
-          className="flex min-h-[280px] flex-col justify-between sm:min-h-[340px] lg:min-h-[min(72vh,640px)]"
+          className="flex min-h-0 flex-col justify-between gap-6 lg:min-h-[min(72vh,640px)] lg:gap-0"
           variants={headerStagger}
           initial="hidden"
           animate="visible"
           viewport={viewportHero}
         >
           <motion.h1
-            className="max-w-xl text-3xl font-medium leading-[1.12] tracking-tight text-slate-800 sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-[1.1] xl:text-6xl"
+            className="max-w-xl text-[1.65rem] font-medium leading-[1.15] tracking-tight text-slate-800 sm:text-3xl md:text-4xl lg:text-[3.25rem] lg:leading-[1.1] xl:text-6xl"
             variants={headerStagger}
           >
             <motion.span className="block" variants={fadeUpBlur}>
@@ -43,7 +43,7 @@ export function HeroSection() {
           </motion.h1>
 
           <motion.p
-            className="mt-8 max-w-sm text-sm leading-relaxed text-secondary/70 sm:mt-0 sm:text-[0.95rem]"
+            className="max-w-sm text-sm leading-relaxed text-secondary/70 lg:mt-0 lg:text-[0.95rem]"
             variants={fadeUp}
           >
             {heroCaption}
@@ -51,14 +51,14 @@ export function HeroSection() {
         </motion.div>
 
         <motion.div
-          className="flex min-h-[280px] flex-col sm:min-h-[340px] lg:min-h-[min(72vh,640px)]"
+          className="flex min-h-0 flex-col gap-4 lg:min-h-[min(72vh,640px)] lg:gap-0"
           variants={headerStagger}
           initial="hidden"
           animate="visible"
           viewport={viewportHero}
         >
           <motion.div
-            className="relative h-96 w-full shrink-0 aspect-16/7.5 sm:aspect-16/6.75 lg:aspect-16/5.75"
+            className="relative aspect-16/10 w-full shrink-0 sm:aspect-16/7.5 sm:aspect-16/6.75 lg:aspect-16/5.75"
             variants={imageReveal}
           >
             <Image

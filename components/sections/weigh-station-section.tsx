@@ -130,7 +130,7 @@ export function WeighStationSection() {
                 <motion.li
                   key={item.label}
                   variants={riseSoft}
-                  className={`group flex w-full flex-1 items-center gap-3 border-b border-brand-green/25 bg-transparent px-2 py-2 transition-[background-color,box-shadow] ${hoverDuration} ${hoverEase} last:border-b-0 hover:bg-brand-green-dark focus-within:bg-brand-green-dark motion-reduce:transition-none lg:px-3 lg:py-0`}
+                  className={`group flex w-full flex-1 items-center gap-3 border-b border-brand-green/25 bg-transparent px-2 py-4 transition-[background-color,box-shadow] ${hoverDuration} ${hoverEase} last:border-b-0 max-lg:active:bg-brand-green-dark lg:px-3 lg:py-0 lg:hover:bg-brand-green-dark lg:focus-within:bg-brand-green-dark motion-reduce:transition-none`}
                 >
                   <span
                     className={`flex size-8 shrink-0 items-center justify-center text-primary transition-[color,transform] ${hoverDuration} ${hoverEase} group-hover:scale-105 group-hover:text-on-green-dark motion-reduce:group-hover:scale-100 sm:size-9`}

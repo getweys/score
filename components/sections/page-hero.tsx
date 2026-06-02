@@ -13,7 +13,7 @@ interface PageHeroProps {
 
 export function PageHero({ breadcrumbLabel, eyebrow, title, intro }: PageHeroProps) {
   return (
-    <section className="border-b border-brand-green/15 bg-surface-green pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-16">
+    <section className="border-b border-brand-green/15 bg-surface-green pt-8 pb-8 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-16">
       <motion.div
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
         variants={headerStagger}

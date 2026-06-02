@@ -18,7 +18,8 @@ export interface SiteHeaderProps {
 }
 
 function mobileNavLinkClass(navOnDark: boolean, isActive: boolean): string {
-  const base = "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors border-b border-white/10";
+  const base =
+    "block rounded-lg border-b border-brand-green/15 px-3 py-2.5 text-sm font-medium transition-colors last:border-b-0";
   if (navOnDark) {
     return `${base} ${isActive ? "text-primary" : "text-white/95 hover:bg-white/10 hover:text-white"}`;
   }
