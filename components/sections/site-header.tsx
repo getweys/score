@@ -5,26 +5,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  emailDisplay,
-  navLinks,
-  phoneDisplay,
-  topBarTaglineDesktop,
-  topBarTaglineMobile,
-} from "@/lib/site-content";
+import { navLinks, phoneDisplay } from "@/lib/site-content";
 import { navHrefMatchesActiveSection, useActiveSection } from "@/hooks/use-active-section";
 
 const phoneHref = `tel:${phoneDisplay.replace(/-/g, "")}`;
-const mailHref = `mailto:${emailDisplay}`;
 
 const logoColorSrc = "/images/score-logo-png-01.png";
-const logoWhiteSrc = "/images/logo-white.png";
 
 export interface SiteHeaderProps {
   /** Transparent nav over hero; solid bar after scroll. */
   variant?: "solid" | "overlay";
-  /** Dark tagline + contact strip above nav (homepage default). */
-  showTopBar?: boolean;
 }
 
 function mobileNavLinkClass(navOnDark: boolean, isActive: boolean): string {
@@ -35,7 +25,7 @@ function mobileNavLinkClass(navOnDark: boolean, isActive: boolean): string {
   return `${base} ${isActive ? "text-primary" : "text-secondary hover:bg-zinc-50 hover:text-primary"}`;
 }
 
-export function SiteHeader({ variant = "solid", showTopBar = true }: SiteHeaderProps) {
+export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -52,8 +42,8 @@ export function SiteHeader({ variant = "solid", showTopBar = true }: SiteHeaderP
     return () => window.removeEventListener("scroll", onScroll);
   }, [isOverlay]);
 
-  const navOnDark = isOverlay && !scrolled;
-  const logoSrc = navOnDark ? logoWhiteSrc : logoColorSrc;
+  const navOnDark = false;
+  const logoSrc = logoColorSrc;
   const linkClass = (isActive: boolean) =>
     navOnDark
       ? isActive
@@ -63,60 +53,28 @@ export function SiteHeader({ variant = "solid", showTopBar = true }: SiteHeaderP
         ? "text-primary"
         : "text-secondary/90 hover:text-primary";
 
+  const navSurfaceClass = [
+    "border-b border-brand-green/20 bg-surface-green text-secondary transition-colors duration-300",
+    isOverlay && !scrolled ? "" : "shadow-sm backdrop-blur-sm",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <header
       className={
         isOverlay ? "fixed inset-x-0 top-0 z-50 w-full" : "sticky top-0 z-50"
       }
     >
-      {!isOverlay && showTopBar ? (
-        <motion.div
-          className="bg-secondary text-white/95"
-          initial={{ y: -12 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 text-xs sm:flex-row sm:items-center sm:justify-between sm:text-sm">
-            <p className="text-center text-white/90 sm:text-left">
-              <span className="hidden lg:inline">{topBarTaglineDesktop}</span>
-              <span className="lg:hidden">{topBarTaglineMobile}</span>
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 sm:justify-end">
-              <a
-                href={phoneHref}
-                className="inline-flex items-center gap-2 transition-colors hover:text-white"
-              >
-                <PhoneIcon className="size-3.5 shrink-0 text-primary" />
-                <span>{phoneDisplay}</span>
-              </a>
-              <a
-                href={mailHref}
-                className="inline-flex items-center gap-2 transition-colors hover:text-white"
-              >
-                <MailIcon className="size-3.5 shrink-0 text-primary" />
-                <span>{emailDisplay}</span>
-              </a>
-            </div>
-          </div>
-        </motion.div>
-      ) : null}
-
       <motion.nav
-        className={
-          navOnDark
-            ? "border-b border-transparent bg-transparent text-white transition-colors duration-300"
-            : "border-b border-zinc-200/80 bg-white/95 text-secondary shadow-sm backdrop-blur-md transition-colors duration-300"
-        }
+        className={`${navSurfaceClass} transition-colors duration-300`}
         initial={{ y: -6 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.4, delay: isOverlay ? 0 : 0.05, ease: [0.22, 1, 0.36, 1] }}
         aria-label="Primary"
       >
-        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3.5 lg:min-h-16 lg:gap-4 lg:py-3.5">
-          <Link
-            href="/"
-            className="relative z-2 block w-24 shrink-0 sm:w-28"
-          >
+        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-2 sm:gap-3 lg:min-h-14 lg:gap-4 lg:py-2.5">
+          <Link href="/" className="relative z-2 block w-20 shrink-0 sm:w-24">
             <Image
               key={logoSrc}
               src={logoSrc}
@@ -128,49 +86,48 @@ export function SiteHeader({ variant = "solid", showTopBar = true }: SiteHeaderP
             />
           </Link>
 
-          <ul className="col-span-2 hidden min-w-0 items-center justify-center justify-self-center gap-x-0 text-[10px] font-medium uppercase leading-snug tracking-[0.06em] lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:flex lg:flex-nowrap lg:text-[11px] lg:tracking-[0.08em] xl:text-xs">
-            {navLinks.map((item) => {
-              const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
-              const className = linkClass(isActive);
-              return (
-                <li key={item.label} className="shrink-0">
-                  <Link
-                    href={item.href}
-                    className={`block whitespace-nowrap rounded-md px-1.5 py-1 transition-colors lg:px-2 lg:py-1 ${className}`}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="relative z-2 hidden min-w-0 flex-1 items-center justify-end gap-4 lg:flex lg:gap-5">
+            <ul className="flex min-w-0 flex-wrap items-center justify-end gap-x-0 text-[10px] font-medium uppercase leading-snug tracking-[0.06em] lg:flex-nowrap lg:text-[11px] lg:tracking-[0.08em] xl:text-xs">
+              {navLinks.map((item) => {
+                const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
+                const className = linkClass(isActive);
+                return (
+                  <li key={item.label} className="shrink-0">
+                    <Link
+                      href={item.href}
+                      className={`block whitespace-nowrap rounded-md px-1.5 py-1 transition-colors lg:px-2 lg:py-1 ${className}`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
 
-          <motion.div className="relative z-2 flex shrink-0 items-center justify-end justify-self-end gap-2 sm:gap-2.5 lg:gap-3">
+            <div
+              className="hidden h-6 w-px shrink-0 bg-zinc-300 lg:block"
+              aria-hidden
+            />
+
             <a
               href={phoneHref}
-              className={`hidden items-center gap-1 text-[10px] font-medium leading-snug transition-colors sm:inline-flex lg:text-[11px] ${navOnDark ? "text-white/95 hover:text-white" : "text-secondary/90 hover:text-primary"
-                }`}
+              className={`hidden shrink-0 items-center gap-1.5 text-[10px] font-medium leading-snug transition-colors lg:inline-flex lg:text-[11px] ${
+                navOnDark ? "text-white/95 hover:text-white" : "text-secondary/90 hover:text-primary"
+              }`}
             >
               <PhoneIcon
                 className={`size-3 shrink-0 ${navOnDark ? "text-white/90" : "text-primary"}`}
               />
-              <span className="hidden sm:inline">{phoneDisplay}</span>
+              <span>{phoneDisplay}</span>
             </a>
+          </div>
 
-            <motion.a
-              href="/#contact"
-              className="hidden items-center justify-center rounded-md bg-primary px-2.5 py-1 text-[9px] font-medium uppercase tracking-widest text-white shadow-sm shadow-primary/20 transition-shadow hover:bg-primary/95 hover:shadow-md hover:shadow-primary/25 sm:inline-flex sm:px-3 sm:py-1.5 sm:text-[10px]"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Get in Touch
-            </motion.a>
-
+          <motion.div className="relative z-2 flex shrink-0 items-center justify-end lg:hidden">
             <button
               type="button"
               className={`inline-flex items-center justify-center rounded-md border p-2 lg:hidden ${navOnDark
                 ? "border-white/35 bg-white/10 text-white backdrop-blur-sm"
-                : "border-zinc-200 text-secondary"
+                : "border-brand-green/25 text-secondary"
                 }`}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
@@ -186,11 +143,7 @@ export function SiteHeader({ variant = "solid", showTopBar = true }: SiteHeaderP
           {menuOpen ? (
             <motion.div
               id="mobile-nav"
-              className={
-                isOverlay
-                  ? "border-t border-white/10 bg-secondary/95 text-white backdrop-blur-md lg:hidden"
-                  : "border-t border-zinc-100 bg-white lg:hidden"
-              }
+              className="border-t border-brand-green/20 bg-surface-green text-secondary shadow-sm backdrop-blur-sm lg:hidden"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -199,7 +152,7 @@ export function SiteHeader({ variant = "solid", showTopBar = true }: SiteHeaderP
               <ul className="flex flex-col gap-1 px-4 py-4 text-sm font-medium">
                 {navLinks.map((item) => {
                   const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
-                  const linkMobile = mobileNavLinkClass(isOverlay, isActive);
+                  const linkMobile = mobileNavLinkClass(navOnDark, isActive);
                   return (
                     <li key={`m-${item.label}`}>
                       <Link href={item.href} className={linkMobile} onClick={() => setMenuOpen(false)}>
@@ -208,15 +161,15 @@ export function SiteHeader({ variant = "solid", showTopBar = true }: SiteHeaderP
                     </li>
                   );
                 })}
-                <li className="pt-2">
-                  <motion.a
-                    href="/#contact"
-                    className="flex w-full items-center justify-center rounded-md bg-primary py-2 text-[10px] font-medium uppercase tracking-wide text-white"
-                    whileTap={{ scale: 0.98 }}
+                <li className="border-t border-zinc-200/80 pt-3">
+                  <a
+                    href={phoneHref}
+                    className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-secondary transition-colors hover:bg-brand-green/10 hover:text-primary"
                     onClick={() => setMenuOpen(false)}
                   >
-                    Get in Touch
-                  </motion.a>
+                    <PhoneIcon className="size-3.5 shrink-0 text-primary" />
+                    {phoneDisplay}
+                  </a>
                 </li>
               </ul>
             </motion.div>
@@ -231,14 +184,6 @@ function PhoneIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 512 512" fill="currentColor" aria-hidden>
       <path d="M497.39 361.8l-112-48a24 24 0 0 0-28 6.9l-49.6 60.6A370.66 370.66 0 0 1 130.6 204.11l60.6-49.6a23.94 23.94 0 0 0 6.9-28l-48-112A24.16 24.16 0 0 0 122.6.61l-104 24A24 24 0 0 0 0 48c0 256.5 207.9 464 464 464a24 24 0 0 0 23.4-18.6l24-104a24.29 24.29 0 0 0-14.01-27.6z" />
-    </svg>
-  );
-}
-
-function MailIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 512 512" fill="currentColor" aria-hidden>
-      <path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z" />
     </svg>
   );
 }

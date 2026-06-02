@@ -17,11 +17,19 @@ export const navLinks = [
   { label: "Contact Us", href: "/contact" },
 ] as const;
 
-export const heroTitleLine1 = "Connecting People,";
-export const heroTitleLine2 = "Empowering Futures";
+export const heroTitleLine1 = "Connecting";
+export const heroTitleLine2 = "People,";
+export const heroTitleLine3 = "Empowering Futures";
 
 export const heroLead =
   "SCORE Pvt Ltd, a subsidiary of FWO, has delivered top-tier Motorway construction and rehabilitation services since 2015.";
+
+export const heroCaption = topBarTaglineMobile;
+
+export const heroImage = "/images/10.png";
+
+/** Full-width map showcase (below hero). */
+export const mapSectionImage = "/images/map.png";
 
 export const projectHeading = "Karachi – Hyderabad Motorway (M-9) Project";
 
@@ -62,9 +70,9 @@ export const projectCarouselImages = [
   "/images/2.png",
   "/images/3.png",
   "/images/4.png",
-  "/images/5.jpeg",
-  "/images/6.jpeg",
-  "/images/7.jpeg",
+  "/images/5.png",
+  "/images/6.png",
+  "/images/7.png",
 ] as const;
 
 export const responsibilitiesHeading = "Our Responsibilities";

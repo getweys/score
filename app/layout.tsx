@@ -4,7 +4,8 @@ import "./globals.css";
 
 const roboto = Roboto({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
   variable: "--font-roboto",
   adjustFontFallback: true,
@@ -22,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${roboto.variable} scroll-smooth antialiased`}>
-      <body className="min-h-screen bg-white font-sans text-secondary">{children}</body>
+    <html lang="en" className={`${roboto.variable} ${roboto.className} scroll-smooth antialiased`}>
+      <body className="min-h-screen bg-surface-green font-sans text-secondary">{children}</body>
     </html>
   );
 }

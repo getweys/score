@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { AboutPillar } from "@/lib/site-content";
+import { PageHero } from "@/components/sections/page-hero";
 import {
   aboutEyebrow,
   aboutHeading,
-  aboutHeroImage,
   aboutHeroSubtitle,
   aboutParagraphs,
   aboutPillars,
@@ -16,13 +15,12 @@ import {
   aboutServicesCtaHref,
   aboutServicesCtaLabel,
 } from "@/lib/site-content";
-import { fadeUp, headerStagger, riseSoft, staggerContainer, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion-variants";
 
-const simpleCardClass =
-  "flex h-full flex-col rounded-md border border-zinc-200/90 bg-white p-4 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-md sm:p-5 lg:p-6";
+const pillarHoverEase = "ease-[cubic-bezier(0.4,0,0.2,1)]";
+const pillarHoverDuration = "duration-500";
 
-function AboutPillarIcon({ icon }: { icon: AboutPillar["icon"] }) {
-  const className = "size-10 text-primary sm:size-11";
+function AboutPillarIcon({ icon, className }: { icon: AboutPillar["icon"]; className: string }) {
   if (icon === "objective") {
     return (
       <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
@@ -51,83 +49,53 @@ function AboutPillarIcon({ icon }: { icon: AboutPillar["icon"] }) {
   );
 }
 
-function AboutPillarCard({ pillar }: { pillar: AboutPillar }) {
-  return (
-    <motion.article variants={riseSoft} className={simpleCardClass}>
-      <div className="mb-3 sm:mb-4">
-        <AboutPillarIcon icon={pillar.icon} />
-      </div>
-      <h3 className="text-base font-semibold leading-snug text-secondary sm:text-lg">{pillar.title}</h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600 sm:mt-3 sm:text-[15px]">{pillar.body}</p>
-    </motion.article>
-  );
-}
+function AboutPillarRow({ pillar, index }: { pillar: AboutPillar; index: number }) {
+  const pillarIndex = String(index + 1).padStart(2, "0");
+  const iconClass = `size-9 text-primary transition-colors ${pillarHoverDuration} ${pillarHoverEase} group-hover:text-on-green-dark group-focus-within:text-on-green-dark sm:size-10`;
 
-function AboutPageHero() {
   return (
-    <section className="relative isolate min-h-[min(52vh,28rem)] overflow-hidden bg-secondary">
-      <Image
-        src={aboutHeroImage}
-        alt=""
-        fill
-        className="object-cover object-center"
-        sizes="100vw"
-        priority
-      />
-      <motion.div
-        className="absolute inset-0 bg-linear-to-r from-secondary/92 via-secondary/75 to-secondary/55"
-        aria-hidden
-      />
-      <motion.div
-        className="absolute inset-0 bg-linear-to-t from-secondary/80 via-transparent to-secondary/30"
-        aria-hidden
-      />
-
-      <motion.div
-        className="relative mx-auto flex min-h-[min(52vh,28rem)] max-w-7xl flex-col justify-center px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
-        variants={headerStagger}
-        initial="hidden"
-        animate="visible"
+    <article
+      className={`group grid cursor-default grid-cols-[auto_1fr_auto] items-start gap-5 px-3 py-9 transition-colors ${pillarHoverDuration} ${pillarHoverEase} hover:bg-brand-green-dark focus-within:bg-brand-green-dark sm:gap-8 sm:px-6 sm:py-11 lg:px-8 lg:py-12`}
+      tabIndex={0}
+      aria-label={pillar.title}
+    >
+      <span
+        className={`pt-1 text-sm font-medium tabular-nums text-secondary/60 transition-colors ${pillarHoverDuration} ${pillarHoverEase} group-hover:text-on-green-dark group-focus-within:text-on-green-dark sm:text-base`}
       >
-        <motion.nav variants={fadeUp} aria-label="Breadcrumb" className="mb-4 text-sm text-white/70">
-          <ol className="flex flex-wrap items-center gap-2">
-            <li>
-              <Link href="/" className="transition hover:text-white">
-                Home
-              </Link>
-            </li>
-            <li aria-hidden className="text-white/40">
-              /
-            </li>
-            <li className="font-medium text-white">{aboutEyebrow}</li>
-          </ol>
-        </motion.nav>
-        <motion.p
-          variants={fadeUp}
-          className="text-xs font-bold uppercase tracking-[0.22em] text-primary sm:text-sm"
+        ({pillarIndex})
+      </span>
+
+      <div className="min-w-0">
+        <h3
+          className={`text-xl font-medium leading-snug text-secondary transition-colors ${pillarHoverDuration} ${pillarHoverEase} group-hover:text-on-green-dark group-focus-within:text-on-green-dark sm:text-2xl lg:text-[1.75rem] lg:leading-tight`}
         >
-          {aboutEyebrow}
-        </motion.p>
-        <motion.h1
-          variants={fadeUp}
-          className="mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
+          {pillar.title}
+        </h3>
+        <p
+          className={`mt-4 text-sm leading-relaxed text-slate-600 transition-colors ${pillarHoverDuration} ${pillarHoverEase} group-hover:text-on-green-dark/90 group-focus-within:text-on-green-dark/90 sm:mt-5 sm:text-[15px]`}
         >
-          {aboutHeading}
-        </motion.h1>
-        <motion.p variants={fadeUp} className="mt-4 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg">
-          {aboutHeroSubtitle}
-        </motion.p>
-      </motion.div>
-    </section>
+          {pillar.body}
+        </p>
+      </div>
+
+      <div className="flex shrink-0 items-start pt-0.5 sm:pt-1" aria-hidden>
+        <AboutPillarIcon icon={pillar.icon} className={iconClass} />
+      </div>
+    </article>
   );
 }
 
 export function AboutContentSection() {
   return (
     <>
-      <AboutPageHero />
+      <PageHero
+        breadcrumbLabel={aboutEyebrow}
+        eyebrow={aboutEyebrow}
+        title={aboutHeading}
+        intro={aboutHeroSubtitle}
+      />
 
-      <section className="relative bg-linear-to-b from-slate-50/80 to-white py-16 sm:py-20 lg:py-24">
+      <section className="border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             className="mx-auto max-w-3xl text-center"
@@ -139,7 +107,10 @@ export function AboutContentSection() {
             <motion.p variants={fadeUp} className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
               Who we are
             </motion.p>
-            <motion.h2 variants={fadeUp} className="mt-3 text-2xl font-bold text-secondary sm:text-3xl">
+            <motion.h2
+              variants={fadeUp}
+              className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl"
+            >
               A subsidiary of FWO, built for the M-9 corridor
             </motion.h2>
           </motion.div>
@@ -163,7 +134,7 @@ export function AboutContentSection() {
             <motion.div variants={fadeUp} className="flex justify-center pt-4">
               <Link
                 href={aboutServicesCtaHref}
-                className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-8 py-2.5 text-sm font-semibold text-white shadow-[0_10px_32px_-8px_rgba(225,29,72,0.55)] transition hover:bg-primary/95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                className="inline-flex min-h-11 items-center justify-center border-2 border-primary px-8 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 {aboutServicesCtaLabel}
               </Link>
@@ -177,24 +148,32 @@ export function AboutContentSection() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <motion.div className="relative mb-8 text-center sm:mb-10">
+            <motion.div className="relative mb-8 max-w-2xl sm:mb-10">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
                 {aboutPillarsEyebrow}
               </p>
-              <h2 className="mt-2 text-xl font-bold text-secondary sm:text-2xl">{aboutPillarsHeading}</h2>
+              <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl">
+                {aboutPillarsHeading}
+              </h2>
             </motion.div>
 
-            <motion.div
-              className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-5"
+            <motion.ul
+              className="border-t border-brand-green/25"
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={viewportOnce}
             >
-              {aboutPillars.map((pillar) => (
-                <AboutPillarCard key={pillar.title} pillar={pillar} />
+              {aboutPillars.map((pillar, index) => (
+                <motion.li
+                  key={pillar.title}
+                  variants={fadeUp}
+                  className="border-b border-brand-green/25 last:border-b-0"
+                >
+                  <AboutPillarRow pillar={pillar} index={index} />
+                </motion.li>
               ))}
-            </motion.div>
+            </motion.ul>
           </motion.div>
         </div>
       </section>

@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-white text-secondary">
-      <SiteHeader variant="solid" showTopBar={false} />
+    <div className="flex min-h-screen flex-col bg-surface-green text-secondary">
+      <SiteHeader variant="solid" />
       <main className="flex-1">
         <ServicesPageContent />
       </main>

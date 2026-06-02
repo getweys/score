@@ -38,7 +38,7 @@ export function TeamSection() {
   return (
     <section
       id="team"
-      className="scroll-mt-24 bg-gray-50 py-16 sm:py-20 lg:py-24"
+      className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div

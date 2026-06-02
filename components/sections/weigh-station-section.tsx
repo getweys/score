@@ -7,8 +7,6 @@ import {
   weighStationHeading,
   weighStationHighlights,
   weighStationIntro,
-  weighStationParagraphs,
-  weighStationTagline,
   weighStationVideoSrc,
 } from "@/lib/site-content";
 import {
@@ -16,12 +14,15 @@ import {
   headerStagger,
   imageReveal,
   riseSoft,
-  staggerGallery,
-  staggerTight,
+  staggerContainer,
   viewportOnce,
 } from "@/lib/motion-variants";
 
 const highlightIcons = [LanesIcon, MotionIcon, TagIcon, ClockIcon] as const;
+
+const hoverEase = "ease-[cubic-bezier(0.33,1,0.68,1)]";
+const hoverDuration = "duration-700";
+const hoverDescDelay = "delay-150";
 
 function tryPlay(video: HTMLVideoElement | null) {
   if (!video) return;
@@ -30,7 +31,7 @@ function tryPlay(video: HTMLVideoElement | null) {
     video.pause();
     return;
   }
-  void video.play().catch(() => { });
+  void video.play().catch(() => {});
 }
 
 export function WeighStationSection() {
@@ -59,12 +60,12 @@ export function WeighStationSection() {
   return (
     <section
       id="weigh-station"
-      className="relative scroll-mt-24 overflow-hidden bg-white py-16 sm:py-20 lg:py-28"
+      className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24"
       aria-labelledby="weigh-station-heading"
     >
-      <motion.div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.header
-          className="mx-auto max-w-3xl text-center"
+          className="max-w-3xl"
           variants={headerStagger}
           initial="hidden"
           whileInView="visible"
@@ -78,35 +79,30 @@ export function WeighStationSection() {
           </motion.p>
           <motion.h2
             id="weigh-station-heading"
-            className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2.15rem] xl:text-4xl"
+            className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-[2.35rem]"
             variants={fadeUp}
           >
             {weighStationHeading}
           </motion.h2>
           <motion.p
-            className="mt-4 text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg"
+            className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg"
             variants={fadeUp}
           >
             {weighStationIntro}
           </motion.p>
-          <motion.div
-            className="mx-auto mt-8 h-px max-w-[min(12rem,40vw)] bg-linear-to-r from-transparent via-primary/35 to-transparent sm:mt-10"
-            aria-hidden
-            variants={fadeUp}
-          />
         </motion.header>
 
-        <motion.div
-          className="relative mx-auto mt-12 max-w-5xl sm:mt-14 lg:mt-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={imageReveal}
-        >
-          <div className="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+        <div className="mt-10 grid grid-cols-1 gap-8 lg:mt-12 lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
+          <motion.div
+            className="aspect-video w-full"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={imageReveal}
+          >
             <video
               ref={videoRef}
-              className="aspect-16/10 w-full object-cover sm:aspect-video"
+              className="size-full object-cover"
               autoPlay
               muted
               playsInline
@@ -118,11 +114,11 @@ export function WeighStationSection() {
             >
               <source src={weighStationVideoSrc} type="video/mp4" />
             </video>
-          </div>
+          </motion.div>
 
-          <motion.div
-            className="relative z-20 -mt-6 mx-auto grid max-w-4xl grid-cols-2 gap-2.5 px-2 sm:-mt-8 sm:grid-cols-4 sm:gap-3 sm:px-4"
-            variants={staggerGallery}
+          <motion.ul
+            className="flex w-full flex-col lg:aspect-video lg:justify-between"
+            variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
@@ -130,56 +126,34 @@ export function WeighStationSection() {
             {weighStationHighlights.map((item, index) => {
               const Icon = highlightIcons[index] ?? LanesIcon;
               return (
-                <motion.div
+                <motion.li
                   key={item.label}
                   variants={riseSoft}
-                  className="group flex flex-col items-center rounded-xl border border-zinc-200 bg-white p-3.5 text-center shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-zinc-300 sm:p-4"
+                  className={`group flex w-full flex-1 items-center gap-3 border-b border-brand-green/25 bg-transparent px-2 py-2 transition-[background-color,box-shadow] ${hoverDuration} ${hoverEase} last:border-b-0 hover:bg-brand-green-dark focus-within:bg-brand-green-dark motion-reduce:transition-none lg:px-3 lg:py-0`}
                 >
-                  <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary/15">
-                    <Icon className="size-5" />
+                  <span
+                    className={`flex size-8 shrink-0 items-center justify-center text-primary transition-[color,transform] ${hoverDuration} ${hoverEase} group-hover:scale-105 group-hover:text-on-green-dark motion-reduce:group-hover:scale-100 sm:size-9`}
+                  >
+                    <Icon className="size-5 sm:size-[1.35rem]" />
                   </span>
-                  <p className="mt-2.5 text-sm font-bold text-secondary sm:text-[0.9375rem]">{item.label}</p>
-                  <p className="mt-1 text-[0.65rem] leading-snug text-slate-500 sm:text-xs">{item.description}</p>
-                </motion.div>
+                  <div className="min-w-0 flex-1 overflow-hidden">
+                    <p
+                      className={`text-sm font-bold leading-snug text-secondary transition-[color,transform] ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark motion-reduce:group-hover:translate-x-0 sm:text-base`}
+                    >
+                      {item.label}
+                    </p>
+                    <p
+                      className={`mt-0.5 text-xs leading-snug text-slate-600 transition-[color,transform,opacity] ${hoverDescDelay} ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark/90 motion-reduce:group-hover:translate-x-0 sm:text-sm`}
+                    >
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.li>
               );
             })}
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          className="mx-auto mt-14 max-w-3xl lg:mt-16"
-          variants={staggerTight}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-        >
-          <ul className="space-y-0 divide-y divide-zinc-200 rounded-xl border border-zinc-200 bg-white">
-            {weighStationParagraphs.map((paragraph, index) => (
-              <motion.li
-                key={paragraph.slice(0, 40)}
-                variants={fadeUp}
-                className="flex gap-4 p-5 sm:gap-5 sm:p-6"
-              >
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white sm:size-10 sm:text-sm">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <p className="pt-1 text-sm leading-relaxed text-slate-600 sm:text-[15px] sm:leading-[1.75]">
-                  {paragraph}
-                </p>
-              </motion.li>
-            ))}
-          </ul>
-
-          <motion.div
-            variants={fadeUp}
-            className="mt-10 rounded-xl border border-zinc-200 bg-white p-6 sm:p-8"
-          >
-            <p className="text-center text-base font-medium leading-relaxed text-secondary sm:text-lg sm:leading-relaxed">
-              &ldquo;{weighStationTagline}&rdquo;
-            </p>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </motion.ul>
+        </div>
+      </div>
     </section>
   );
 }
