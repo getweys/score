@@ -2,7 +2,16 @@
 
 import { useEffect, useState } from "react";
 
-const SECTION_IDS = ["home", "projects", "services", "team", "mission", "contact", "financial"] as const;
+const SECTION_IDS = [
+  "home",
+  "projects",
+  "services",
+  "team",
+  "ceo-message",
+  "contact",
+  "financial",
+  "layby",
+] as const;
 
 export type ActiveSectionId = (typeof SECTION_IDS)[number];
 

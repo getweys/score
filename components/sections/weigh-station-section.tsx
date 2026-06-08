@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   weighStationEyebrow,
@@ -25,41 +25,71 @@ const hoverEase = "ease-[cubic-bezier(0.33,1,0.68,1)]";
 const hoverDuration = "duration-700";
 const hoverDescDelay = "delay-150";
 
-function tryPlay(video: HTMLVideoElement | null) {
-  if (!video) return;
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) {
+function playWithSound(video: HTMLVideoElement | null): Promise<boolean> {
+  if (!video) return Promise.resolve(false);
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     video.pause();
-    return;
+    return Promise.resolve(false);
   }
-  void video.play().catch(() => {});
+  video.muted = false;
+  return video.play().then(() => true).catch(() => false);
 }
 
 export function WeighStationSection() {
+  const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const inViewRef = useRef(false);
+  const [needsTap, setNeedsTap] = useState(false);
 
   useEffect(() => {
-    tryPlay(videoRef.current);
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const video = videoRef.current;
+        if (!video || !entry) return;
+
+        inViewRef.current = entry.isIntersecting;
+
+        if (entry.isIntersecting) {
+          void playWithSound(video).then((ok) => setNeedsTap(!ok));
+        } else {
+          video.pause();
+          setNeedsTap(false);
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(section);
 
     function onVisibilityChange() {
-      if (document.visibilityState === "visible") tryPlay(videoRef.current);
-    }
-
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    function onMotionPreferenceChange() {
-      tryPlay(videoRef.current);
+      const video = videoRef.current;
+      if (!video) return;
+      if (document.visibilityState === "visible" && inViewRef.current) {
+        void playWithSound(video).then((ok) => setNeedsTap(!ok));
+      } else {
+        video.pause();
+      }
     }
 
     document.addEventListener("visibilitychange", onVisibilityChange);
-    mq.addEventListener("change", onMotionPreferenceChange);
     return () => {
+      observer.disconnect();
       document.removeEventListener("visibilitychange", onVisibilityChange);
-      mq.removeEventListener("change", onMotionPreferenceChange);
     };
   }, []);
 
+  function handlePlayTap() {
+    void playWithSound(videoRef.current).then((ok) => {
+      if (ok) setNeedsTap(false);
+    });
+  }
+
   return (
     <section
+      ref={sectionRef}
       id="weigh-station"
       className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24"
       aria-labelledby="weigh-station-heading"
@@ -95,7 +125,7 @@ export function WeighStationSection() {
 
         <div className="mt-10 grid grid-cols-1 gap-8 lg:mt-12 lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
           <motion.div
-            className="aspect-video w-full"
+            className="relative aspect-video w-full"
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
@@ -104,17 +134,24 @@ export function WeighStationSection() {
             <video
               ref={videoRef}
               className="size-full object-cover"
-              autoPlay
-              muted
               playsInline
               loop
               preload="metadata"
               poster="/images/14.jpeg"
-              onLoadedData={() => tryPlay(videoRef.current)}
               aria-label="Karachi Smart Weigh Station facility video"
             >
               <source src={weighStationVideoSrc} type="video/mp4" />
             </video>
+            {needsTap ? (
+              <button
+                type="button"
+                onClick={handlePlayTap}
+                className="absolute inset-0 flex items-center justify-center bg-secondary/40 text-sm font-semibold text-white transition-colors hover:bg-secondary/55"
+                aria-label="Play weigh station video with sound"
+              >
+                Tap to play with sound
+              </button>
+            ) : null}
           </motion.div>
 
           <motion.ul

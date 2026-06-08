@@ -43,7 +43,7 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isOverlay]);
 
-  const navOnDark = false;
+  const navOnDark = isOverlay && !scrolled;
   const logoSrc = logoColorSrc;
   const linkClass = (isActive: boolean) =>
     navOnDark
@@ -55,8 +55,10 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
         : "text-secondary/90 hover:text-primary";
 
   const navSurfaceClass = [
-    "border-b border-brand-green/20 bg-surface-green text-secondary transition-colors duration-300",
-    isOverlay && !scrolled ? "" : "shadow-sm backdrop-blur-sm",
+    "transition-colors duration-300",
+    isOverlay && !scrolled
+      ? "border-b border-white/10 bg-transparent text-white"
+      : "border-b border-brand-green/20 bg-surface-green text-secondary shadow-sm backdrop-blur-sm",
   ]
     .filter(Boolean)
     .join(" ");
@@ -74,54 +76,104 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
         transition={{ duration: 0.4, delay: isOverlay ? 0 : 0.05, ease: [0.22, 1, 0.36, 1] }}
         aria-label="Primary"
       >
-        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-2 sm:gap-3 lg:min-h-14 lg:gap-4 lg:py-2.5">
-          <Link href="/" className="relative z-2 block w-20 shrink-0 sm:w-24">
-            <Image
-              key={logoSrc}
-              src={logoSrc}
-              alt="SCORE"
-              width={1000}
-              height={1000}
-              className="h-auto w-full object-contain"
-              priority
-            />
-          </Link>
+        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-2 sm:gap-3 lg:grid lg:min-h-14 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-5 lg:px-5 lg:py-2.5">
+          <motion.div
+            className="relative z-2 shrink-0 justify-self-start"
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Link href="/" className="group block">
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 22 }}
+              >
+                <Image
+                  key={logoSrc}
+                  src={logoSrc}
+                  alt="SCORE — Business at its Best"
+                  width={1000}
+                  height={1000}
+                  className="h-12 w-auto object-contain sm:h-12 lg:h-13"
+                  priority
+                />
+              </motion.div>
+            </Link>
+          </motion.div>
 
-          <div className="relative z-2 hidden min-w-0 flex-1 items-center justify-end gap-4 lg:flex lg:gap-5">
-            <ul className="flex min-w-0 flex-wrap items-center justify-end gap-x-0 text-[10px] font-medium uppercase leading-snug tracking-[0.06em] lg:flex-nowrap lg:text-[11px] lg:tracking-[0.08em] xl:text-xs">
-              {navLinks.map((item) => {
+          <div className="hidden justify-center lg:flex">
+            <ul className="flex items-center gap-x-0.5 text-xs font-medium uppercase leading-snug tracking-[0.07em] lg:gap-x-0.5 lg:text-[13px] lg:tracking-[0.08em]">
+              {navLinks.map((item, index) => {
                 const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
                 const className = linkClass(isActive);
                 return (
-                  <li key={item.label} className="shrink-0">
+                  <motion.li
+                    key={item.label}
+                    className="shrink-0"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: 0.08 + index * 0.05,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                  >
                     <Link
                       href={item.href}
-                      className={`block whitespace-nowrap rounded-md px-1.5 py-1 transition-colors lg:px-2 lg:py-1 ${className}`}
+                      className={`group block whitespace-nowrap rounded-md px-1.5 py-1 transition-colors lg:px-2 lg:py-1.5 ${className}`}
                     >
-                      {item.label}
+                      <span className="relative inline-block">
+                        <motion.span
+                          className="inline-block"
+                          whileHover={{ y: -1 }}
+                          transition={{ type: "spring", stiffness: 500, damping: 28 }}
+                        >
+                          {item.label}
+                        </motion.span>
+                        <span
+                          className={`absolute -bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-primary transition-all duration-300 ease-out ${
+                            isActive
+                              ? "w-full opacity-100"
+                              : "w-0 opacity-0 group-hover:w-full group-hover:opacity-70"
+                          }`}
+                          aria-hidden
+                        />
+                      </span>
                     </Link>
-                  </li>
+                  </motion.li>
                 );
               })}
             </ul>
-
-            <div
-              className="hidden h-6 w-px shrink-0 bg-zinc-300 lg:block"
-              aria-hidden
-            />
-
-            <a
-              href={phoneHref}
-              className={`hidden shrink-0 items-center gap-1.5 text-[10px] font-medium leading-snug transition-colors lg:inline-flex lg:text-[11px] ${
-                navOnDark ? "text-white/95 hover:text-white" : "text-secondary/90 hover:text-primary"
-              }`}
-            >
-              <PhoneIcon
-                className={`size-3 shrink-0 ${navOnDark ? "text-white/90" : "text-primary"}`}
-              />
-              <span>{phoneDisplay}</span>
-            </a>
           </div>
+
+          <motion.div
+            className="relative z-2 hidden shrink-0 items-center justify-self-end gap-4 lg:flex lg:gap-5"
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="h-6 w-px shrink-0 bg-zinc-300/80" aria-hidden />
+
+            <motion.a
+              href={phoneHref}
+              className={`inline-flex shrink-0 items-center gap-1.5 text-xs font-medium leading-snug transition-colors lg:text-[13px] ${navOnDark ? "text-white/95 hover:text-white" : "text-secondary/90 hover:text-primary"
+                }`}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 22 }}
+            >
+              <motion.span
+                animate={{ rotate: [0, -8, 8, 0] }}
+                transition={{ duration: 0.5, delay: 0.8, ease: "easeInOut" }}
+              >
+                <PhoneIcon
+                  className={`size-3.5 shrink-0 ${navOnDark ? "text-white/90" : "text-primary"}`}
+                />
+              </motion.span>
+              <span>{phoneDisplay}</span>
+            </motion.a>
+          </motion.div>
 
           <motion.div className="relative z-2 flex shrink-0 items-center justify-end lg:hidden">
             <button
@@ -153,7 +205,7 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
               <ul className="flex flex-col gap-1 px-4 py-4 text-sm font-medium">
                 {navLinks.map((item) => {
                   const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
-                  const linkMobile = mobileNavLinkClass(navOnDark, isActive);
+                  const linkMobile = mobileNavLinkClass(false, isActive);
                   return (
                     <li key={`m-${item.label}`}>
                       <Link href={item.href} className={linkMobile} onClick={() => setMenuOpen(false)}>
