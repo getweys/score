@@ -10,16 +10,15 @@ export const emailDisplay = "info@score.com.pk";
 
 export const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Our Services", href: "/services" },
+  { label: "Services", href: "/services" },
   { label: "About Us", href: "/about" },
   { label: "Our Team", href: "/team" },
   { label: "Financial Statements", href: "/financial" },
   { label: "Contact Us", href: "/contact" },
 ] as const;
 
-export const heroTitleLine1 = "Connecting";
-export const heroTitleLine2 = "People,";
-export const heroTitleLine3 = "Empowering Futures";
+export const heroTitleLine1 = "Connecting People,";
+export const heroTitleLine2 = "Empowering Futures";
 
 export const heroLead =
   "SCORE Pvt Ltd, a subsidiary of FWO, has delivered top-tier Motorway construction and rehabilitation services since 2015.";
@@ -27,9 +26,26 @@ export const heroLead =
 export const heroCaption = topBarTaglineMobile;
 
 export const heroImage = "/images/10.png";
+export const heroVideoSrc = "/videos/15secvideo.mp4";
 
-/** Full-width map showcase (below hero). */
-export const mapSectionImage = "/images/map.png";
+/** Full-width video showcase (below hero). */
+export const mapSectionYoutubeVideoId = "YNAn4fI7-34";
+export const mapSectionYoutubeTitle = "SCORE M-9 Motorway video";
+
+export function mapSectionYoutubeEmbedUrl(autoplay = true) {
+  const params = new URLSearchParams({
+    autoplay: autoplay ? "1" : "0",
+    mute: autoplay ? "1" : "0",
+    playsinline: "1",
+    rel: "0",
+    modestbranding: "1",
+    controls: "0",
+    fs: "0",
+    iv_load_policy: "3",
+    disablekb: "1",
+  });
+  return `https://www.youtube.com/embed/${mapSectionYoutubeVideoId}?${params.toString()}`;
+}
 
 export const projectHeading = "Karachi – Hyderabad Motorway (M-9) Project";
 
@@ -53,6 +69,16 @@ export const projectShowcaseHighlights = [
   "Fast response, every kilometre",
 ] as const;
 
+export const projectShowcaseImage = "/images/1000x800.jpeg";
+
+/** Key M-9 figures for the projects showcase. */
+export const projectStats = [
+  { value: "136", unit: "KM", label: "Six-lane corridor" },
+  { value: "25", unit: "Years", label: "BOT concession" },
+  { value: "11", unit: "", label: "Interchanges" },
+  { value: "75–90", unit: "Min", label: "Travel time saved" },
+] as const;
+
 export const projectReadMoreHref = "https://score.com.pk/about-us/";
 
 export const heroSlides = [
@@ -61,9 +87,26 @@ export const heroSlides = [
   "/images/n2-1024x682-1.jpg",
 ] as const;
 
-/** Homepage promo clip (plays when scrolled into view). */
-export const promoVideoFilename = "WhatsApp Video 2026-05-14 at 6.47.07 PM.mp4";
-export const promoVideoSrc = `/images/${encodeURIComponent(promoVideoFilename)}`;
+/** Layby promo video (YouTube embed). */
+export const laybyYoutubeVideoId = "AeTv38kW8Lc";
+export const laybyYoutubeTitle = "Layby area promotional video";
+
+export function laybyYoutubeEmbedUrl(autoplay = true) {
+  const params = new URLSearchParams({
+    autoplay: autoplay ? "1" : "0",
+    mute: autoplay ? "1" : "0",
+    loop: "1",
+    playlist: laybyYoutubeVideoId,
+    playsinline: "1",
+    rel: "0",
+    modestbranding: "1",
+    controls: "0",
+    fs: "0",
+    iv_load_policy: "3",
+    disablekb: "1",
+  });
+  return `https://www.youtube.com/embed/${laybyYoutubeVideoId}?${params.toString()}`;
+}
 
 export const projectCarouselImages = [
   "/images/1.png",
@@ -83,6 +126,55 @@ export const responsibilitiesEyebrow = "Services";
 
 export const responsibilitiesIntro =
   "SCORE primarily focuses on safe, sustainable highway construction and maintenance, delivering effective, reliable solutions.";
+
+export const mtagBannerImage = "/images/Score-Banner.jpg.jpeg";
+
+export const mtagEyebrow = "Motorway M-Tag";
+
+export const mtagHeading = "No Entry for Vehicles Without M-Tag After June 15";
+
+export const mtagDeadlineBanner =
+  "No Entry for Vehicles Without M-Tag on Motorways After June 15, 2026";
+
+export const mtagIntroParagraphs = [
+  "No M-Tag, no entry on motorways from June 15, 2026. Get your tag now to avoid fines and delays at toll plazas.",
+] as const;
+
+export const mtagHowToHeading = "Get Your M-Tag Today";
+
+export const mtagHowToBody =
+  "Visit your nearest Customer Care Centre or Drive-Through Booth with:";
+
+export const mtagRequiredDocuments = [
+  "Original CNIC",
+  "Vehicle Registration Book or Smart Card",
+] as const;
+
+export const mtagBenefitsHeading = "Key Benefits";
+
+export const mtagBenefitsIntro = "";
+
+export const mtagBenefits = [
+  "Avoid waiting at toll plazas",
+  "Smooth, fast & hassle-free travel",
+  "No additional toll tax",
+  "Less congestion and pollution",
+] as const;
+
+export const mtagNotice = "Maintain sufficient M-Tag balance to avoid penalties at toll plazas.";
+
+export const mtagRechargeHeading = "Recharge Online";
+
+export const mtagRechargeIntro = "";
+
+export const mtagRechargeOptions = [
+  "One Network",
+  "JazzCash",
+  "EasyPaisa",
+  "UPaisa",
+] as const;
+
+export const mtagHelplineText = "For help and registration guidance:";
 
 export const servicesPageHeroImage = "/images/14.jpeg";
 
@@ -267,21 +359,18 @@ export const aboutPillars: AboutPillar[] = [
   },
 ];
 
-export const missionParagraphs = [
+export const ceoMessageParagraphs = [
   "Superhighway Construction Operation and Rehabilitation Engineering (SCORE) Pvt Ltd has been entrusted with the vital task of transforming and maintaining one of Pakistan’s most significant transportation corridors – The M9 Motorway.",
   "In line with our commitment to advancing the country’s infrastructure, SCORE embarked on the monumental task of converting the Superhighway into the M-9 Motorway. This project was undertaken as part of a long-term concession agreement, and is aimed to enhancing connectivity, improving safety standards, and facilitating smooth transit for commuters between Karachi and Hyderabad. The role in maintaining and operating this key infrastructure to ensuring that it serves as a reliable artery for the country’s economic growth and mobility.",
   "The intelligent tolling system (M-Tag) is an RFID-based system designed to streamline toll payments, reduce traffic congestion, and enhance efficiency on Motorway M9. As part of this initiative, all vehicles using the M9 will be required to have an M-Tag for smooth and hassle-free passage and contribute towards the overall facilitation for commuters.",
   "At SCORE, we understand that this project is not just about building and maintaining roads; it is about enabling progress, supporting communities, and fostering national development.",
 ] as const;
 
-export const missionEyebrow = "Mission";
+export const ceoMessageEyebrow = "Leadership";
 
-export const missionHeading = "Our Mission";
+export const ceoMessageHeading = "CEO Message";
 
-export const missionIntro =
-  "Building and maintaining the corridor between Karachi and Hyderabad with engineering discipline, safety, and long-term stewardship.";
-
-export const missionSignature = "-Adnan Akhter Ali";
+export const ceoMessageSignature = "-Adnan Akhter Ali";
 
 export const contactHeading = "Contact Us";
 
@@ -321,7 +410,7 @@ export const contactDetails: ContactDetailItem[] = [
 ];
 
 export const financialPageHeroImage = "/images/14.jpeg";
-export const financialViewMoreHref = "https://score.com.pk/financial-statements/";
+export const financialViewMoreHref = "/financial";
 
 export const financialHeading = "Financial Statements";
 
@@ -374,7 +463,10 @@ export const financialRows: FinancialRow[] = [
   },
 ];
 
+export const laybyEyebrow = "Commercial";
+
 export const laybyHeading = "Layby - Space available for Rent";
+
 export const laybyBody =
   "Looking for a strategic location for your business? Our layby areas are situated along the key Location at M9 Motorway. Golden opportunities are available for businesses and investors. Perfect for retail, fuel stations, rest stops, or service centers, these spots ensure high visibility and foot traffic from daily travelers.";
 

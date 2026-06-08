@@ -2,12 +2,12 @@
 
 /* Brand tokens: define both --color-* (Tailwind theme) and --primary/--secondary (utility output). */
 @theme inline {
-  --color-primary: #e11d48;
+  --color-primary: #5c6b48;
   --color-secondary: #0f172a;
   --color-background: #ffffff;
   --color-foreground: #0f172a;
   --color-surface-muted: #f4f6f9;
-  --color-surface-rose: #fdf2f5;
+  --color-surface-rose: #f0f5eb;
   --color-surface-cool: #edf3f8;
   --color-brand-green: #708259;
   --color-brand-green-dark: #4a5d42;
@@ -21,7 +21,7 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
-  --primary: #e11d48;
+  --primary: #5c6b48;
   --secondary: #0f172a;
   --surface-muted: #f4f6f9;
   --surface-rose: color-mix(in srgb, var(--primary) 7%, #ffffff);
@@ -110,4 +110,37 @@ select {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes image-auto-slider-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.image-auto-slider-track {
+  animation: image-auto-slider-scroll var(--slider-duration, 28s) linear infinite;
+}
+
+.image-auto-slider-item {
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.image-auto-slider-item:hover {
+  transform: scale(1.04);
+  filter: brightness(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-auto-slider-track {
+    animation: none;
+  }
+
+  .image-auto-slider-item:hover {
+    transform: none;
+    filter: none;
+  }
 }

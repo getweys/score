@@ -24,7 +24,7 @@ export const viewportHero = {
   amount: 0.32,
 } as const;
 
-/** Motion without opacity so Tailwind colors (primary red, etc.) never look washed out during scroll. */
+/** Motion without opacity so Tailwind colors (primary, etc.) never look washed out during scroll. */
 export const fadeUp: Variants = {
   hidden: { y: 36 },
   visible: {

@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 import { motion } from "framer-motion";
 import {
   contactEyebrow,
@@ -14,8 +14,71 @@ import { fadeUp, fadeUpBlur, headerStagger, slideInRight, staggerContainer, view
 const phoneHref = `tel:${phoneDisplay.replace(/-/g, "")}`;
 const mailHref = `mailto:${emailDisplay}`;
 
-const inputClass =
-  "w-full rounded-md border border-zinc-200 bg-white px-3.5 py-2.5 text-sm text-secondary outline-none transition placeholder:text-zinc-400 focus:border-primary/45 focus:ring-2 focus:ring-primary/12";
+const floatingControlClass =
+  "peer w-full rounded-none border-0 border-b border-brand-green/35 bg-transparent px-0 pb-2.5 pt-6 text-sm text-secondary shadow-none outline-none transition-[border-color,color] duration-200 placeholder:text-transparent focus:border-primary focus:ring-0";
+
+const floatingLabelClass =
+  "pointer-events-none absolute left-0 top-[1.35rem] origin-left text-sm text-slate-500 transition-all duration-200 ease-out peer-focus:top-0 peer-focus:text-xs peer-focus:font-medium peer-focus:text-primary peer-focus:scale-[0.92] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:font-medium peer-[:not(:placeholder-shown)]:text-primary peer-[:not(:placeholder-shown)]:scale-[0.92]";
+
+interface FloatingInputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  id: string;
+  label: string;
+  wrapperClassName?: string;
+}
+
+function FloatingInputField({
+  id,
+  label,
+  wrapperClassName = "",
+  required,
+  ...inputProps
+}: FloatingInputFieldProps) {
+  return (
+    <div className={`relative ${wrapperClassName}`}>
+      <input
+        id={id}
+        required={required}
+        placeholder=" "
+        className={floatingControlClass}
+        {...inputProps}
+      />
+      <label htmlFor={id} className={floatingLabelClass}>
+        {label}
+        {required ? " *" : null}
+      </label>
+    </div>
+  );
+}
+
+interface FloatingTextareaFieldProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  id: string;
+  label: string;
+  wrapperClassName?: string;
+}
+
+function FloatingTextareaField({
+  id,
+  label,
+  wrapperClassName = "",
+  required,
+  ...textareaProps
+}: FloatingTextareaFieldProps) {
+  return (
+    <div className={`relative ${wrapperClassName}`}>
+      <textarea
+        id={id}
+        required={required}
+        placeholder=" "
+        className={`${floatingControlClass} resize-y`}
+        {...textareaProps}
+      />
+      <label htmlFor={id} className={floatingLabelClass}>
+        {label}
+        {required ? " *" : null}
+      </label>
+    </div>
+  );
+}
 
 function ContactIconWrap({ children }: { children: ReactNode }) {
   return (
@@ -115,50 +178,45 @@ export function ContactSection() {
               <h3 className="text-base font-semibold text-secondary sm:text-lg">Send a message</h3>
               <p className="mt-1 text-sm text-slate-600">We&apos;ll get back to you as soon as we can.</p>
 
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 sm:gap-3">
-                <label className="sr-only" htmlFor="contact-name">
-                  Name
-                </label>
-                <input id="contact-name" name="name" type="text" placeholder="Full name" className={inputClass} />
-                <label className="sr-only" htmlFor="contact-email">
-                  Email
-                </label>
-                <input
+              <div className="mt-6 grid gap-6 sm:grid-cols-2 sm:gap-x-8">
+                <FloatingInputField
+                  id="contact-name"
+                  name="name"
+                  label="Full name"
+                  type="text"
+                  autoComplete="name"
+                />
+                <FloatingInputField
                   id="contact-email"
                   name="email"
+                  label="Email address"
                   type="email"
                   required
-                  placeholder="Email"
-                  className={inputClass}
+                  autoComplete="email"
                 />
               </div>
-              <label className="sr-only" htmlFor="contact-phone">
-                Phone
-              </label>
-              <input
+              <FloatingInputField
                 id="contact-phone"
                 name="phone"
+                label="Phone number"
                 type="tel"
                 required
-                placeholder="Phone number"
+                autoComplete="tel"
                 pattern="[0-9()#&+*\\-.=]+"
                 title="Only numbers and phone characters (#, -, *, etc) are accepted."
-                className={`${inputClass} mt-3`}
+                wrapperClassName="mt-6"
               />
-              <label className="sr-only" htmlFor="contact-message">
-                Message
-              </label>
-              <textarea
+              <FloatingTextareaField
                 id="contact-message"
                 name="message"
+                label="Your message"
                 rows={4}
-                placeholder="Your message"
-                className={`${inputClass} mt-3 resize-y`}
+                wrapperClassName="mt-6"
               />
               <div className="mt-5 flex justify-end sm:mt-6">
                 <motion.button
                   type="submit"
-                  className="inline-flex min-h-9 w-full items-center justify-center rounded-lg bg-primary px-6 py-2 text-xs font-medium uppercase tracking-widest text-white shadow-[0_8px_28px_-14px_rgba(225,29,72,0.55)] transition hover:bg-primary/95 sm:w-auto sm:min-h-10 sm:px-7 sm:py-2.5 sm:text-sm sm:tracking-[0.08em]"
+                  className="inline-flex min-h-9 w-full items-center justify-center rounded-lg bg-primary px-6 py-2 text-xs font-medium uppercase tracking-widest text-white shadow-[0_8px_28px_-14px_rgba(92,107,72,0.42)] transition hover:bg-primary/95 sm:w-auto sm:min-h-10 sm:px-7 sm:py-2.5 sm:text-sm sm:tracking-[0.08em]"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
