@@ -6,7 +6,9 @@ import { FinancialSection } from "@/components/sections/financial-section";
 
 import { HeroSection } from "@/components/sections/hero-section";
 
+import { BusTerminalSection } from "@/components/sections/bus-terminal-section";
 import { LaybySection } from "@/components/sections/layby-section";
+import { TruckTerminalSection } from "@/components/sections/truck-terminal-section";
 
 import { MapShowcaseSection } from "@/components/sections/map-showcase-section";
 import { MtagSection } from "@/components/sections/mtag-section";
@@ -44,6 +46,10 @@ export default function Home() {
         <ResponsibilitiesSection />
 
         <MtagSection />
+
+        <TruckTerminalSection />
+
+        <BusTerminalSection />
 
         <WeighStationSection />
 

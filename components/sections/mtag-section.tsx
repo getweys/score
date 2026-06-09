@@ -15,10 +15,29 @@ import {
   mtagIntroParagraphs,
   mtagNotice,
   mtagRechargeHeading,
-  mtagRechargeOptions,
+  mtagRechargePartners,
   mtagRequiredDocuments,
 } from "@/lib/site-content";
-import { fadeUp, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, fadeUpBlur, viewportOnce } from "@/lib/motion-variants";
+
+function CheckIcon() {
+  return (
+    <span
+      className="mt-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-full bg-primary text-white"
+      aria-hidden
+    >
+      <svg className="size-2.5" viewBox="0 0 12 12" fill="none">
+        <path
+          d="M2.5 6L5 8.5L9.5 3.5"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
 
 export function MtagSection() {
   return (
@@ -60,8 +79,8 @@ export function MtagSection() {
 
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
         <motion.p
-          className="text-center text-sm leading-relaxed text-slate-600"
-          variants={fadeUp}
+          className="text-center text-sm md:text-[17px] font-semibold leading-relaxed text-slate-600"
+          variants={fadeUpBlur}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
@@ -70,14 +89,14 @@ export function MtagSection() {
         </motion.p>
 
         <motion.div
-          className="mt-6 border-y border-brand-green/25"
+          className="mt-3 sm:mt-6 border-y border-brand-green/25"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
         >
           <div className="grid gap-5 py-5 sm:grid-cols-2 sm:gap-8 sm:py-6">
-            <div>
+            <div className="min-w-0">
               <h3 className="text-sm font-bold text-secondary">{mtagHowToHeading}</h3>
               <p className="mt-1 text-sm text-slate-600">{mtagHowToBody}</p>
               <ul className="mt-2 space-y-1" role="list">
@@ -90,44 +109,48 @@ export function MtagSection() {
               </ul>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <h3 className="text-sm font-bold text-secondary">{mtagBenefitsHeading}</h3>
               <ul className="mt-2 space-y-1.5" role="list">
                 {mtagBenefits.map((benefit) => (
                   <li key={benefit} className="flex items-start gap-2 text-sm text-slate-600">
-                    <span className="mt-0.5 text-primary" aria-hidden>
-                      ✓
-                    </span>
-                    {benefit}
+                    <CheckIcon />
+                    <span>{benefit}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          <p className="border-t border-brand-green/20 py-4 text-sm text-slate-600">{mtagNotice}</p>
-
-          <div className="flex flex-col gap-3 border-t border-brand-green/20 py-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm font-semibold text-secondary">{mtagRechargeHeading}:</span>
-              {mtagRechargeOptions.map((option) => (
-                <span
-                  key={option}
-                  className="rounded border border-brand-green/25 bg-white px-2 py-0.5 text-xs font-medium text-secondary"
-                >
-                  {option}
-                </span>
+          <div className="border-t border-brand-green/20 py-5 sm:py-6">
+            <h3 className="text-sm font-bold text-secondary">{mtagRechargeHeading}</h3>
+            <ul
+              className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-5 sm:gap-x-10"
+              role="list"
+            >
+              {mtagRechargePartners.map((partner) => (
+                <li key={partner.name}>
+                  <Image
+                    src={partner.logo}
+                    alt={partner.name}
+                    width={120}
+                    height={40}
+                    className="h-8 w-auto object-contain sm:h-9"
+                  />
+                </li>
               ))}
-            </div>
-            <p className="text-sm text-slate-600">
-              Helpline{" "}
-              <a
-                href={`tel:${contactEmergencyNumber}`}
-                className="font-bold text-primary transition-colors hover:text-brand-green-dark"
-              >
-                {contactEmergencyNumber}
-              </a>
-            </p>
+            </ul>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-brand-green/20 py-4">
+            <p className="text-sm text-slate-600">{mtagNotice}</p>
+            <a
+              href={`tel:${contactEmergencyNumber}`}
+              className="shrink-0 text-sm text-slate-600 transition-colors hover:text-primary"
+            >
+              Need help? Helpline{" "}
+              <span className="font-bold text-primary">{contactEmergencyNumber}</span>
+            </a>
           </div>
         </motion.div>
       </div>

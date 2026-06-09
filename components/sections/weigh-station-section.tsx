@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
 import {
   weighStationEyebrow,
   weighStationHeading,
@@ -25,13 +26,13 @@ const hoverEase = "ease-[cubic-bezier(0.33,1,0.68,1)]";
 const hoverDuration = "duration-700";
 const hoverDescDelay = "delay-150";
 
-function playWithSound(video: HTMLVideoElement | null): Promise<boolean> {
+function playVideo(video: HTMLVideoElement | null, muted: boolean): Promise<boolean> {
   if (!video) return Promise.resolve(false);
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     video.pause();
     return Promise.resolve(false);
   }
-  video.muted = false;
+  video.muted = muted;
   return video.play().then(() => true).catch(() => false);
 }
 
@@ -39,7 +40,14 @@ export function WeighStationSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const inViewRef = useRef(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const isMutedRef = useRef(false);
   const [needsTap, setNeedsTap] = useState(false);
+
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+    if (videoRef.current) videoRef.current.muted = isMuted;
+  }, [isMuted]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -53,7 +61,7 @@ export function WeighStationSection() {
         inViewRef.current = entry.isIntersecting;
 
         if (entry.isIntersecting) {
-          void playWithSound(video).then((ok) => setNeedsTap(!ok));
+          void playVideo(video, isMutedRef.current).then((ok) => setNeedsTap(!ok && !isMutedRef.current));
         } else {
           video.pause();
           setNeedsTap(false);
@@ -68,7 +76,7 @@ export function WeighStationSection() {
       const video = videoRef.current;
       if (!video) return;
       if (document.visibilityState === "visible" && inViewRef.current) {
-        void playWithSound(video).then((ok) => setNeedsTap(!ok));
+        void playVideo(video, isMutedRef.current).then((ok) => setNeedsTap(!ok && !isMutedRef.current));
       } else {
         video.pause();
       }
@@ -82,7 +90,7 @@ export function WeighStationSection() {
   }, []);
 
   function handlePlayTap() {
-    void playWithSound(videoRef.current).then((ok) => {
+    void playVideo(videoRef.current, isMutedRef.current).then((ok) => {
       if (ok) setNeedsTap(false);
     });
   }
@@ -146,12 +154,17 @@ export function WeighStationSection() {
               <button
                 type="button"
                 onClick={handlePlayTap}
-                className="absolute inset-0 flex items-center justify-center bg-secondary/40 text-sm font-semibold text-white transition-colors hover:bg-secondary/55"
+                className="absolute inset-0 z-20 flex items-center justify-center bg-secondary/40 text-sm font-semibold text-white transition-colors hover:bg-secondary/55"
                 aria-label="Play weigh station video with sound"
               >
                 Tap to play with sound
               </button>
             ) : null}
+            <VideoMuteToggle
+              isMuted={isMuted}
+              onToggle={() => setIsMuted((muted) => !muted)}
+              label="weigh station video"
+            />
           </motion.div>
 
           <motion.ul

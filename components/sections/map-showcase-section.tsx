@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode, type RefObject } from "react";
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
 import {
   mapSectionYoutubeEmbedUrl,
   mapSectionYoutubeTitle,
@@ -14,6 +15,7 @@ import { clipReveal, fadeUp, fadeUpBlur, headerStagger, viewportOnce } from "@/l
 type YTPlayer = {
   playVideo: () => void;
   pauseVideo: () => void;
+  mute: () => void;
   unMute: () => void;
   setVolume: (volume: number) => void;
   destroy: () => void;
@@ -90,13 +92,29 @@ function MapYoutubeScrollPlayer({
   const playerRef = useRef<YTPlayer | null>(null);
   const readyRef = useRef(false);
   const inViewRef = useRef(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const isMutedRef = useRef(false);
 
-  function playWithSound() {
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+    const player = playerRef.current;
+    if (!player || !readyRef.current) return;
+    if (isMuted) player.mute();
+    else {
+      player.unMute();
+      player.setVolume(100);
+    }
+  }, [isMuted]);
+
+  function playWithPreferredAudio() {
     const player = playerRef.current;
     if (!player) return;
 
-    player.unMute();
-    player.setVolume(100);
+    if (isMutedRef.current) player.mute();
+    else {
+      player.unMute();
+      player.setVolume(100);
+    }
     player.playVideo();
   }
 
@@ -128,7 +146,7 @@ function MapYoutubeScrollPlayer({
           onReady: () => {
             readyRef.current = true;
             playerRef.current = player;
-            if (inViewRef.current) playWithSound();
+            if (inViewRef.current) playWithPreferredAudio();
           },
         },
       });
@@ -155,7 +173,7 @@ function MapYoutubeScrollPlayer({
         if (!readyRef.current || !player) return;
 
         if (inViewRef.current) {
-          playWithSound();
+          playWithPreferredAudio();
         } else {
           player.pauseVideo();
         }
@@ -170,7 +188,7 @@ function MapYoutubeScrollPlayer({
       if (!player || !readyRef.current) return;
 
       if (document.visibilityState === "visible" && inViewRef.current) {
-        playWithSound();
+        playWithPreferredAudio();
       } else {
         player.pauseVideo();
       }
@@ -189,6 +207,11 @@ function MapYoutubeScrollPlayer({
         ref={hostRef}
         className={`${youtubeIframeCropClass} [&>iframe]:size-full [&>iframe]:border-0`}
         title={mapSectionYoutubeTitle}
+      />
+      <VideoMuteToggle
+        isMuted={isMuted}
+        onToggle={() => setIsMuted((muted) => !muted)}
+        label="M-9 project video"
       />
     </MapYoutubeFrame>
   );
