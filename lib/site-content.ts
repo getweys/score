@@ -174,6 +174,13 @@ export const mtagRechargeOptions = [
   "UPaisa",
 ] as const;
 
+export const mtagRechargePartners = [
+  { name: "One Network", logo: "/images/one-network-logo.png" },
+  { name: "JazzCash", logo: "/images/jazzcash-logo.png" },
+  { name: "EasyPaisa", logo: "/images/easypaisa-logo.png" },
+  { name: "UPaisa", logo: "/images/Upaisa-Logo.png" },
+] as const;
+
 export const mtagHelplineText = "For help and registration guidance:";
 
 export const servicesPageHeroImage = "/images/14.jpeg";
@@ -469,6 +476,76 @@ export const laybyHeading = "Layby - Space available for Rent";
 
 export const laybyBody =
   "Looking for a strategic location for your business? Our layby areas are situated along the key Location at M9 Motorway. Golden opportunities are available for businesses and investors. Perfect for retail, fuel stations, rest stops, or service centers, these spots ensure high visibility and foot traffic from daily travelers.";
+
+/** Truck Terminal (M-9 commercial opportunity). */
+export const truckTerminalEyebrow = "Commercial Opportunity";
+export const truckTerminalHeading = "Truck Terminal on M-9 Motorway";
+export const truckTerminalIntro =
+  "SCORE, in coordination with NHA, invites contractors, investors, and logistics operators to establish modern truck terminal facilities along the M-9 — one of Pakistan's busiest cargo corridors.";
+export const truckTerminalBlocks = [
+  {
+    heading: "Site & Lease Terms",
+    items: [
+      "7 premium sites — 3 northbound, 4 southbound",
+      "5–7 acres per site for heavy vehicle operations",
+      "Land leased by SCORE on a per-acre monthly rental basis",
+      "Development, operations, and management by the selected partner",
+    ],
+  },
+  {
+    heading: "Required Facilities",
+    items: [
+      "Digital entry and access control for fleet tracking",
+      "Dedicated HTV parking with full CCTV coverage",
+      "On-site workshop, driver rest areas, and AC mosques",
+      "Restaurants, washrooms, and landscaped site beautification",
+    ],
+  },
+  {
+    heading: "Green Construction",
+    items: [
+      "No permanent concrete structures on allocated sites",
+      "Prefabricated materials and modular layouts only",
+    ],
+  },
+] as const;
+export const truckTerminalVideoId = "e86k39nAt8A";
+export const truckTerminalVideoTitle = "M-9 Truck Terminal promotional video";
+
+/** Score Bus Terminal (Karachi intercity transport hub). */
+export const busTerminalEyebrow = "Public Infrastructure";
+export const busTerminalHeading = "Score Bus Terminal";
+export const busTerminalIntro =
+  "Approved by the Sindh Government with FWO, the Score Bus Terminal on M-9 helps bridge Karachi's intercity transport gap — designed to serve demand beyond the city's existing legal bus facility.";
+export const busTerminalBlocks = [
+  {
+    heading: "Location & Layout",
+    items: [
+      "4.4 km from Al-Asif Square on the M-9 Motorway",
+      "Landscaped arrival hub with AC lounges, retail, and baggage belts",
+      "Departure zone with ticketing, information desk, and public parking",
+      "ATMs, prayer area, clean restrooms, and obstacle-free passenger paths",
+    ],
+  },
+  {
+    heading: "Sustainability",
+    items: [
+      "100% solar-powered lighting and digital systems",
+      "Electric bus charging stations for Sindh's Red Electric Buses",
+    ],
+  },
+  {
+    heading: "Passenger & Operations",
+    items: [
+      "Food court and family zone with seating and amenities",
+      "Cargo warehouse with 24/7 surveillance and admin block",
+      "Bus maintenance workshop, first-aid centre, and driver facilities",
+      "Mosque and dedicated driver restrooms near the exit gate",
+    ],
+  },
+] as const;
+export const busTerminalVideoId = "ovlZsyPB8qY";
+export const busTerminalVideoTitle = "Score Bus Terminal promotional video";
 
 export const footerLinks = [
   { label: "Company’s Policies", href: "https://score.com.pk/companys-policies/" },
