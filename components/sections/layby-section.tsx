@@ -6,16 +6,23 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   laybyBody,
   laybyEyebrow,
-  laybyHeading,
   laybyYoutubeEmbedUrl,
   laybyYoutubeTitle,
   laybyYoutubeVideoId,
 } from "@/lib/site-content";
-import { fadeUp, fadeUpBlur, headerStagger, imageReveal, viewportOnce } from "@/lib/motion-variants";
+import { fadeUp, fadeUpBlur, headerStagger, viewportOnce } from "@/lib/motion-variants";
 
-const noMotion: Variants = {
-  hidden: {},
-  visible: {},
+const easeSmooth = [0.2, 0.85, 0.38, 1] as const;
+
+/** Cinematic "open" reveal for the video card. */
+const cardReveal: Variants = {
+  hidden: { opacity: 0, scale: 0.96, clipPath: "inset(0% 34% 0% 34% round 24px)" },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    clipPath: "inset(0% 0% 0% 0% round 16px)",
+    transition: { duration: 0.95, ease: easeSmooth },
+  },
 };
 
 type YTPlayer = {
@@ -65,14 +72,7 @@ function loadYoutubeIframeApi(): Promise<void> {
   });
 }
 
-const youtubeIframeCropClass =
-  "absolute left-0 top-[-3rem] h-[calc(100%+7rem)] w-full border-0";
-
-function LaybyYoutubeScrollPlayer({
-  sectionRef,
-}: {
-  sectionRef: RefObject<HTMLElement | null>;
-}) {
+function LaybyVideoStage({ hostWrapRef }: { hostWrapRef: RefObject<HTMLDivElement | null> }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YTPlayer | null>(null);
   const readyRef = useRef(false);
@@ -81,7 +81,6 @@ function LaybyYoutubeScrollPlayer({
   function playWithSound() {
     const player = playerRef.current;
     if (!player) return;
-
     player.unMute();
     player.setVolume(100);
     player.playVideo();
@@ -101,7 +100,8 @@ function LaybyYoutubeScrollPlayer({
         width: "100%",
         height: "100%",
         playerVars: {
-          autoplay: 0,
+          autoplay: 1,
+          mute: 1,
           controls: 0,
           playsinline: 1,
           rel: 0,
@@ -134,35 +134,25 @@ function LaybyYoutubeScrollPlayer({
   }, []);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    const target = hostWrapRef.current;
+    if (!target) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         inViewRef.current = entry?.isIntersecting ?? false;
-        const player = playerRef.current;
-        if (!readyRef.current || !player) return;
-
-        if (inViewRef.current) {
-          playWithSound();
-        } else {
-          player.pauseVideo();
-        }
+        if (!readyRef.current || !playerRef.current) return;
+        if (inViewRef.current) playWithSound();
+        else playerRef.current.pauseVideo();
       },
-      { threshold: 0.35 }
+      { threshold: 0.4 }
     );
 
-    observer.observe(section);
+    observer.observe(target);
 
     function onVisibilityChange() {
-      const player = playerRef.current;
-      if (!player || !readyRef.current) return;
-
-      if (document.visibilityState === "visible" && inViewRef.current) {
-        playWithSound();
-      } else {
-        player.pauseVideo();
-      }
+      if (!playerRef.current || !readyRef.current) return;
+      if (document.visibilityState === "visible" && inViewRef.current) playWithSound();
+      else playerRef.current.pauseVideo();
     }
 
     document.addEventListener("visibilitychange", onVisibilityChange);
@@ -170,12 +160,12 @@ function LaybyYoutubeScrollPlayer({
       observer.disconnect();
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [sectionRef]);
+  }, [hostWrapRef]);
 
   return (
     <div
       ref={hostRef}
-      className={`${youtubeIframeCropClass} [&>iframe]:size-full [&>iframe]:border-0`}
+      className="absolute inset-0 size-full [&>iframe]:absolute [&>iframe]:inset-0 [&>iframe]:size-full [&>iframe]:border-0"
       title={laybyYoutubeTitle}
     />
   );
@@ -183,66 +173,93 @@ function LaybyYoutubeScrollPlayer({
 
 export function LaybySection() {
   const reduceMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
+  const videoWrapRef = useRef<HTMLDivElement>(null);
 
   return (
     <section
-      ref={sectionRef}
       id="layby"
-      className="scroll-mt-24 border-t border-brand-green/15 bg-surface-green py-14 sm:py-16 lg:py-20"
+      className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24"
       aria-labelledby="layby-heading"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10 xl:gap-12">
-          <motion.header
-            className="min-w-0 max-w-xl text-left"
-            variants={headerStagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          >
-            <motion.p
-              className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
-              variants={fadeUp}
-            >
-              {laybyEyebrow}
-            </motion.p>
-            <motion.h2
-              id="layby-heading"
-              className="mt-3 text-2xl font-bold tracking-tight text-secondary sm:text-3xl lg:text-[2rem]"
-              variants={fadeUpBlur}
-            >
-              {laybyHeading}
-            </motion.h2>
-            <motion.p
-              className="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base"
-              variants={fadeUp}
-            >
-              {laybyBody}
-            </motion.p>
-          </motion.header>
+      {/* Faint olive dot texture */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 50% 20%, rgba(255,255,255,0.85) 0, rgba(255,255,255,0) 55%), radial-gradient(rgba(112,130,89,0.16) 1px, transparent 1px)",
+          backgroundSize: "100% 100%, 26px 26px",
+        }}
+        aria-hidden
+      />
 
-          <motion.div
-            className="relative aspect-video w-full overflow-hidden bg-secondary/5 sm:aspect-21/9"
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-            variants={reduceMotion ? noMotion : imageReveal}
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="mx-auto flex max-w-3xl flex-col items-center text-center"
+          variants={headerStagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
+          <motion.p
+            variants={fadeUp}
+            className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary sm:text-xs"
           >
-            {reduceMotion ? (
-              <iframe
-                src={laybyYoutubeEmbedUrl(false)}
-                title={laybyYoutubeTitle}
-                className={youtubeIframeCropClass}
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-              />
-            ) : (
-              <LaybyYoutubeScrollPlayer sectionRef={sectionRef} />
-            )}
-          </motion.div>
-        </div>
+            {laybyEyebrow}
+          </motion.p>
+
+          <motion.h2
+            id="layby-heading"
+            variants={fadeUpBlur}
+            className="mt-3 text-2xl font-black tracking-tight text-secondary sm:text-3xl lg:text-4xl"
+          >
+            Layby - Space available for Rent
+            <span className="text-primary">.</span>
+          </motion.h2>
+
+          <motion.span
+            aria-hidden
+            className="mt-2 block h-1 rounded-full bg-primary"
+            initial={{ width: 0 }}
+            whileInView={{ width: "8rem" }}
+            viewport={viewportOnce}
+            transition={{ duration: 0.7, delay: 0.3, ease: easeSmooth }}
+          />
+
+          <motion.p
+            variants={fadeUp}
+            className="mt-5 text-sm leading-relaxed text-slate-600 sm:text-base"
+          >
+            {laybyBody}
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          ref={videoWrapRef}
+          className="relative mx-auto mt-4 aspect-video w-full max-w-5xl overflow-hidden bg-black shadow-[0_40px_90px_-40px_rgba(15,23,42,0.5)] ring-1 ring-black/10 sm:mt-6"
+          variants={reduceMotion ? undefined : cardReveal}
+          initial={reduceMotion ? undefined : "hidden"}
+          whileInView={reduceMotion ? undefined : "visible"}
+          viewport={viewportOnce}
+        >
+          {reduceMotion ? (
+            <iframe
+              src={laybyYoutubeEmbedUrl(false)}
+              title={laybyYoutubeTitle}
+              className="absolute inset-0 size-full border-0"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          ) : (
+            <LaybyVideoStage hostWrapRef={videoWrapRef} />
+          )}
+
+          {/* Subtle top/bottom scrims to keep it cinematic and mask edge branding */}
+          <div
+            className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/25"
+            aria-hidden
+          />
+        </motion.div>
       </div>
     </section>
   );
