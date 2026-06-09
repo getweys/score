@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import type { Variants } from "framer-motion";
 import { motion, useReducedMotion } from "framer-motion";
+import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
 import {
   laybyBody,
   laybyEyebrow,
@@ -28,6 +29,7 @@ const cardReveal: Variants = {
 type YTPlayer = {
   playVideo: () => void;
   pauseVideo: () => void;
+  mute: () => void;
   unMute: () => void;
   setVolume: (volume: number) => void;
   destroy: () => void;
@@ -72,17 +74,38 @@ function loadYoutubeIframeApi(): Promise<void> {
   });
 }
 
-function LaybyVideoStage({ hostWrapRef }: { hostWrapRef: RefObject<HTMLDivElement | null> }) {
+function LaybyVideoStage({
+  hostWrapRef,
+  isMuted,
+}: {
+  hostWrapRef: RefObject<HTMLDivElement | null>;
+  isMuted: boolean;
+}) {
   const hostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YTPlayer | null>(null);
   const readyRef = useRef(false);
   const inViewRef = useRef(false);
+  const isMutedRef = useRef(isMuted);
 
-  function playWithSound() {
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+    const player = playerRef.current;
+    if (!player || !readyRef.current) return;
+    if (isMuted) player.mute();
+    else {
+      player.unMute();
+      player.setVolume(100);
+    }
+  }, [isMuted]);
+
+  function playWithPreferredAudio() {
     const player = playerRef.current;
     if (!player) return;
-    player.unMute();
-    player.setVolume(100);
+    if (isMutedRef.current) player.mute();
+    else {
+      player.unMute();
+      player.setVolume(100);
+    }
     player.playVideo();
   }
 
@@ -117,7 +140,7 @@ function LaybyVideoStage({ hostWrapRef }: { hostWrapRef: RefObject<HTMLDivElemen
           onReady: () => {
             readyRef.current = true;
             playerRef.current = player;
-            if (inViewRef.current) playWithSound();
+            if (inViewRef.current) playWithPreferredAudio();
           },
         },
       });
@@ -141,7 +164,7 @@ function LaybyVideoStage({ hostWrapRef }: { hostWrapRef: RefObject<HTMLDivElemen
       ([entry]) => {
         inViewRef.current = entry?.isIntersecting ?? false;
         if (!readyRef.current || !playerRef.current) return;
-        if (inViewRef.current) playWithSound();
+        if (inViewRef.current) playWithPreferredAudio();
         else playerRef.current.pauseVideo();
       },
       { threshold: 0.4 }
@@ -151,7 +174,7 @@ function LaybyVideoStage({ hostWrapRef }: { hostWrapRef: RefObject<HTMLDivElemen
 
     function onVisibilityChange() {
       if (!playerRef.current || !readyRef.current) return;
-      if (document.visibilityState === "visible" && inViewRef.current) playWithSound();
+      if (document.visibilityState === "visible" && inViewRef.current) playWithPreferredAudio();
       else playerRef.current.pauseVideo();
     }
 
@@ -174,6 +197,7 @@ function LaybyVideoStage({ hostWrapRef }: { hostWrapRef: RefObject<HTMLDivElemen
 export function LaybySection() {
   const reduceMotion = useReducedMotion();
   const videoWrapRef = useRef<HTMLDivElement>(null);
+  const [isMuted, setIsMuted] = useState(false);
 
   return (
     <section
@@ -251,13 +275,19 @@ export function LaybySection() {
               referrerPolicy="strict-origin-when-cross-origin"
             />
           ) : (
-            <LaybyVideoStage hostWrapRef={videoWrapRef} />
+            <LaybyVideoStage hostWrapRef={videoWrapRef} isMuted={isMuted} />
           )}
 
           {/* Subtle top/bottom scrims to keep it cinematic and mask edge branding */}
           <div
             className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/25"
             aria-hidden
+          />
+
+          <VideoMuteToggle
+            isMuted={isMuted}
+            onToggle={() => setIsMuted((muted) => !muted)}
+            label="layby video"
           />
         </motion.div>
       </div>
