@@ -67,18 +67,18 @@ export function ServicesSectionHeader({ align = "center" }: { align?: "center" |
       viewport={viewportOnce}
     >
       <motion.p
-        className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+        className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
         variants={fadeUp}
       >
         {responsibilitiesEyebrow}
       </motion.p>
       <motion.h2
-        className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl"
+        className="mt-2 text-xl font-bold leading-tight tracking-tight text-secondary sm:mt-4 sm:text-3xl lg:text-[2rem] xl:text-4xl"
         variants={fadeUpBlur}
       >
         {responsibilitiesHeading}
       </motion.h2>
-      <motion.p className="mt-5 text-base leading-relaxed text-slate-600 sm:mt-6 sm:text-lg" variants={fadeUp}>
+      <motion.p className="mt-2 text-xs leading-relaxed text-slate-600 sm:mt-6 sm:text-lg" variants={fadeUp}>
         {responsibilitiesIntro}
       </motion.p>
     </motion.div>

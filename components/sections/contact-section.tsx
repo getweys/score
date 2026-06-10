@@ -15,10 +15,10 @@ const phoneHref = `tel:${phoneDisplay.replace(/-/g, "")}`;
 const mailHref = `mailto:${emailDisplay}`;
 
 const floatingControlClass =
-  "peer w-full rounded-none border-0 border-b border-brand-green/35 bg-transparent px-0 pb-2.5 pt-6 text-sm text-secondary shadow-none outline-none transition-[border-color,color] duration-200 placeholder:text-transparent focus:border-primary focus:ring-0";
+  "peer w-full rounded-none border-0 border-b border-brand-green/35 bg-transparent px-0 pb-2 pt-5 text-xs text-secondary shadow-none outline-none transition-[border-color,color] duration-200 placeholder:text-transparent focus:border-primary focus:ring-0 sm:pb-2.5 sm:pt-6 sm:text-sm";
 
 const floatingLabelClass =
-  "pointer-events-none absolute left-0 top-[1.35rem] origin-left text-sm text-slate-500 transition-all duration-200 ease-out peer-focus:top-0 peer-focus:text-xs peer-focus:font-medium peer-focus:text-primary peer-focus:scale-[0.92] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:font-medium peer-[:not(:placeholder-shown)]:text-primary peer-[:not(:placeholder-shown)]:scale-[0.92]";
+  "pointer-events-none absolute left-0 top-[1.15rem] origin-left text-xs text-slate-500 transition-all duration-200 ease-out peer-focus:top-0 peer-focus:text-[0.65rem] peer-focus:font-medium peer-focus:text-primary peer-focus:scale-[0.92] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[0.65rem] peer-[:not(:placeholder-shown)]:font-medium peer-[:not(:placeholder-shown)]:text-primary peer-[:not(:placeholder-shown)]:scale-[0.92] sm:top-[1.35rem] sm:text-sm sm:peer-focus:text-xs sm:peer-[:not(:placeholder-shown)]:text-xs";
 
 interface FloatingInputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -92,12 +92,12 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="scroll-mt-24 border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24"
+      className="scroll-mt-24 border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-12">
+        <div className="grid gap-5 sm:gap-8 lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-12">
           <motion.div
-            className="flex min-w-0 flex-col gap-5 sm:gap-6 lg:col-span-5"
+            className="flex min-w-0 flex-col gap-4 sm:gap-6 lg:col-span-5"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -106,58 +106,58 @@ export function ContactSection() {
             <motion.div className="min-w-0 text-left" variants={headerStagger}>
               <motion.p
                 variants={fadeUp}
-                className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+                className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-xs"
               >
                 {contactEyebrow}
               </motion.p>
               <motion.h2
                 variants={fadeUpBlur}
-                className="mt-2.5 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]"
+                className="mt-1.5 text-lg font-bold leading-tight tracking-tight text-secondary sm:mt-2.5 sm:text-3xl lg:text-[2rem] xl:text-[2.25rem]"
               >
                 {contactHeading}
               </motion.h2>
-              <motion.p variants={fadeUp} className="mt-3 max-w-md text-sm leading-relaxed text-slate-600 sm:text-base">
+              <motion.p variants={fadeUp} className="mt-2 max-w-md text-xs leading-relaxed text-slate-600 sm:mt-3 sm:text-sm">
                 {contactIntro}
               </motion.p>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-3">
+            <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-2.5 sm:gap-3">
               <ContactIconWrap>
-                <PhoneGlyph className="size-5 sm:size-[1.35rem]" />
+                <PhoneGlyph className="size-4 sm:size-[1.35rem]" />
               </ContactIconWrap>
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Phone</p>
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:text-xs">Phone</p>
                 <a
                   href={phoneHref}
-                  className="mt-1 block text-sm font-semibold text-secondary transition-colors hover:text-primary sm:text-[0.9375rem]"
+                  className="mt-0.5 block text-xs font-semibold text-secondary transition-colors hover:text-primary sm:mt-1 sm:text-sm"
                 >
                   {phoneDisplay}
                 </a>
               </div>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-3">
+            <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-2.5 sm:gap-3">
               <ContactIconWrap>
-                <MailGlyph className="size-5 sm:size-[1.35rem]" />
+                <MailGlyph className="size-4 sm:size-[1.35rem]" />
               </ContactIconWrap>
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Email</p>
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:text-xs">Email</p>
                 <a
                   href={mailHref}
-                  className="mt-1 block wrap-break-word text-sm font-semibold text-secondary transition-colors hover:text-primary sm:text-[0.9375rem]"
+                  className="mt-0.5 block wrap-break-word text-xs font-semibold text-secondary transition-colors hover:text-primary sm:mt-1 sm:text-sm"
                 >
                   {emailDisplay}
                 </a>
               </div>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-3">
+            <motion.div variants={fadeUp} className="flex min-w-0 items-start gap-2.5 sm:gap-3">
               <ContactIconWrap>
-                <ClockGlyph className="size-5 sm:size-[1.35rem]" />
+                <ClockGlyph className="size-4 sm:size-[1.35rem]" />
               </ContactIconWrap>
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Office hours</p>
-                <p className="mt-1 text-sm font-semibold text-secondary sm:text-[0.9375rem]">9 am to 6 pm</p>
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:text-xs">Office hours</p>
+                <p className="mt-0.5 text-xs font-semibold text-secondary sm:mt-1 sm:text-sm">9 am to 6 pm</p>
               </div>
             </motion.div>
           </motion.div>
@@ -175,10 +175,10 @@ export function ContactSection() {
                 e.preventDefault();
               }}
             >
-              <h3 className="text-base font-semibold text-secondary sm:text-lg">Send a message</h3>
-              <p className="mt-1 text-sm text-slate-600">We&apos;ll get back to you as soon as we can.</p>
+              <h3 className="text-sm font-semibold text-secondary sm:text-lg">Send a message</h3>
+              <p className="mt-0.5 text-xs text-slate-600 sm:mt-1 sm:text-sm">We&apos;ll get back to you as soon as we can.</p>
 
-              <div className="mt-6 grid gap-6 sm:grid-cols-2 sm:gap-x-8">
+              <div className="mt-4 grid gap-4 sm:mt-6 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-6">
                 <FloatingInputField
                   id="contact-name"
                   name="name"
@@ -204,16 +204,16 @@ export function ContactSection() {
                 autoComplete="tel"
                 pattern="[0-9()#&+*\\-.=]+"
                 title="Only numbers and phone characters (#, -, *, etc) are accepted."
-                wrapperClassName="mt-6"
+                wrapperClassName="mt-4 sm:mt-6"
               />
               <FloatingTextareaField
                 id="contact-message"
                 name="message"
                 label="Your message"
                 rows={4}
-                wrapperClassName="mt-6"
+                wrapperClassName="mt-4 sm:mt-6"
               />
-              <div className="mt-5 flex justify-end sm:mt-6">
+              <div className="mt-4 flex justify-end sm:mt-6">
                 <motion.button
                   type="submit"
                   className="inline-flex min-h-9 w-full items-center justify-center rounded-lg bg-primary px-6 py-2 text-xs font-medium uppercase tracking-widest text-white shadow-[0_8px_28px_-14px_rgba(92,107,72,0.42)] transition hover:bg-primary/95 sm:w-auto sm:min-h-10 sm:px-7 sm:py-2.5 sm:text-sm sm:tracking-[0.08em]"

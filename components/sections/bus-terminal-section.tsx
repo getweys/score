@@ -3,7 +3,8 @@ import {
   busTerminalEyebrow,
   busTerminalHeading,
   busTerminalIntro,
-  busTerminalVideoId,
+  busTerminalDriveFileId,
+  busTerminalVideoPoster,
   busTerminalVideoTitle,
 } from "@/lib/site-content";
 import { TerminalSection } from "@/components/sections/terminal-section";
@@ -16,8 +17,9 @@ export function BusTerminalSection() {
       heading={busTerminalHeading}
       intro={busTerminalIntro}
       blocks={busTerminalBlocks}
-      videoId={busTerminalVideoId}
+      driveFileId={busTerminalDriveFileId}
       videoTitle={busTerminalVideoTitle}
+      videoPoster={busTerminalVideoPoster}
     />
   );
 }

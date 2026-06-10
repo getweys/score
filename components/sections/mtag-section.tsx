@@ -60,26 +60,26 @@ export function MtagSection() {
             className="absolute inset-0 bg-linear-to-t from-secondary/80 via-secondary/40 to-secondary/15"
             aria-hidden
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-end px-4 pb-8 text-center sm:pb-10 lg:pb-12">
-            <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-white/90 sm:text-xs">
+          <div className="absolute inset-0 flex flex-col items-center justify-end px-2 pb-2 text-center sm:pb-10 lg:pb-12">
+            <p className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/90 sm:text-xs">
               {mtagEyebrow}
             </p>
             <h2
               id="mtag-heading"
-              className="mt-2 max-w-3xl text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl"
+              className="mt-1 sm:mt-2 max-w-3xl text-base font-bold leading-tight text-white sm:text-3xl lg:text-4xl"
             >
               {mtagHeading}
             </h2>
-            <p className="mt-4 max-w-2xl rounded-full border border-amber-300/60 bg-amber-400/95 px-5 py-2 text-[0.7rem] font-bold uppercase tracking-wide text-secondary shadow-lg sm:text-xs">
+            <p className="mt-1.5 sm:mt-4 max-w-2xl rounded-full border border-amber-300/60 bg-amber-400/95 px-2 py-0.5 sm:px-5 sm:py-2 text-[10px] font-bold uppercase tracking-wide text-secondary shadow-lg sm:text-xs">
               {mtagDeadlineBanner}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
+      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8">
         <motion.p
-          className="text-center text-sm md:text-[17px] font-semibold leading-relaxed text-slate-600"
+          className="text-center text-xs md:text-[19px] font-semibold leading-relaxed text-slate-800"
           variants={fadeUpBlur}
           initial="hidden"
           whileInView="visible"
@@ -95,13 +95,13 @@ export function MtagSection() {
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <div className="grid gap-5 py-5 sm:grid-cols-2 sm:gap-8 sm:py-6">
-            <div className="min-w-0">
-              <h3 className="text-sm font-bold text-secondary">{mtagHowToHeading}</h3>
-              <p className="mt-1 text-sm text-slate-600">{mtagHowToBody}</p>
+          <div className="grid gap-5 py-3 sm:grid-cols-2 lg:grid-cols-3 sm:gap-8 sm:py-6 lg:gap-0 lg:divide-x lg:divide-brand-green/20">
+            <div className="min-w-0 lg:pr-8">
+              <h3 className="text-sm sm:text-lg font-bold text-secondary">{mtagHowToHeading}</h3>
+              <p className="mt-1 text-xs sm:text-sm text-slate-600">{mtagHowToBody}</p>
               <ul className="mt-2 space-y-1" role="list">
                 {mtagRequiredDocuments.map((doc) => (
-                  <li key={doc} className="flex items-start gap-2 text-sm text-secondary">
+                  <li key={doc} className="flex items-start gap-2 text-xs sm:text-base text-secondary">
                     <span className="mt-2 size-1 shrink-0 rounded-full bg-primary" aria-hidden />
                     {doc}
                   </li>
@@ -109,44 +109,41 @@ export function MtagSection() {
               </ul>
             </div>
 
-            <div className="min-w-0">
-              <h3 className="text-sm font-bold text-secondary">{mtagBenefitsHeading}</h3>
-              <ul className="mt-2 space-y-1.5" role="list">
+            <div className="min-w-0 lg:px-8">
+              <h3 className="text-sm sm:text-lg font-bold text-secondary">{mtagBenefitsHeading}</h3>
+              <ul className="mt-1.5 sm:mt-2 space-y-1.5" role="list">
                 {mtagBenefits.map((benefit) => (
-                  <li key={benefit} className="flex items-start gap-2 text-sm text-slate-600">
+                  <li key={benefit} className="flex items-start gap-2 text-xs sm:text-[15px] text-slate-800">
                     <CheckIcon />
                     <span>{benefit}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
 
-          <div className="border-t border-brand-green/20 py-5 sm:py-6">
-            <h3 className="text-sm font-bold text-secondary">{mtagRechargeHeading}</h3>
-            <ul
-              className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-5 sm:gap-x-10"
-              role="list"
-            >
-              {mtagRechargePartners.map((partner) => (
-                <li key={partner.name}>
-                  <Image
-                    src={partner.logo}
-                    alt={partner.name}
-                    width={120}
-                    height={40}
-                    className="h-8 w-auto object-contain sm:h-9"
-                  />
-                </li>
-              ))}
-            </ul>
+            <div className="min-w-0 border-t border-brand-green/20 pt-5 sm:col-span-2 lg:col-span-1 lg:border-t-0 lg:pt-0 lg:pl-8">
+              <h3 className="text-sm sm:text-lg font-bold text-secondary">{mtagRechargeHeading}</h3>
+              <ul className="mt-2 flex flex-wrap items-center gap-x-6 gap-y-4 sm:mt-3 lg:items-start lg:gap-y-5" role="list">
+                {mtagRechargePartners.map((partner) => (
+                  <li key={partner.name}>
+                    <Image
+                      src={partner.logo}
+                      alt={partner.name}
+                      width={120}
+                      height={40}
+                      className="h-8 w-auto object-contain sm:h-9"
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-brand-green/20 py-4">
-            <p className="text-sm text-slate-600">{mtagNotice}</p>
+            <p className="text-xs sm:text-sm text-slate-600">{mtagNotice}</p>
             <a
               href={`tel:${contactEmergencyNumber}`}
-              className="shrink-0 text-sm text-slate-600 transition-colors hover:text-primary"
+              className="shrink-0 text-xs sm:text-sm text-slate-600 transition-colors hover:text-primary"
             >
               Need help? Helpline{" "}
               <span className="font-bold text-primary">{contactEmergencyNumber}</span>

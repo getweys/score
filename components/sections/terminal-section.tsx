@@ -1,12 +1,8 @@
 "use client";
 
-import { useRef, useState, type ComponentType } from "react";
+import { useRef, type ComponentType } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import {
-  buildYoutubeEmbedUrl,
-  YoutubeScrollPlayer,
-} from "@/components/ui/youtube-scroll-player";
-import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
+import { DriveEmbed, DriveScrollPlayer } from "@/components/ui/drive-scroll-player";
 import {
   fadeUp,
   fadeUpBlur,
@@ -40,8 +36,9 @@ export type TerminalSectionProps = {
   heading: string;
   intro: string;
   blocks: readonly TerminalContentBlock[];
-  videoId: string;
+  driveFileId: string;
   videoTitle: string;
+  videoPoster: string;
 };
 
 const blockIcons: ComponentType<{ className?: string }>[] = [
@@ -53,10 +50,10 @@ const blockIcons: ComponentType<{ className?: string }>[] = [
 function CheckIcon() {
   return (
     <span
-      className="mt-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-full bg-primary text-white transition-colors duration-500 group-hover/row:bg-white/20"
+      className="mt-px inline-flex size-3.5 shrink-0 items-center justify-center rounded-full bg-primary text-white transition-colors duration-500 group-hover/row:bg-white/20 sm:mt-0.5 sm:size-4"
       aria-hidden
     >
-      <svg className="size-2.5" viewBox="0 0 12 12" fill="none">
+      <svg className="size-2 sm:size-2.5" viewBox="0 0 12 12" fill="none">
         <path
           d="M2.5 6L5 8.5L9.5 3.5"
           stroke="currentColor"
@@ -81,31 +78,31 @@ function TerminalFeatureCard({
   return (
     <motion.article
       variants={riseSoft}
-      className="group/card flex h-full flex-col overflow-hidden rounded-2xl border border-brand-green/15 bg-white shadow-[0_14px_45px_-22px_rgba(74,93,66,0.4)] transition-shadow duration-500 hover:shadow-[0_22px_55px_-18px_rgba(74,93,66,0.45)]"
+      className="group/card flex h-full flex-col overflow-hidden rounded-xl border border-brand-green/15 bg-white shadow-[0_8px_28px_-18px_rgba(74,93,66,0.35)] transition-shadow duration-500 hover:shadow-[0_22px_55px_-18px_rgba(74,93,66,0.45)] sm:rounded-2xl sm:shadow-[0_14px_45px_-22px_rgba(74,93,66,0.4)]"
     >
       <div
-        className="h-1 shrink-0 bg-linear-to-r from-primary via-brand-green to-primary/50"
+        className="h-0.5 shrink-0 bg-linear-to-r from-primary via-brand-green to-primary/50 sm:h-1"
         aria-hidden
       />
 
-      <div className="flex flex-1 flex-col px-5 py-5 sm:px-6 sm:py-6">
-        <div className="flex items-center gap-3.5">
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-surface-green text-primary ring-1 ring-primary/25 transition-transform duration-500 group-hover/card:scale-105 motion-reduce:group-hover/card:scale-100">
-            <Icon className="size-5" />
+      <div className="flex flex-1 flex-col px-3 py-3 sm:px-6 sm:py-6">
+        <div className="flex items-center gap-2 sm:gap-3.5">
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-surface-green text-primary ring-1 ring-primary/25 transition-transform duration-500 group-hover/card:scale-105 motion-reduce:group-hover/card:scale-100 sm:size-10">
+            <Icon className="size-4 sm:size-5" />
           </span>
-          <h3 className="text-base font-bold leading-snug tracking-tight text-secondary sm:text-lg">
+          <h3 className="text-sm font-bold leading-snug tracking-tight text-secondary sm:text-base lg:text-lg">
             {block.heading}
           </h3>
         </div>
 
-        <ul className="mt-5 flex flex-1 flex-col gap-0.5" role="list">
+        <ul className="mt-3 flex flex-1 flex-col gap-0 sm:mt-5 sm:gap-0.5" role="list">
           {block.items.map((item) => (
             <li
               key={item}
-              className="group/row flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 transition-colors duration-500 hover:bg-brand-green-dark motion-reduce:transition-none"
+              className="group/row flex items-start gap-2 rounded-md px-1.5 py-1.5 transition-colors duration-500 hover:bg-brand-green-dark motion-reduce:transition-none sm:gap-2.5 sm:rounded-lg sm:px-2.5 sm:py-2.5"
             >
               <CheckIcon />
-              <span className="text-sm leading-relaxed text-slate-600 transition-colors duration-500 group-hover/row:text-on-green-dark">
+              <span className="text-xs leading-snug text-slate-600 transition-colors duration-500 group-hover/row:text-on-green-dark sm:text-sm sm:leading-relaxed">
                 {item}
               </span>
             </li>
@@ -152,17 +149,17 @@ export function TerminalSection({
   heading,
   intro,
   blocks,
-  videoId,
+  driveFileId,
   videoTitle,
+  videoPoster,
 }: TerminalSectionProps) {
   const reduceMotion = useReducedMotion();
   const videoWrapRef = useRef<HTMLDivElement>(null);
-  const [isMuted, setIsMuted] = useState(false);
 
   return (
     <section
       id={id}
-      className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-14 sm:py-20 lg:py-24"
+      className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-24"
       aria-labelledby={`${id}-heading`}
     >
       <div
@@ -175,7 +172,7 @@ export function TerminalSection({
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.header
           className="mx-auto max-w-3xl text-center"
           variants={headerStagger}
@@ -185,7 +182,7 @@ export function TerminalSection({
         >
           <motion.p
             variants={fadeUp}
-            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-primary sm:text-xs"
+            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.25em] text-primary sm:text-xs"
           >
             <span className="size-1.5 rounded-full bg-primary" aria-hidden />
             {eyebrow}
@@ -194,7 +191,7 @@ export function TerminalSection({
           <motion.h2
             id={`${id}-heading`}
             variants={fadeUpBlur}
-            className="mt-4 text-2xl font-black leading-tight tracking-tight text-secondary sm:text-3xl lg:text-4xl"
+            className="mt-4 text-xl font-black leading-tight tracking-tight text-secondary sm:text-3xl lg:text-4xl"
           >
             {heading}
             <span className="text-primary">.</span>
@@ -202,7 +199,7 @@ export function TerminalSection({
 
           <motion.span
             aria-hidden
-            className="mx-auto mt-3 block h-1 rounded-full bg-primary"
+            className="mx-auto mt-1 sm:mt-3 block h-1 rounded-full bg-primary"
             initial={{ width: 0 }}
             whileInView={{ width: "5rem" }}
             viewport={viewportOnce}
@@ -211,7 +208,7 @@ export function TerminalSection({
 
           <motion.p
             variants={fadeUp}
-            className="mt-5 text-sm leading-relaxed text-slate-600 sm:text-base"
+            className="mt-2.5 text-xs leading-relaxed text-slate-600 sm:mt-5 sm:text-sm"
           >
             {intro}
           </motion.p>
@@ -219,27 +216,24 @@ export function TerminalSection({
 
         <motion.div
           ref={videoWrapRef}
-          className="relative mx-auto mt-10 aspect-video w-full max-w-5xl overflow-hidden rounded-2xl bg-secondary shadow-[0_28px_70px_-36px_rgba(15,23,42,0.55)] ring-1 ring-brand-green/20 sm:mt-12"
+          className="relative mx-auto mt-4 aspect-video w-full overflow-hidden rounded-xl bg-secondary shadow-[0_28px_70px_-36px_rgba(15,23,42,0.55)] ring-1 ring-brand-green/20 sm:mt-10 sm:rounded-2xl"
           variants={reduceMotion ? undefined : cardReveal}
           initial={reduceMotion ? undefined : "hidden"}
           whileInView={reduceMotion ? undefined : "visible"}
           viewport={viewportOnce}
         >
           {reduceMotion ? (
-            <iframe
-              src={buildYoutubeEmbedUrl(videoId, false)}
+            <DriveEmbed
+              fileId={driveFileId}
               title={videoTitle}
-              className="absolute inset-0 size-full border-0"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
+              posterSrc={videoPoster}
             />
           ) : (
-            <YoutubeScrollPlayer
-              videoId={videoId}
+            <DriveScrollPlayer
+              fileId={driveFileId}
               title={videoTitle}
+              posterSrc={videoPoster}
               hostWrapRef={videoWrapRef}
-              isMuted={isMuted}
             />
           )}
 
@@ -247,16 +241,10 @@ export function TerminalSection({
             className="pointer-events-none absolute inset-0 bg-linear-to-t from-secondary/40 via-transparent to-transparent"
             aria-hidden
           />
-
-          <VideoMuteToggle
-            isMuted={isMuted}
-            onToggle={() => setIsMuted((muted) => !muted)}
-            label={`${heading} video`}
-          />
         </motion.div>
 
         <motion.div
-          className="mt-8 grid gap-6 sm:mt-10 lg:grid-cols-3 lg:gap-7"
+          className="mt-5 grid gap-3 sm:mt-10 sm:gap-6 lg:grid-cols-3 lg:gap-7"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"

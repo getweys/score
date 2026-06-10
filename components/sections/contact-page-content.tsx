@@ -19,12 +19,12 @@ function ContactDetailRow({ item }: { item: ContactDetailItem }) {
       {item.href ? (
         <a
           href={item.href}
-          className="mt-2 block text-base font-medium leading-snug text-secondary transition-colors hover:text-primary sm:text-lg"
+          className="mt-2 block text-sm font-medium leading-snug text-secondary transition-colors hover:text-primary sm:text-base sm:text-lg"
         >
           {item.value}
         </a>
       ) : (
-        <p className="mt-2 text-base font-medium leading-snug text-secondary sm:text-lg">{item.value}</p>
+        <p className="mt-2 text-sm font-medium leading-snug text-secondary sm:text-base sm:text-lg">{item.value}</p>
       )}
     </div>
   );
@@ -34,7 +34,7 @@ export function ContactPageContent() {
   return (
     <>
       <PageHero breadcrumbLabel={contactHeading} eyebrow={contactEyebrow} title={contactHeading} intro={contactIntro} />
-      <section className="border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24">
+      <section className="border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start lg:gap-12 xl:gap-14">
             <ul className="list-none border-t border-brand-green/25" role="list">

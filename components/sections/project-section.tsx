@@ -45,7 +45,7 @@ function ProjectGallerySection() {
   return (
     <section
       id="projects-gallery"
-      className="scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-14 sm:py-20 lg:py-18"
+      className="scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-18"
       aria-labelledby="projects-gallery-heading"
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -64,18 +64,18 @@ function ProjectGallerySection() {
           </motion.p>
           <motion.h2
             id="projects-gallery-heading"
-            className="mt-2 text-xl font-bold tracking-tight text-secondary sm:text-2xl"
+            className="mt-1.5 sm:mt-2 text-xl font-bold tracking-tight text-secondary sm:text-2xl"
             variants={fadeUpBlur}
           >
             Along the M-9 corridor
           </motion.h2>
-          <motion.p className="mt-2 text-sm leading-relaxed text-slate-600" variants={fadeUp}>
+          <motion.p className="mt-1 sm:mt-2 text-xs leading-relaxed text-slate-600" variants={fadeUp}>
             Construction, operations, and corridor views across the M-9 motorway project.
           </motion.p>
         </motion.header>
 
         <motion.div
-          className="mt-5 sm:mt-7"
+          className="mt-4 sm:mt-7"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
@@ -93,11 +93,11 @@ export function ProjectSection() {
     <>
       <section
         id="projects"
-        className="scroll-mt-24 border-t border-brand-green/20 bg-surface-green py-14 sm:py-20 lg:py-24"
+        className="scroll-mt-24 border-t border-brand-green/20 bg-surface-green py-10 sm:py-16 lg:py-24"
         aria-labelledby="projects-heading"
       >
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-14">
+          <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-14">
             <div className="min-w-0 text-left">
               <motion.header
                 className="max-w-xl"
@@ -114,13 +114,13 @@ export function ProjectSection() {
                 </motion.p>
                 <motion.h2
                   id="projects-heading"
-                  className="mt-3 text-lg font-bold leading-snug tracking-tight text-secondary sm:text-xl xl:text-2xl"
+                  className="mt-3 text-base font-bold leading-snug tracking-tight text-secondary sm:text-xl xl:text-2xl"
                   variants={fadeUpBlur}
                 >
                   {projectShowcaseHeading}
                 </motion.h2>
                 <motion.p
-                  className="mt-5 text-xs leading-relaxed text-slate-600 sm:text-sm"
+                  className="mt-2.5 text-justify text-xs leading-relaxed text-slate-600 sm:mt-5 sm:text-sm"
                   variants={fadeUp}
                 >
                   {projectShowcaseLead}
@@ -128,7 +128,7 @@ export function ProjectSection() {
               </motion.header>
 
               <motion.ul
-                className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-8"
+                className="mt-4 sm:mt-8 flex flex-col gap-1.5 sm:gap-3 sm:flex-row sm:flex-wrap sm:gap-x-8"
                 variants={staggerTight}
                 initial="hidden"
                 whileInView="visible"
@@ -138,7 +138,7 @@ export function ProjectSection() {
                   <motion.li
                     key={line}
                     variants={riseSoft}
-                    className="flex items-start gap-2 text-sm font-medium text-secondary sm:text-base"
+                    className="flex items-start gap-2 text-xs font-medium text-secondary sm:text-base"
                   >
                     <PrimaryCheckIcon />
                     <span>{line}</span>
@@ -147,7 +147,7 @@ export function ProjectSection() {
               </motion.ul>
 
               <motion.div
-                className="mt-8"
+                className="mt-4 sm:mt-8"
                 variants={fadeUp}
                 initial="hidden"
                 whileInView="visible"
@@ -157,7 +157,7 @@ export function ProjectSection() {
                   href={projectReadMoreHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center border-2 border-primary px-7 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white"
+                  className="inline-flex items-center justify-center border-2 border-primary px-4 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-white sm:px-7 sm:py-2.5 sm:text-sm"
                 >
                   Read More
                 </a>

@@ -49,7 +49,7 @@ export function TeamPageContent() {
   return (
     <>
       <PageHero breadcrumbLabel={teamHeading} eyebrow={teamEyebrow} title={teamHeading} intro={teamSubheading} />
-      <section className="border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24">
+      <section className="border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-24">
         <motion.div className="mx-auto max-w-7xl space-y-16 px-4 sm:space-y-20 sm:px-6 lg:space-y-24 lg:px-8">
           <TeamGroupSection title="Board of Directors" members={boardOfDirectors} />
           <TeamGroupSection title="Company Management" members={companyManagement} />

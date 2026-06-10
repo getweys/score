@@ -9,21 +9,11 @@ import { navLinks, phoneDisplay } from "@/lib/site-content";
 import { navHrefMatchesActiveSection, useActiveSection } from "@/hooks/use-active-section";
 
 const phoneHref = `tel:${phoneDisplay.replace(/-/g, "")}`;
-
 const logoColorSrc = "/images/score-logo-png-01.png";
 
 export interface SiteHeaderProps {
   /** Transparent nav over hero; solid bar after scroll. */
   variant?: "solid" | "overlay";
-}
-
-function mobileNavLinkClass(navOnDark: boolean, isActive: boolean): string {
-  const base =
-    "block rounded-lg border-b border-brand-green/15 px-3 py-2.5 text-sm font-medium transition-colors last:border-b-0";
-  if (navOnDark) {
-    return `${base} ${isActive ? "text-primary" : "text-white/95 hover:bg-white/10 hover:text-white"}`;
-  }
-  return `${base} ${isActive ? "text-primary" : "text-secondary hover:bg-zinc-50 hover:text-primary"}`;
 }
 
 export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
@@ -42,6 +32,11 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [isOverlay]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
   const navOnDark = isOverlay && !scrolled;
   const logoSrc = logoColorSrc;
@@ -64,172 +59,241 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
     .join(" ");
 
   return (
-    <header
-      className={
-        isOverlay ? "fixed inset-x-0 top-0 z-50 w-full" : "sticky top-0 z-50"
-      }
-    >
-      <motion.nav
-        className={`${navSurfaceClass} transition-colors duration-300`}
-        initial={{ y: -6 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.4, delay: isOverlay ? 0 : 0.05, ease: [0.22, 1, 0.36, 1] }}
-        aria-label="Primary"
+    <>
+      <header
+        className={
+          isOverlay ? "fixed inset-x-0 top-0 z-50 w-full" : "sticky top-0 z-50"
+        }
       >
-        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-2 sm:gap-3 lg:grid lg:min-h-14 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-5 lg:px-5 lg:py-2.5">
-          <motion.div
-            className="relative z-2 shrink-0 justify-self-start"
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Link href="/" className="group block">
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 22 }}
-              >
-                <Image
-                  key={logoSrc}
-                  src={logoSrc}
-                  alt="SCORE — Business at its Best"
-                  width={1000}
-                  height={1000}
-                  className="h-12 w-auto object-contain sm:h-12 lg:h-13"
-                  priority
-                />
-              </motion.div>
-            </Link>
-          </motion.div>
-
-          <div className="hidden justify-center lg:flex">
-            <ul className="flex items-center gap-x-0.5 text-xs font-medium uppercase leading-snug tracking-[0.07em] lg:gap-x-0.5 lg:text-[13px] lg:tracking-[0.08em]">
-              {navLinks.map((item, index) => {
-                const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
-                const className = linkClass(isActive);
-                return (
-                  <motion.li
-                    key={item.label}
-                    className="shrink-0"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: 0.08 + index * 0.05,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                  >
-                    <Link
-                      href={item.href}
-                      className={`group block whitespace-nowrap rounded-md px-1.5 py-1 transition-colors lg:px-2 lg:py-1.5 ${className}`}
-                    >
-                      <span className="relative inline-block">
-                        <motion.span
-                          className="inline-block"
-                          whileHover={{ y: -1 }}
-                          transition={{ type: "spring", stiffness: 500, damping: 28 }}
-                        >
-                          {item.label}
-                        </motion.span>
-                        <span
-                          className={`absolute -bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-primary transition-all duration-300 ease-out ${
-                            isActive
-                              ? "w-full opacity-100"
-                              : "w-0 opacity-0 group-hover:w-full group-hover:opacity-70"
-                          }`}
-                          aria-hidden
-                        />
-                      </span>
-                    </Link>
-                  </motion.li>
-                );
-              })}
-            </ul>
-          </div>
-
-          <motion.div
-            className="relative z-2 hidden shrink-0 items-center justify-self-end gap-4 lg:flex lg:gap-5"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="h-6 w-px shrink-0 bg-zinc-300/80" aria-hidden />
-
-            <motion.a
-              href={phoneHref}
-              className={`inline-flex shrink-0 items-center gap-1.5 text-xs font-medium leading-snug transition-colors lg:text-[13px] ${navOnDark ? "text-white/95 hover:text-white" : "text-secondary/90 hover:text-primary"
-                }`}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 400, damping: 22 }}
-            >
-              <motion.span
-                animate={{ rotate: [0, -8, 8, 0] }}
-                transition={{ duration: 0.5, delay: 0.8, ease: "easeInOut" }}
-              >
-                <PhoneIcon
-                  className={`size-3.5 shrink-0 ${navOnDark ? "text-white/90" : "text-primary"}`}
-                />
-              </motion.span>
-              <span>{phoneDisplay}</span>
-            </motion.a>
-          </motion.div>
-
-          <motion.div className="relative z-2 flex shrink-0 items-center justify-end lg:hidden">
-            <button
-              type="button"
-              className={`inline-flex items-center justify-center rounded-md border p-2 lg:hidden ${navOnDark
-                ? "border-white/35 bg-white/10 text-white backdrop-blur-sm"
-                : "border-brand-green/25 text-secondary"
-                }`}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-nav"
-              onClick={() => setMenuOpen((o) => !o)}
-            >
-              <span className="sr-only">Menu</span>
-              {menuOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
-          </motion.div>
-        </div>
-
-        <AnimatePresence>
-          {menuOpen ? (
+        <motion.nav
+          className={`${navSurfaceClass} transition-colors duration-300`}
+          initial={{ y: -6 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.4, delay: isOverlay ? 0 : 0.05, ease: [0.22, 1, 0.36, 1] }}
+          aria-label="Primary"
+        >
+          <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-2 sm:gap-3 lg:grid lg:min-h-14 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-5 lg:px-5 lg:py-2.5">
+            {/* Logo */}
             <motion.div
-              id="mobile-nav"
-              className="border-t border-brand-green/20 bg-surface-green text-secondary shadow-sm backdrop-blur-sm lg:hidden"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-2 shrink-0 justify-self-start"
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
-              <ul className="flex flex-col gap-1 px-4 py-4 text-sm font-medium">
-                {navLinks.map((item) => {
+              <Link href="/" className="group block">
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 22 }}
+                >
+                  <Image
+                    key={logoSrc}
+                    src={logoSrc}
+                    alt="SCORE — Business at its Best"
+                    width={1000}
+                    height={1000}
+                    className="h-12 w-auto object-contain sm:h-12 lg:h-13"
+                    priority
+                  />
+                </motion.div>
+              </Link>
+            </motion.div>
+
+            {/* Desktop nav links */}
+            <div className="hidden justify-center lg:flex">
+              <ul className="flex items-center gap-x-0.5 text-xs font-medium uppercase leading-snug tracking-[0.07em] lg:gap-x-0.5 lg:text-[13px] lg:tracking-[0.08em]">
+                {navLinks.map((item, index) => {
                   const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
-                  const linkMobile = mobileNavLinkClass(false, isActive);
+                  const className = linkClass(isActive);
                   return (
-                    <li key={`m-${item.label}`}>
-                      <Link href={item.href} className={linkMobile} onClick={() => setMenuOpen(false)}>
-                        {item.label}
+                    <motion.li
+                      key={item.label}
+                      className="shrink-0"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.4,
+                        delay: 0.08 + index * 0.05,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      <Link
+                        href={item.href}
+                        className={`group block whitespace-nowrap rounded-md px-1.5 py-1 transition-colors lg:px-2 lg:py-1.5 ${className}`}
+                      >
+                        <span className="relative inline-block">
+                          <motion.span
+                            className="inline-block"
+                            whileHover={{ y: -1 }}
+                            transition={{ type: "spring", stiffness: 500, damping: 28 }}
+                          >
+                            {item.label}
+                          </motion.span>
+                          <span
+                            className={`absolute -bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-primary transition-all duration-300 ease-out ${
+                              isActive
+                                ? "w-full opacity-100"
+                                : "w-0 opacity-0 group-hover:w-full group-hover:opacity-70"
+                            }`}
+                            aria-hidden
+                          />
+                        </span>
                       </Link>
-                    </li>
+                    </motion.li>
                   );
                 })}
-                <li className="border-t border-zinc-200/80 pt-3">
-                  <a
-                    href={phoneHref}
-                    className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-secondary transition-colors hover:bg-brand-green/10 hover:text-primary"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <PhoneIcon className="size-3.5 shrink-0 text-primary" />
-                    {phoneDisplay}
-                  </a>
-                </li>
               </ul>
+            </div>
+
+            {/* Desktop phone CTA */}
+            <motion.div
+              className="relative z-2 hidden shrink-0 items-center justify-self-end gap-4 lg:flex lg:gap-5"
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="h-6 w-px shrink-0 bg-zinc-300/80" aria-hidden />
+              <motion.a
+                href={phoneHref}
+                className={`inline-flex shrink-0 items-center gap-1.5 text-xs font-medium leading-snug transition-colors lg:text-[13px] ${
+                  navOnDark ? "text-white/95 hover:text-white" : "text-secondary/90 hover:text-primary"
+                }`}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 22 }}
+              >
+                <motion.span
+                  animate={{ rotate: [0, -8, 8, 0] }}
+                  transition={{ duration: 0.5, delay: 0.8, ease: "easeInOut" }}
+                >
+                  <PhoneIcon
+                    className={`size-3.5 shrink-0 ${navOnDark ? "text-white/90" : "text-primary"}`}
+                  />
+                </motion.span>
+                <span>{phoneDisplay}</span>
+              </motion.a>
             </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </motion.nav>
-    </header>
+
+            {/* Mobile hamburger */}
+            <div className="relative z-2 flex shrink-0 items-center justify-end lg:hidden">
+              <motion.button
+                type="button"
+                className={`inline-flex items-center justify-center rounded-lg border p-2 lg:hidden ${
+                  menuOpen
+                    ? "border-primary/30 bg-primary/10 text-primary"
+                    : navOnDark
+                    ? "border-white/35 bg-white/10 text-white backdrop-blur-sm"
+                    : "border-brand-green/25 text-secondary"
+                }`}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-nav"
+                onClick={() => setMenuOpen((o) => !o)}
+                whileTap={{ scale: 0.92 }}
+              >
+                <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
+                <motion.div
+                  animate={{ rotate: menuOpen ? 90 : 0 }}
+                  transition={{ duration: 0.22, ease: "easeInOut" }}
+                >
+                  {menuOpen ? <CloseIcon /> : <MenuIcon />}
+                </motion.div>
+              </motion.button>
+            </div>
+          </div>
+        </motion.nav>
+      </header>
+
+      {/* ── Mobile menu ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            id="mobile-nav"
+            className="fixed inset-0 z-999 flex flex-col bg-surface-green lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+          >
+            <div className="flex items-center justify-between border-b border-brand-green/20 px-4 py-2.5">
+              <Link href="/" onClick={() => setMenuOpen(false)}>
+                <Image
+                  src={logoColorSrc}
+                  alt="SCORE"
+                  width={500}
+                  height={177}
+                  className="h-10 w-auto object-contain"
+                  priority
+                />
+              </Link>
+
+              <button
+                type="button"
+                className="inline-flex size-9 items-center justify-center rounded-lg border border-brand-green/25 text-secondary transition-colors hover:border-primary/40 hover:text-primary"
+                onClick={() => setMenuOpen(false)}
+              >
+                <span className="sr-only">Close menu</span>
+                <CloseIcon />
+              </button>
+            </div>
+
+            <nav className="flex flex-1 flex-col justify-between px-4 py-8 sm:px-6">
+              <ul className="flex flex-col">
+                {navLinks.map((item, i) => {
+                  const isActive = navHrefMatchesActiveSection({
+                    href: item.href,
+                    activeSection,
+                    pathname,
+                  });
+                  return (
+                    <motion.li
+                      key={item.label}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        duration: 0.28,
+                        delay: 0.04 + i * 0.035,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={() => setMenuOpen(false)}
+                        className={`group block py-3.5 text-lg font-semibold tracking-tight transition-colors sm:py-4 sm:text-xl ${
+                          isActive ? "text-primary" : "text-secondary/90 hover:text-primary"
+                        }`}
+                      >
+                        <span className="relative inline-block">
+                          {item.label}
+                          <span
+                            className={`absolute -bottom-1 left-0 h-0.5 rounded-full bg-primary transition-all duration-300 ${
+                              isActive ? "w-full" : "w-0 group-hover:w-full group-hover:opacity-60"
+                            }`}
+                            aria-hidden
+                          />
+                        </span>
+                      </Link>
+                    </motion.li>
+                  );
+                })}
+              </ul>
+
+              <motion.a
+                href={phoneHref}
+                className="inline-flex items-center gap-2.5 border-t border-brand-green/20 pt-6 text-sm font-medium text-secondary transition-colors hover:text-primary"
+                onClick={() => setMenuOpen(false)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.22, duration: 0.25 }}
+              >
+                <PhoneIcon className="size-3.5 shrink-0 text-primary" />
+                {phoneDisplay}
+              </motion.a>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
