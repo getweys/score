@@ -42,14 +42,14 @@ export function PageHero({ breadcrumbLabel, eyebrow, title, intro }: PageHeroPro
         </motion.p>
         <motion.h1
           variants={fadeUpBlur}
-          className="mt-3 max-w-3xl text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl"
+          className="mt-3 max-w-3xl text-xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl"
         >
           {title}
         </motion.h1>
         {intro ? (
           <motion.p
             variants={fadeUpBlur}
-            className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg"
+            className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:mt-5 sm:text-lg"
           >
             {intro}
           </motion.p>

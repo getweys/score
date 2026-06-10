@@ -99,7 +99,7 @@ export function WeighStationSection() {
     <section
       ref={sectionRef}
       id="weigh-station"
-      className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24"
+      className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-24"
       aria-labelledby="weigh-station-heading"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -111,27 +111,27 @@ export function WeighStationSection() {
           viewport={viewportOnce}
         >
           <motion.p
-            className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+            className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
             variants={fadeUp}
           >
             {weighStationEyebrow}
           </motion.p>
           <motion.h2
             id="weigh-station-heading"
-            className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-[2.35rem]"
+            className="mt-1.5 sm:mt-3 text-lg font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-[2.35rem]"
             variants={fadeUpBlur}
           >
             {weighStationHeading}
           </motion.h2>
           <motion.p
-            className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg"
+            className="mt-2.5 text-xs xs:text-sm leading-relaxed text-slate-600 sm:mt-5 sm:text-lg"
             variants={fadeUp}
           >
             {weighStationIntro}
           </motion.p>
         </motion.header>
 
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:mt-12 lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
+        <div className="mt-4 sm:mt-10 grid grid-cols-1 gap-4 sm:gap-8 lg:mt-12 lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
           <motion.div
             className="relative aspect-video w-full"
             initial="hidden"
@@ -180,7 +180,7 @@ export function WeighStationSection() {
                 <motion.li
                   key={item.label}
                   variants={riseSoft}
-                  className={`group flex w-full flex-1 items-center gap-3 border-b border-brand-green/25 bg-transparent px-2 py-4 transition-[background-color,box-shadow] ${hoverDuration} ${hoverEase} last:border-b-0 max-lg:active:bg-brand-green-dark lg:px-3 lg:py-0 lg:hover:bg-brand-green-dark lg:focus-within:bg-brand-green-dark motion-reduce:transition-none`}
+                  className={`group flex w-full flex-1 items-center gap-2 sm:gap-3 border-b border-brand-green/25 bg-transparent px-1 sm:px-2 py-2 sm:py-4 transition-[background-color,box-shadow] ${hoverDuration} ${hoverEase} last:border-b-0 max-lg:active:bg-brand-green-dark lg:px-3 lg:py-0 lg:hover:bg-brand-green-dark lg:focus-within:bg-brand-green-dark motion-reduce:transition-none`}
                 >
                   <span
                     className={`flex size-8 shrink-0 items-center justify-center text-primary transition-[color,transform] ${hoverDuration} ${hoverEase} group-hover:scale-105 group-hover:text-on-green-dark motion-reduce:group-hover:scale-100 sm:size-9`}
@@ -189,12 +189,12 @@ export function WeighStationSection() {
                   </span>
                   <div className="min-w-0 flex-1 overflow-hidden">
                     <p
-                      className={`text-sm font-bold leading-snug text-secondary transition-[color,transform] ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark motion-reduce:group-hover:translate-x-0 sm:text-base`}
+                      className={`text-[13px] font-bold leading-snug text-secondary transition-[color,transform] ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark motion-reduce:group-hover:translate-x-0 sm:text-base`}
                     >
                       {item.label}
                     </p>
                     <p
-                      className={`mt-0.5 text-xs leading-snug text-slate-600 transition-[color,transform,opacity] ${hoverDescDelay} ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark/90 motion-reduce:group-hover:translate-x-0 sm:text-sm`}
+                      className={`mt-0.5 text-[10px] leading-snug text-slate-600 transition-[color,transform,opacity] ${hoverDescDelay} ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark/90 motion-reduce:group-hover:translate-x-0 sm:text-sm`}
                     >
                       {item.description}
                     </p>

@@ -5,6 +5,7 @@ import { useEffect, useRef, type RefObject } from "react";
 type YTPlayer = {
   playVideo: () => void;
   pauseVideo: () => void;
+  seekTo: (seconds: number, allowSeekAhead: boolean) => void;
   mute: () => void;
   unMute: () => void;
   setVolume: (volume: number) => void;
@@ -80,7 +81,7 @@ export function YoutubeScrollPlayer({
     }
   }, [isMuted]);
 
-  function playWithPreferredAudio() {
+  function applyPreferredAudio() {
     const player = playerRef.current;
     if (!player) return;
     if (isMutedRef.current) player.mute();
@@ -88,7 +89,28 @@ export function YoutubeScrollPlayer({
       player.unMute();
       player.setVolume(100);
     }
+  }
+
+  function playFromStart() {
+    const player = playerRef.current;
+    if (!player) return;
+    player.seekTo(0, true);
+    applyPreferredAudio();
     player.playVideo();
+  }
+
+  function resumePlayback() {
+    const player = playerRef.current;
+    if (!player) return;
+    applyPreferredAudio();
+    player.playVideo();
+  }
+
+  function pauseAndReset() {
+    const player = playerRef.current;
+    if (!player) return;
+    player.pauseVideo();
+    player.seekTo(0, true);
   }
 
   useEffect(() => {
@@ -105,7 +127,7 @@ export function YoutubeScrollPlayer({
         width: "100%",
         height: "100%",
         playerVars: {
-          autoplay: 1,
+          autoplay: 0,
           mute: 1,
           controls: 0,
           playsinline: 1,
@@ -122,7 +144,7 @@ export function YoutubeScrollPlayer({
           onReady: () => {
             readyRef.current = true;
             playerRef.current = player;
-            if (inViewRef.current) playWithPreferredAudio();
+            if (inViewRef.current) playFromStart();
           },
         },
       });
@@ -146,8 +168,8 @@ export function YoutubeScrollPlayer({
       ([entry]) => {
         inViewRef.current = entry?.isIntersecting ?? false;
         if (!readyRef.current || !playerRef.current) return;
-        if (inViewRef.current) playWithPreferredAudio();
-        else playerRef.current.pauseVideo();
+        if (inViewRef.current) playFromStart();
+        else pauseAndReset();
       },
       { threshold: 0.4 }
     );
@@ -156,7 +178,7 @@ export function YoutubeScrollPlayer({
 
     function onVisibilityChange() {
       if (!playerRef.current || !readyRef.current) return;
-      if (document.visibilityState === "visible" && inViewRef.current) playWithPreferredAudio();
+      if (document.visibilityState === "visible" && inViewRef.current) resumePlayback();
       else playerRef.current.pauseVideo();
     }
 

@@ -1,16 +1,17 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
 import {
+  mapSectionImage,
   mapSectionYoutubeEmbedUrl,
   mapSectionYoutubeTitle,
   mapSectionYoutubeVideoId,
   projectBody,
   projectHeading,
-} from "@/lib/site-content";
-import { clipReveal, fadeUp, fadeUpBlur, headerStagger, viewportOnce } from "@/lib/motion-variants";
+} from "@/lib/site-content"; import { clipReveal, fadeUp, fadeUpBlur, headerStagger, viewportOnce } from "@/lib/motion-variants";
 
 type YTPlayer = {
   playVideo: () => void;
@@ -225,12 +226,12 @@ export function MapShowcaseSection() {
     <section
       ref={sectionRef}
       id="m9-map"
-      className="relative w-full scroll-mt-20 overflow-hidden border-t border-brand-green/15 bg-surface-green py-12 sm:py-14 lg:py-16"
+      className="relative w-full scroll-mt-20 overflow-hidden border-t border-brand-green/15 bg-surface-green py-8 sm:py-12 lg:py-16"
       aria-labelledby="m9-map-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 pb-8 sm:px-6 sm:pb-10 lg:px-8 lg:pb-12">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 px-4 pb-8 sm:px-6 sm:pb-10 lg:grid-cols-2 lg:gap-10 lg:px-8 lg:pb-12">
         <motion.header
-          className="text-left"
+          className="min-w-0 text-left"
           variants={headerStagger}
           initial="hidden"
           whileInView="visible"
@@ -238,20 +239,37 @@ export function MapShowcaseSection() {
         >
           <motion.h2
             id="m9-map-heading"
-            className="text-2xl font-bold tracking-tight text-secondary sm:text-3xl lg:text-[2rem]"
+            className="text-xl font-bold tracking-tight text-secondary sm:text-3xl"
             variants={fadeUpBlur}
           >
             {projectHeading}
           </motion.h2>
           <motion.p
-            className="mt-4 text-sm leading-relaxed text-slate-600 sm:mt-5 sm:text-base sm:leading-7"
+            className="mt-3 text-justify text-xs leading-relaxed text-slate-600 sm:mt-5 sm:text-sm sm:leading-7"
             variants={fadeUp}
           >
             {projectBody}
           </motion.p>
         </motion.header>
-      </div>
 
+        <motion.div
+          className="relative w-full"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
+          <Image
+            src={mapSectionImage}
+            alt="M-9 Motorway route map linking Karachi and Hyderabad"
+            width={1200}
+            height={900}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="h-auto w-full"
+            priority={false}
+          />
+        </motion.div>
+      </div>
       {reduceMotion ? (
         <MapYoutubeEmbed autoplay={false} />
       ) : (

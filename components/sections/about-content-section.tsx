@@ -72,7 +72,7 @@ function AboutPillarRow({ pillar, index }: { pillar: AboutPillar; index: number 
 
       <div className="min-w-0">
         <h3
-          className={`text-lg font-medium leading-snug text-secondary transition-colors sm:text-xl lg:text-[1.75rem] lg:leading-tight ${pillarHoverDuration} ${pillarHoverEase} lg:group-hover:text-on-green-dark lg:group-focus-within:text-on-green-dark`}
+          className={`text-base font-medium leading-snug text-secondary transition-colors sm:text-xl lg:text-[1.75rem] lg:leading-tight ${pillarHoverDuration} ${pillarHoverEase} lg:group-hover:text-on-green-dark lg:group-focus-within:text-on-green-dark`}
         >
           {pillar.title}
         </h3>
@@ -100,7 +100,7 @@ export function AboutContentSection() {
         intro={aboutHeroSubtitle}
       />
 
-      <section className="border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24">
+      <section className="border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             className="mx-auto max-w-3xl text-center"
@@ -114,7 +114,7 @@ export function AboutContentSection() {
             </motion.p>
             <motion.h2
               variants={fadeUpBlur}
-              className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl"
+              className="mt-3 text-xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl"
             >
               A subsidiary of FWO, built for the M-9 corridor
             </motion.h2>
@@ -162,7 +162,7 @@ export function AboutContentSection() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportOnce}
-                className="mt-3 text-2xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl"
+                className="mt-3 text-xl font-bold leading-tight tracking-tight text-secondary sm:text-3xl lg:text-[2rem] xl:text-4xl"
               >
                 {aboutPillarsHeading}
               </motion.h2>

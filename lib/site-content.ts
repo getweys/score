@@ -29,6 +29,7 @@ export const heroImage = "/images/10.png";
 export const heroVideoSrc = "/videos/15secvideo.mp4";
 
 /** Full-width video showcase (below hero). */
+export const mapSectionImage = "/images/map.png";
 export const mapSectionYoutubeVideoId = "YNAn4fI7-34";
 export const mapSectionYoutubeTitle = "SCORE M-9 Motorway video";
 
@@ -310,7 +311,7 @@ export const companyManagement: TeamMember[] = [
   {
     imageSrc: "/images/Muhammad-Adil.jpg",
     name: "Muhammad Adil",
-    role: "Company Secretary (CS)/DyCFO",
+    role: "Company Secretary (CS)",
   },
 ];
 
@@ -514,7 +515,7 @@ export const truckTerminalVideoTitle = "M-9 Truck Terminal promotional video";
 
 /** Score Bus Terminal (Karachi intercity transport hub). */
 export const busTerminalEyebrow = "Public Infrastructure";
-export const busTerminalHeading = "Score Bus Terminal";
+export const busTerminalHeading = "SCORE Bus Terminal";
 export const busTerminalIntro =
   "Approved by the Sindh Government with FWO, the Score Bus Terminal on M-9 helps bridge Karachi's intercity transport gap — designed to serve demand beyond the city's existing legal bus facility.";
 export const busTerminalBlocks = [

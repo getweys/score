@@ -7,9 +7,9 @@ export function ResponsibilitiesSection() {
   return (
     <section
       id="services"
-      className="scroll-mt-24 border-t border-brand-green/15 bg-surface-green py-14 sm:py-16 lg:py-20"
+      className="scroll-mt-24 border-t border-brand-green/15 bg-surface-green py-10 sm:py-14 lg:py-20"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ServicesSectionHeader align="left" />
         <ResponsibilitiesTimeline />
       </div>

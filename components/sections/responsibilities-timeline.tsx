@@ -48,18 +48,18 @@ function TimelineStep({ card, isLast, reduceMotion }: TimelineStepProps) {
         <TimelineIcon card={card} />
       </div>
 
-      <div className="relative flex min-w-0 items-start gap-3 sm:gap-4">
+      <div className="relative flex min-w-0 items-start gap-2 sm:gap-4">
         <span
-          className="shrink-0 select-none text-[2.75rem] font-bold leading-none tabular-nums text-primary/15 sm:text-[3.5rem]"
+          className="shrink-0 select-none text-[24px] mt-1 sm:mt-0 font-bold leading-none tabular-nums text-primary/15 sm:text-[3.5rem]"
           aria-hidden
         >
           {stepNo}
         </span>
         <div className="min-w-0 pt-1 sm:pt-1.5">
-          <h3 className="text-lg font-semibold leading-snug text-secondary sm:text-xl">
+          <h3 className="text-base font-semibold leading-snug text-secondary sm:text-xl">
             {card.title}
           </h3>
-          <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-[15px] sm:leading-7">
+          <p className="mt-2 max-w-xl text-xs leading-relaxed text-slate-600 sm:text-[15px] sm:leading-7">
             {card.body}
           </p>
         </div>

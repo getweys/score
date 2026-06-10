@@ -202,7 +202,7 @@ export function LaybySection() {
   return (
     <section
       id="layby"
-      className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-16 sm:py-20 lg:py-24"
+      className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-24"
       aria-labelledby="layby-heading"
     >
       {/* Faint olive dot texture */}
@@ -216,7 +216,7 @@ export function LaybySection() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mx-auto flex max-w-3xl flex-col items-center text-center"
           variants={headerStagger}
@@ -234,7 +234,7 @@ export function LaybySection() {
           <motion.h2
             id="layby-heading"
             variants={fadeUpBlur}
-            className="mt-3 text-2xl font-black tracking-tight text-secondary sm:text-3xl lg:text-4xl"
+            className="mt-1.5 text-lg font-black tracking-tight text-secondary sm:mt-3 sm:text-3xl lg:text-4xl"
           >
             Layby - Space available for Rent
             <span className="text-primary">.</span>
@@ -242,7 +242,7 @@ export function LaybySection() {
 
           <motion.span
             aria-hidden
-            className="mt-2 block h-1 rounded-full bg-primary"
+            className="mt-1.5 block h-0.5 rounded-full bg-primary sm:mt-2 sm:h-1"
             initial={{ width: 0 }}
             whileInView={{ width: "8rem" }}
             viewport={viewportOnce}
@@ -251,7 +251,7 @@ export function LaybySection() {
 
           <motion.p
             variants={fadeUp}
-            className="mt-5 text-sm leading-relaxed text-slate-600 sm:text-base"
+            className="mt-2.5 text-xs leading-relaxed text-slate-600 sm:mt-5 sm:text-sm"
           >
             {laybyBody}
           </motion.p>
@@ -259,7 +259,7 @@ export function LaybySection() {
 
         <motion.div
           ref={videoWrapRef}
-          className="relative mx-auto mt-4 aspect-video w-full max-w-5xl overflow-hidden bg-black shadow-[0_40px_90px_-40px_rgba(15,23,42,0.5)] ring-1 ring-black/10 sm:mt-6"
+          className="relative mx-auto mt-3 aspect-video w-full max-w-7xl overflow-hidden rounded-xl bg-black shadow-[0_40px_90px_-40px_rgba(15,23,42,0.5)] ring-1 ring-black/10 sm:mt-6 sm:rounded-2xl"
           variants={reduceMotion ? undefined : cardReveal}
           initial={reduceMotion ? undefined : "hidden"}
           whileInView={reduceMotion ? undefined : "visible"}

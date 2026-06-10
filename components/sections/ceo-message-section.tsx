@@ -41,19 +41,19 @@ export function CeoMessageSection() {
   const prose = reduceMotion ? noMotion : proseReveal;
 
   const bodyClass =
-    "text-[0.9375rem] leading-[1.88] text-slate-700 antialiased sm:text-[1.0625rem] sm:leading-[1.84]";
+    "text-justify text-xs leading-relaxed text-slate-700 antialiased sm:text-[1.0625rem] sm:leading-[1.84]";
 
   const dropCapClass =
-    `${bodyClass} after:block after:h-0 after:clear-both after:content-[''] [&:first-letter]:float-left [&:first-letter]:mr-2.5 [&:first-letter]:mt-0.5 [&:first-letter]:font-sans [&:first-letter]:font-semibold [&:first-letter]:text-[2.65rem] [&:first-letter]:leading-[0.92] [&:first-letter]:text-primary sm:[&:first-letter]:mr-4 sm:[&:first-letter]:mt-1 sm:[&:first-letter]:text-[3.35rem] lg:[&:first-letter]:text-[3.5rem]`;
+    `${bodyClass} after:block after:h-0 after:clear-both after:content-[''] [&:first-letter]:float-left [&:first-letter]:mr-2 [&:first-letter]:mt-0.5 [&:first-letter]:font-sans [&:first-letter]:font-semibold [&:first-letter]:text-[2rem] [&:first-letter]:leading-[0.92] [&:first-letter]:text-primary sm:[&:first-letter]:mr-4 sm:[&:first-letter]:mt-1 sm:[&:first-letter]:text-[3.35rem] lg:[&:first-letter]:text-[3.5rem]`;
 
   return (
     <section
       id="ceo-message"
-      className="scroll-mt-24 border-t border-brand-green/15 bg-surface-green py-14 sm:py-16 lg:py-20"
+      className="scroll-mt-24 border-t border-brand-green/15 bg-surface-green py-10 sm:py-14 lg:py-20"
       aria-labelledby="ceo-message-heading"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl">
+        <div className="">
           <motion.header
             variants={headerStagger}
             initial="hidden"
@@ -61,14 +61,14 @@ export function CeoMessageSection() {
             viewport={viewportOnce}
           >
             <motion.p
-              className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+              className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-xs"
               variants={fadeUp}
             >
               {ceoMessageEyebrow}
             </motion.p>
             <motion.h2
               id="ceo-message-heading"
-              className="mt-3 text-2xl font-bold tracking-tight text-secondary sm:text-3xl lg:text-[2rem]"
+              className="mt-1.5 text-lg font-bold tracking-tight text-secondary sm:mt-3 sm:text-3xl lg:text-[2rem]"
               variants={fadeUpBlur}
             >
               {ceoMessageHeading}
@@ -76,13 +76,13 @@ export function CeoMessageSection() {
           </motion.header>
 
           <motion.div
-            className="mt-8 sm:mt-10"
+            className="mt-5 sm:mt-10"
             variants={prose}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <div className="space-y-7 sm:space-y-8">
+            <div className="space-y-5 sm:space-y-8">
               <motion.p variants={reveal} className={dropCapClass}>
                 {opening}
               </motion.p>
@@ -94,8 +94,8 @@ export function CeoMessageSection() {
               ))}
             </div>
 
-            <motion.footer variants={reveal} className="mt-10 pt-6 sm:mt-12 sm:pt-8">
-              <p className="text-[1.06rem] font-medium italic leading-snug text-secondary sm:text-xl">
+            <motion.footer variants={reveal} className="mt-4 pt-2 sm:mt-8 sm:pt-6">
+              <p className="text-sm font-medium italic leading-snug text-secondary sm:text-xl">
                 {ceoMessageSignature}
               </p>
             </motion.footer>
