@@ -30,23 +30,21 @@ export const heroVideoSrc = "/videos/15secvideo.mp4";
 
 /** Full-width video showcase (below hero). */
 export const mapSectionImage = "/images/map.png";
-export const mapSectionYoutubeVideoId = "YNAn4fI7-34";
-export const mapSectionYoutubeTitle = "SCORE M-9 Motorway video";
 
-export function mapSectionYoutubeEmbedUrl(autoplay = true) {
-  const params = new URLSearchParams({
-    autoplay: autoplay ? "1" : "0",
-    mute: autoplay ? "1" : "0",
-    playsinline: "1",
-    rel: "0",
-    modestbranding: "1",
-    controls: "0",
-    fs: "0",
-    iv_load_policy: "3",
-    disablekb: "1",
-  });
-  return `https://www.youtube.com/embed/${mapSectionYoutubeVideoId}?${params.toString()}`;
+/** Google Drive preview embed helpers. */
+export function buildGoogleDrivePreviewUrl(
+  fileId: string,
+  options: { autoplay?: boolean } = {}
+) {
+  const url = new URL(`https://drive.google.com/file/d/${fileId}/preview`);
+  if (options.autoplay) url.searchParams.set("autoplay", "1");
+  return url.toString();
 }
+
+/** M-9 project showcase video (Google Drive). */
+export const mapSectionDriveFileId = "1TnF15L-k_XNM9nDDYCv80L9TnUTMnUde";
+export const mapSectionVideoTitle = "FWO & SCORE M-9 Motorway video";
+export const mapSectionVideoPoster = "/images/Thumbnail-Transforming.jpg";
 
 export const projectHeading = "Karachi – Hyderabad Motorway (M-9) Project";
 
@@ -88,26 +86,10 @@ export const heroSlides = [
   "/images/n2-1024x682-1.jpg",
 ] as const;
 
-/** Layby promo video (YouTube embed). */
-export const laybyYoutubeVideoId = "AeTv38kW8Lc";
-export const laybyYoutubeTitle = "Layby area promotional video";
-
-export function laybyYoutubeEmbedUrl(autoplay = true) {
-  const params = new URLSearchParams({
-    autoplay: autoplay ? "1" : "0",
-    mute: autoplay ? "1" : "0",
-    loop: "1",
-    playlist: laybyYoutubeVideoId,
-    playsinline: "1",
-    rel: "0",
-    modestbranding: "1",
-    controls: "0",
-    fs: "0",
-    iv_load_policy: "3",
-    disablekb: "1",
-  });
-  return `https://www.youtube.com/embed/${laybyYoutubeVideoId}?${params.toString()}`;
-}
+/** Layby promo video (Google Drive). */
+export const laybyDriveFileId = "1O8zWiQberIA-Gi6Ru5wpqQbtxho_ehGF";
+export const laybyVideoTitle = "Layby area promotional video";
+export const laybyVideoPoster = "/images/Thumbnail-Layby.jpg";
 
 export const projectCarouselImages = [
   "/images/1.png",
@@ -510,8 +492,9 @@ export const truckTerminalBlocks = [
     ],
   },
 ] as const;
-export const truckTerminalVideoId = "e86k39nAt8A";
+export const truckTerminalDriveFileId = "1QF0vAKMlYhAAThbKN_K9nx1tGWULrPr-";
 export const truckTerminalVideoTitle = "M-9 Truck Terminal promotional video";
+export const truckTerminalVideoPoster = "/images/Thumbnail-M9.jpg";
 
 /** Score Bus Terminal (Karachi intercity transport hub). */
 export const busTerminalEyebrow = "Public Infrastructure";
@@ -545,8 +528,9 @@ export const busTerminalBlocks = [
     ],
   },
 ] as const;
-export const busTerminalVideoId = "ovlZsyPB8qY";
+export const busTerminalDriveFileId = "1-nMJEb2N4I0AL_srIwrFDSpNclXSoENs";
 export const busTerminalVideoTitle = "Score Bus Terminal promotional video";
+export const busTerminalVideoPoster = "/images/Thumbnail-Future.jpg";
 
 export const footerLinks = [
   { label: "Company’s Policies", href: "https://score.com.pk/companys-policies/" },

@@ -1,12 +1,8 @@
 "use client";
 
-import { useRef, useState, type ComponentType } from "react";
+import { useRef, type ComponentType } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import {
-  buildYoutubeEmbedUrl,
-  YoutubeScrollPlayer,
-} from "@/components/ui/youtube-scroll-player";
-import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
+import { DriveEmbed, DriveScrollPlayer } from "@/components/ui/drive-scroll-player";
 import {
   fadeUp,
   fadeUpBlur,
@@ -40,8 +36,9 @@ export type TerminalSectionProps = {
   heading: string;
   intro: string;
   blocks: readonly TerminalContentBlock[];
-  videoId: string;
+  driveFileId: string;
   videoTitle: string;
+  videoPoster: string;
 };
 
 const blockIcons: ComponentType<{ className?: string }>[] = [
@@ -152,12 +149,12 @@ export function TerminalSection({
   heading,
   intro,
   blocks,
-  videoId,
+  driveFileId,
   videoTitle,
+  videoPoster,
 }: TerminalSectionProps) {
   const reduceMotion = useReducedMotion();
   const videoWrapRef = useRef<HTMLDivElement>(null);
-  const [isMuted, setIsMuted] = useState(false);
 
   return (
     <section
@@ -226,32 +223,23 @@ export function TerminalSection({
           viewport={viewportOnce}
         >
           {reduceMotion ? (
-            <iframe
-              src={buildYoutubeEmbedUrl(videoId, false)}
+            <DriveEmbed
+              fileId={driveFileId}
               title={videoTitle}
-              className="absolute inset-0 size-full border-0"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
+              posterSrc={videoPoster}
             />
           ) : (
-            <YoutubeScrollPlayer
-              videoId={videoId}
+            <DriveScrollPlayer
+              fileId={driveFileId}
               title={videoTitle}
+              posterSrc={videoPoster}
               hostWrapRef={videoWrapRef}
-              isMuted={isMuted}
             />
           )}
 
           <div
             className="pointer-events-none absolute inset-0 bg-linear-to-t from-secondary/40 via-transparent to-transparent"
             aria-hidden
-          />
-
-          <VideoMuteToggle
-            isMuted={isMuted}
-            onToggle={() => setIsMuted((muted) => !muted)}
-            label={`${heading} video`}
           />
         </motion.div>
 

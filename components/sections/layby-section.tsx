@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useRef } from "react";
 import type { Variants } from "framer-motion";
 import { motion, useReducedMotion } from "framer-motion";
-import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
+import { DriveEmbed, DriveScrollPlayer } from "@/components/ui/drive-scroll-player";
 import {
   laybyBody,
+  laybyDriveFileId,
   laybyEyebrow,
-  laybyYoutubeEmbedUrl,
-  laybyYoutubeTitle,
-  laybyYoutubeVideoId,
+  laybyVideoPoster,
+  laybyVideoTitle,
 } from "@/lib/site-content";
 import { fadeUp, fadeUpBlur, headerStagger, viewportOnce } from "@/lib/motion-variants";
 
@@ -26,178 +26,9 @@ const cardReveal: Variants = {
   },
 };
 
-type YTPlayer = {
-  playVideo: () => void;
-  pauseVideo: () => void;
-  mute: () => void;
-  unMute: () => void;
-  setVolume: (volume: number) => void;
-  destroy: () => void;
-};
-
-type YTNamespace = {
-  Player: new (
-    element: HTMLElement,
-    options: {
-      videoId: string;
-      width?: string;
-      height?: string;
-      playerVars?: Record<string, string | number>;
-      events?: { onReady?: (event: { target: YTPlayer }) => void };
-    }
-  ) => YTPlayer;
-};
-
-function getYT(): YTNamespace | undefined {
-  return (window as Window & { YT?: YTNamespace }).YT;
-}
-
-function loadYoutubeIframeApi(): Promise<void> {
-  if (typeof window === "undefined") return Promise.resolve();
-  if (getYT()?.Player) return Promise.resolve();
-
-  return new Promise((resolve) => {
-    const previous = (window as Window & { onYouTubeIframeAPIReady?: () => void })
-      .onYouTubeIframeAPIReady;
-    (window as Window & { onYouTubeIframeAPIReady?: () => void }).onYouTubeIframeAPIReady =
-      () => {
-        previous?.();
-        resolve();
-      };
-
-    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
-      const script = document.createElement("script");
-      script.src = "https://www.youtube.com/iframe_api";
-      script.async = true;
-      document.head.appendChild(script);
-    }
-  });
-}
-
-function LaybyVideoStage({
-  hostWrapRef,
-  isMuted,
-}: {
-  hostWrapRef: RefObject<HTMLDivElement | null>;
-  isMuted: boolean;
-}) {
-  const hostRef = useRef<HTMLDivElement>(null);
-  const playerRef = useRef<YTPlayer | null>(null);
-  const readyRef = useRef(false);
-  const inViewRef = useRef(false);
-  const isMutedRef = useRef(isMuted);
-
-  useEffect(() => {
-    isMutedRef.current = isMuted;
-    const player = playerRef.current;
-    if (!player || !readyRef.current) return;
-    if (isMuted) player.mute();
-    else {
-      player.unMute();
-      player.setVolume(100);
-    }
-  }, [isMuted]);
-
-  function playWithPreferredAudio() {
-    const player = playerRef.current;
-    if (!player) return;
-    if (isMutedRef.current) player.mute();
-    else {
-      player.unMute();
-      player.setVolume(100);
-    }
-    player.playVideo();
-  }
-
-  useEffect(() => {
-    let destroyed = false;
-    let player: YTPlayer | null = null;
-
-    async function setup() {
-      await loadYoutubeIframeApi();
-      const YT = getYT();
-      if (destroyed || !hostRef.current || !YT?.Player) return;
-
-      player = new YT.Player(hostRef.current, {
-        videoId: laybyYoutubeVideoId,
-        width: "100%",
-        height: "100%",
-        playerVars: {
-          autoplay: 1,
-          mute: 1,
-          controls: 0,
-          playsinline: 1,
-          rel: 0,
-          modestbranding: 1,
-          enablejsapi: 1,
-          fs: 0,
-          iv_load_policy: 3,
-          disablekb: 1,
-          loop: 1,
-          playlist: laybyYoutubeVideoId,
-        },
-        events: {
-          onReady: () => {
-            readyRef.current = true;
-            playerRef.current = player;
-            if (inViewRef.current) playWithPreferredAudio();
-          },
-        },
-      });
-    }
-
-    void setup();
-
-    return () => {
-      destroyed = true;
-      readyRef.current = false;
-      player?.destroy();
-      playerRef.current = null;
-    };
-  }, []);
-
-  useEffect(() => {
-    const target = hostWrapRef.current;
-    if (!target) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        inViewRef.current = entry?.isIntersecting ?? false;
-        if (!readyRef.current || !playerRef.current) return;
-        if (inViewRef.current) playWithPreferredAudio();
-        else playerRef.current.pauseVideo();
-      },
-      { threshold: 0.4 }
-    );
-
-    observer.observe(target);
-
-    function onVisibilityChange() {
-      if (!playerRef.current || !readyRef.current) return;
-      if (document.visibilityState === "visible" && inViewRef.current) playWithPreferredAudio();
-      else playerRef.current.pauseVideo();
-    }
-
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-    };
-  }, [hostWrapRef]);
-
-  return (
-    <div
-      ref={hostRef}
-      className="absolute inset-0 size-full [&>iframe]:absolute [&>iframe]:inset-0 [&>iframe]:size-full [&>iframe]:border-0"
-      title={laybyYoutubeTitle}
-    />
-  );
-}
-
 export function LaybySection() {
   const reduceMotion = useReducedMotion();
   const videoWrapRef = useRef<HTMLDivElement>(null);
-  const [isMuted, setIsMuted] = useState(false);
 
   return (
     <section
@@ -205,7 +36,6 @@ export function LaybySection() {
       className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-24"
       aria-labelledby="layby-heading"
     >
-      {/* Faint olive dot texture */}
       <div
         className="pointer-events-none absolute inset-0 opacity-60"
         style={{
@@ -266,28 +96,23 @@ export function LaybySection() {
           viewport={viewportOnce}
         >
           {reduceMotion ? (
-            <iframe
-              src={laybyYoutubeEmbedUrl(false)}
-              title={laybyYoutubeTitle}
-              className="absolute inset-0 size-full border-0"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
+            <DriveEmbed
+              fileId={laybyDriveFileId}
+              title={laybyVideoTitle}
+              posterSrc={laybyVideoPoster}
             />
           ) : (
-            <LaybyVideoStage hostWrapRef={videoWrapRef} isMuted={isMuted} />
+            <DriveScrollPlayer
+              fileId={laybyDriveFileId}
+              title={laybyVideoTitle}
+              posterSrc={laybyVideoPoster}
+              hostWrapRef={videoWrapRef}
+            />
           )}
 
-          {/* Subtle top/bottom scrims to keep it cinematic and mask edge branding */}
           <div
             className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/25"
             aria-hidden
-          />
-
-          <VideoMuteToggle
-            isMuted={isMuted}
-            onToggle={() => setIsMuted((muted) => !muted)}
-            label="layby video"
           />
         </motion.div>
       </div>
