@@ -1,14 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { CdnScrollPlayer } from "@/components/ui/cdn-scroll-player";
 import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
 import {
   weighStationEyebrow,
   weighStationHeading,
   weighStationHighlights,
   weighStationIntro,
+  weighStationVideoPoster,
   weighStationVideoSrc,
+  weighStationVideoTitle,
 } from "@/lib/site-content";
 import {
   fadeUp,
@@ -26,78 +29,12 @@ const hoverEase = "ease-[cubic-bezier(0.33,1,0.68,1)]";
 const hoverDuration = "duration-700";
 const hoverDescDelay = "delay-150";
 
-function playVideo(video: HTMLVideoElement | null, muted: boolean): Promise<boolean> {
-  if (!video) return Promise.resolve(false);
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    video.pause();
-    return Promise.resolve(false);
-  }
-  video.muted = muted;
-  return video.play().then(() => true).catch(() => false);
-}
-
 export function WeighStationSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const inViewRef = useRef(false);
+  const videoWrapRef = useRef<HTMLDivElement>(null);
   const [isMuted, setIsMuted] = useState(false);
-  const isMutedRef = useRef(false);
-  const [needsTap, setNeedsTap] = useState(false);
-
-  useEffect(() => {
-    isMutedRef.current = isMuted;
-    if (videoRef.current) videoRef.current.muted = isMuted;
-  }, [isMuted]);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        const video = videoRef.current;
-        if (!video || !entry) return;
-
-        inViewRef.current = entry.isIntersecting;
-
-        if (entry.isIntersecting) {
-          void playVideo(video, isMutedRef.current).then((ok) => setNeedsTap(!ok && !isMutedRef.current));
-        } else {
-          video.pause();
-          setNeedsTap(false);
-        }
-      },
-      { threshold: 0.4 }
-    );
-
-    observer.observe(section);
-
-    function onVisibilityChange() {
-      const video = videoRef.current;
-      if (!video) return;
-      if (document.visibilityState === "visible" && inViewRef.current) {
-        void playVideo(video, isMutedRef.current).then((ok) => setNeedsTap(!ok && !isMutedRef.current));
-      } else {
-        video.pause();
-      }
-    }
-
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-    };
-  }, []);
-
-  function handlePlayTap() {
-    void playVideo(videoRef.current, isMutedRef.current).then((ok) => {
-      if (ok) setNeedsTap(false);
-    });
-  }
 
   return (
     <section
-      ref={sectionRef}
       id="weigh-station"
       className="relative scroll-mt-24 overflow-hidden border-t border-brand-green/15 bg-surface-green py-10 sm:py-16 lg:py-24"
       aria-labelledby="weigh-station-heading"
@@ -133,33 +70,20 @@ export function WeighStationSection() {
 
         <div className="mt-4 sm:mt-10 grid grid-cols-1 gap-4 sm:gap-8 lg:mt-12 lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
           <motion.div
-            className="relative aspect-video w-full"
+            ref={videoWrapRef}
+            className="relative aspect-video w-full overflow-hidden"
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
             variants={imageReveal}
           >
-            <video
-              ref={videoRef}
-              className="size-full object-cover"
-              playsInline
-              loop
-              preload="metadata"
-              poster="/images/14.jpeg"
-              aria-label="Karachi Smart Weigh Station facility video"
-            >
-              <source src={weighStationVideoSrc} type="video/mp4" />
-            </video>
-            {needsTap ? (
-              <button
-                type="button"
-                onClick={handlePlayTap}
-                className="absolute inset-0 z-20 flex items-center justify-center bg-secondary/40 text-sm font-semibold text-white transition-colors hover:bg-secondary/55"
-                aria-label="Play weigh station video with sound"
-              >
-                Tap to play with sound
-              </button>
-            ) : null}
+            <CdnScrollPlayer
+              videoSrc={weighStationVideoSrc}
+              title={weighStationVideoTitle}
+              posterSrc={weighStationVideoPoster}
+              hostWrapRef={videoWrapRef}
+              isMuted={isMuted}
+            />
             <VideoMuteToggle
               isMuted={isMuted}
               onToggle={() => setIsMuted((muted) => !muted)}

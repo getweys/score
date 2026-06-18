@@ -3,8 +3,8 @@ import {
   truckTerminalEyebrow,
   truckTerminalHeading,
   truckTerminalIntro,
-  truckTerminalDriveFileId,
   truckTerminalVideoPoster,
+  truckTerminalVideoSrc,
   truckTerminalVideoTitle,
 } from "@/lib/site-content";
 import { TerminalSection } from "@/components/sections/terminal-section";
@@ -17,7 +17,7 @@ export function TruckTerminalSection() {
       heading={truckTerminalHeading}
       intro={truckTerminalIntro}
       blocks={truckTerminalBlocks}
-      driveFileId={truckTerminalDriveFileId}
+      videoSrc={truckTerminalVideoSrc}
       videoTitle={truckTerminalVideoTitle}
       videoPoster={truckTerminalVideoPoster}
     />

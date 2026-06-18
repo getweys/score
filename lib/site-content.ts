@@ -31,18 +31,9 @@ export const heroVideoSrc = "/videos/15secvideo.mp4";
 /** Full-width video showcase (below hero). */
 export const mapSectionImage = "/images/map.png";
 
-/** Google Drive preview embed helpers. */
-export function buildGoogleDrivePreviewUrl(
-  fileId: string,
-  options: { autoplay?: boolean } = {}
-) {
-  const url = new URL(`https://drive.google.com/file/d/${fileId}/preview`);
-  if (options.autoplay) url.searchParams.set("autoplay", "1");
-  return url.toString();
-}
-
-/** M-9 project showcase video (Google Drive). */
-export const mapSectionDriveFileId = "1TnF15L-k_XNM9nDDYCv80L9TnUTMnUde";
+/** M-9 project showcase video (CDN). */
+export const mapSectionVideoSrc =
+  "https://getweys.fra1.cdn.digitaloceanspaces.com/FWO%26SCORE.mov";
 export const mapSectionVideoTitle = "FWO & SCORE M-9 Motorway video";
 export const mapSectionVideoPoster = "/images/Thumbnail-Transforming.jpg";
 
@@ -86,8 +77,9 @@ export const heroSlides = [
   "/images/n2-1024x682-1.jpg",
 ] as const;
 
-/** Layby promo video (Google Drive). */
-export const laybyDriveFileId = "1O8zWiQberIA-Gi6Ru5wpqQbtxho_ehGF";
+/** Layby promo video (CDN). */
+export const laybyVideoSrc =
+  "https://getweys.fra1.cdn.digitaloceanspaces.com/Laybay.mp4";
 export const laybyVideoTitle = "Layby area promotional video";
 export const laybyVideoPoster = "/images/Thumbnail-Layby.jpg";
 
@@ -203,7 +195,10 @@ export const weighStationHighlights = [
   },
 ] as const;
 
-export const weighStationVideoSrc = "/images/video.mp4";
+export const weighStationVideoSrc =
+  "https://getweys.fra1.cdn.digitaloceanspaces.com/Karachi%20wait%20station.mp4";
+export const weighStationVideoTitle = "Karachi Smart Weigh Station facility video";
+export const weighStationVideoPoster = "/images/14.jpeg";
 
 export interface ResponsibilityCard {
   iconSrc: string;
@@ -492,7 +487,8 @@ export const truckTerminalBlocks = [
     ],
   },
 ] as const;
-export const truckTerminalDriveFileId = "1QF0vAKMlYhAAThbKN_K9nx1tGWULrPr-";
+export const truckTerminalVideoSrc =
+  "https://getweys.fra1.cdn.digitaloceanspaces.com/score%20video.mp4";
 export const truckTerminalVideoTitle = "M-9 Truck Terminal promotional video";
 export const truckTerminalVideoPoster = "/images/Thumbnail-M9.jpg";
 
@@ -528,7 +524,8 @@ export const busTerminalBlocks = [
     ],
   },
 ] as const;
-export const busTerminalDriveFileId = "1-nMJEb2N4I0AL_srIwrFDSpNclXSoENs";
+export const busTerminalVideoSrc =
+  "https://getweys.fra1.cdn.digitaloceanspaces.com/SCORE%20BUS%20TERMINAL.mov";
 export const busTerminalVideoTitle = "Score Bus Terminal promotional video";
 export const busTerminalVideoPoster = "/images/Thumbnail-Future.jpg";
 

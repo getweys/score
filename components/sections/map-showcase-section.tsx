@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { DriveEmbed, DriveScrollPlayer } from "@/components/ui/drive-scroll-player";
+import { CdnScrollPlayer, CdnVideoEmbed } from "@/components/ui/cdn-scroll-player";
+import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
 import {
-  mapSectionDriveFileId,
   mapSectionImage,
   mapSectionVideoPoster,
+  mapSectionVideoSrc,
   mapSectionVideoTitle,
   projectBody,
   projectHeading,
@@ -23,6 +24,7 @@ function MapVideoFrame({ children }: { children: ReactNode }) {
 export function MapShowcaseSection() {
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
+  const [isMuted, setIsMuted] = useState(false);
 
   return (
     <section
@@ -74,10 +76,16 @@ export function MapShowcaseSection() {
       </div>
       {reduceMotion ? (
         <MapVideoFrame>
-          <DriveEmbed
-            fileId={mapSectionDriveFileId}
+          <CdnVideoEmbed
+            videoSrc={mapSectionVideoSrc}
             title={mapSectionVideoTitle}
             posterSrc={mapSectionVideoPoster}
+            isMuted={isMuted}
+          />
+          <VideoMuteToggle
+            isMuted={isMuted}
+            onToggle={() => setIsMuted((muted) => !muted)}
+            label="M-9 project video"
           />
         </MapVideoFrame>
       ) : (
@@ -88,11 +96,17 @@ export function MapShowcaseSection() {
           viewport={viewportOnce}
         >
           <MapVideoFrame>
-            <DriveScrollPlayer
-              fileId={mapSectionDriveFileId}
+            <CdnScrollPlayer
+              videoSrc={mapSectionVideoSrc}
               title={mapSectionVideoTitle}
               posterSrc={mapSectionVideoPoster}
               hostWrapRef={sectionRef}
+              isMuted={isMuted}
+            />
+            <VideoMuteToggle
+              isMuted={isMuted}
+              onToggle={() => setIsMuted((muted) => !muted)}
+              label="M-9 project video"
             />
           </MapVideoFrame>
         </motion.div>

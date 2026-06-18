@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, type ComponentType } from "react";
+import { useRef, useState, type ComponentType } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { DriveEmbed, DriveScrollPlayer } from "@/components/ui/drive-scroll-player";
+import { CdnScrollPlayer, CdnVideoEmbed } from "@/components/ui/cdn-scroll-player";
+import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
 import {
   fadeUp,
   fadeUpBlur,
@@ -36,7 +37,7 @@ export type TerminalSectionProps = {
   heading: string;
   intro: string;
   blocks: readonly TerminalContentBlock[];
-  driveFileId: string;
+  videoSrc: string;
   videoTitle: string;
   videoPoster: string;
 };
@@ -149,12 +150,13 @@ export function TerminalSection({
   heading,
   intro,
   blocks,
-  driveFileId,
+  videoSrc,
   videoTitle,
   videoPoster,
 }: TerminalSectionProps) {
   const reduceMotion = useReducedMotion();
   const videoWrapRef = useRef<HTMLDivElement>(null);
+  const [isMuted, setIsMuted] = useState(false);
 
   return (
     <section
@@ -223,23 +225,31 @@ export function TerminalSection({
           viewport={viewportOnce}
         >
           {reduceMotion ? (
-            <DriveEmbed
-              fileId={driveFileId}
+            <CdnVideoEmbed
+              videoSrc={videoSrc}
               title={videoTitle}
               posterSrc={videoPoster}
+              isMuted={isMuted}
             />
           ) : (
-            <DriveScrollPlayer
-              fileId={driveFileId}
+            <CdnScrollPlayer
+              videoSrc={videoSrc}
               title={videoTitle}
               posterSrc={videoPoster}
               hostWrapRef={videoWrapRef}
+              isMuted={isMuted}
             />
           )}
 
           <div
             className="pointer-events-none absolute inset-0 bg-linear-to-t from-secondary/40 via-transparent to-transparent"
             aria-hidden
+          />
+
+          <VideoMuteToggle
+            isMuted={isMuted}
+            onToggle={() => setIsMuted((muted) => !muted)}
+            label={`${heading} video`}
           />
         </motion.div>
 
