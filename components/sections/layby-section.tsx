@@ -1,14 +1,15 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { Variants } from "framer-motion";
 import { motion, useReducedMotion } from "framer-motion";
-import { DriveEmbed, DriveScrollPlayer } from "@/components/ui/drive-scroll-player";
+import { CdnScrollPlayer, CdnVideoEmbed } from "@/components/ui/cdn-scroll-player";
+import { VideoMuteToggle } from "@/components/ui/video-mute-toggle";
 import {
   laybyBody,
-  laybyDriveFileId,
   laybyEyebrow,
   laybyVideoPoster,
+  laybyVideoSrc,
   laybyVideoTitle,
 } from "@/lib/site-content";
 import { fadeUp, fadeUpBlur, headerStagger, viewportOnce } from "@/lib/motion-variants";
@@ -29,6 +30,7 @@ const cardReveal: Variants = {
 export function LaybySection() {
   const reduceMotion = useReducedMotion();
   const videoWrapRef = useRef<HTMLDivElement>(null);
+  const [isMuted, setIsMuted] = useState(false);
 
   return (
     <section
@@ -96,23 +98,31 @@ export function LaybySection() {
           viewport={viewportOnce}
         >
           {reduceMotion ? (
-            <DriveEmbed
-              fileId={laybyDriveFileId}
+            <CdnVideoEmbed
+              videoSrc={laybyVideoSrc}
               title={laybyVideoTitle}
               posterSrc={laybyVideoPoster}
+              isMuted={isMuted}
             />
           ) : (
-            <DriveScrollPlayer
-              fileId={laybyDriveFileId}
+            <CdnScrollPlayer
+              videoSrc={laybyVideoSrc}
               title={laybyVideoTitle}
               posterSrc={laybyVideoPoster}
               hostWrapRef={videoWrapRef}
+              isMuted={isMuted}
             />
           )}
 
           <div
             className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/25"
             aria-hidden
+          />
+
+          <VideoMuteToggle
+            isMuted={isMuted}
+            onToggle={() => setIsMuted((muted) => !muted)}
+            label="layby video"
           />
         </motion.div>
       </div>
