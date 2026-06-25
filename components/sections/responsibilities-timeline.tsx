@@ -59,7 +59,7 @@ function TimelineStep({ card, isLast, reduceMotion }: TimelineStepProps) {
           <h3 className="text-base font-semibold leading-snug text-secondary sm:text-xl">
             {card.title}
           </h3>
-          <p className="mt-2 max-w-xl text-xs leading-relaxed text-slate-600 sm:text-[15px] sm:leading-7">
+          <p className="mt-2 max-w-xl text-[13px] leading-relaxed text-slate-600 sm:text-[15px] sm:leading-7">
             {card.body}
           </p>
         </div>

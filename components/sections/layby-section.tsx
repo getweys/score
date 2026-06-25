@@ -58,7 +58,7 @@ export function LaybySection() {
         >
           <motion.p
             variants={fadeUp}
-            className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary sm:text-xs"
+            className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary sm:text-[13px]"
           >
             {laybyEyebrow}
           </motion.p>
@@ -83,7 +83,7 @@ export function LaybySection() {
 
           <motion.p
             variants={fadeUp}
-            className="mt-2.5 text-xs leading-relaxed text-slate-600 sm:mt-5 sm:text-sm"
+            className="mt-2.5 text-[13px] leading-relaxed text-slate-600 sm:mt-5 sm:text-sm"
           >
             {laybyBody}
           </motion.p>

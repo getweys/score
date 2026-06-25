@@ -15,7 +15,7 @@ import { listRowReveal, slideInRight, viewportOnce, viewportRow } from "@/lib/mo
 function ContactDetailRow({ item }: { item: ContactDetailItem }) {
   return (
     <div className="border-b border-brand-green/25 py-5 last:border-b-0 sm:py-6">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">{item.label}</p>
+      <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-slate-500">{item.label}</p>
       {item.href ? (
         <a
           href={item.href}

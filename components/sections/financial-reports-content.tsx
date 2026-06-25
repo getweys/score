@@ -43,7 +43,7 @@ function FinancialReportRow({ row }: FinancialReportRowProps) {
     <div
       className={`group flex items-center justify-between gap-3 px-1 py-3 sm:gap-4 sm:px-4 sm:py-4 lg:gap-5 lg:px-5 lg:py-5 ${rowHover}`}
     >
-      <h3 className="min-w-0 flex-1 text-xs font-medium leading-snug text-secondary transition-colors duration-500 group-hover:text-on-green-dark sm:text-base lg:text-lg lg:leading-tight">
+      <h3 className="min-w-0 flex-1 text-[13px] font-medium leading-snug text-secondary transition-colors duration-500 group-hover:text-on-green-dark sm:text-base lg:text-lg lg:leading-tight">
         {row.title}
       </h3>
 
@@ -87,7 +87,7 @@ export function FinancialReportsContent({ showViewMore = true }: FinancialReport
         viewport={viewportOnce}
       >
         <motion.p
-          className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-xs"
+          className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-[13px]"
           variants={fadeUp}
         >
           {financialEyebrow}
@@ -98,7 +98,7 @@ export function FinancialReportsContent({ showViewMore = true }: FinancialReport
         >
           {financialHeading}
         </motion.h2>
-        <motion.p className="mt-2 text-xs leading-relaxed text-slate-600 sm:mt-3 sm:text-sm" variants={fadeUp}>
+        <motion.p className="mt-2 text-[13px] leading-relaxed text-slate-600 sm:mt-3 sm:text-sm" variants={fadeUp}>
           {financialIntro}
         </motion.p>
       </motion.div>
@@ -131,7 +131,7 @@ export function FinancialReportsContent({ showViewMore = true }: FinancialReport
         >
           <Link
             href={financialViewMoreHref}
-            className="inline-flex min-h-8 items-center justify-center rounded-md border-2 border-primary px-5 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:text-sm"
+            className="inline-flex min-h-8 items-center justify-center rounded-md border-2 border-primary px-5 py-1.5 text-[13px] font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:text-sm"
           >
             View all reports
           </Link>

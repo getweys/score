@@ -57,7 +57,7 @@ function ProjectGallerySection() {
           viewport={viewportOnce}
         >
           <motion.p
-            className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+            className="text-[13px] font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
             variants={fadeUp}
           >
             Gallery
@@ -69,7 +69,7 @@ function ProjectGallerySection() {
           >
             Along the M-9 corridor
           </motion.h2>
-          <motion.p className="mt-1 sm:mt-2 text-xs leading-relaxed text-slate-600" variants={fadeUp}>
+          <motion.p className="mt-1 sm:mt-2 text-[13px] leading-relaxed text-slate-600" variants={fadeUp}>
             Construction, operations, and corridor views across the M-9 motorway project.
           </motion.p>
         </motion.header>
@@ -107,20 +107,20 @@ export function ProjectSection() {
                 viewport={viewportOnce}
               >
                 <motion.p
-                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-xs"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-[13px]"
                   variants={fadeUp}
                 >
                   {projectSectionEyebrow}
                 </motion.p>
                 <motion.h2
                   id="projects-heading"
-                  className="mt-3 text-base font-bold leading-snug tracking-tight text-secondary sm:text-xl xl:text-2xl"
+                  className="mt-3 text-[17px] font-bold leading-snug tracking-tight text-secondary sm:text-xl xl:text-2xl"
                   variants={fadeUpBlur}
                 >
                   {projectShowcaseHeading}
                 </motion.h2>
                 <motion.p
-                  className="mt-2.5 text-justify text-xs leading-relaxed text-slate-600 sm:mt-5 sm:text-sm"
+                  className="mt-2.5 text-justify text-[13px] leading-relaxed text-slate-600 sm:mt-5 sm:text-sm"
                   variants={fadeUp}
                 >
                   {projectShowcaseLead}
@@ -138,7 +138,7 @@ export function ProjectSection() {
                   <motion.li
                     key={line}
                     variants={riseSoft}
-                    className="flex items-start gap-2 text-xs font-medium text-secondary sm:text-base"
+                    className="flex items-start gap-2 text-[14px] font-medium text-secondary sm:text-base"
                   >
                     <PrimaryCheckIcon />
                     <span>{line}</span>
@@ -157,7 +157,7 @@ export function ProjectSection() {
                   href={projectReadMoreHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center border-2 border-primary px-4 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary hover:text-white sm:px-7 sm:py-2.5 sm:text-sm"
+                  className="inline-flex items-center justify-center border-2 border-primary px-4 py-1.5 text-[13px] font-semibold text-primary transition-colors hover:bg-primary hover:text-white sm:px-7 sm:py-2.5 sm:text-sm"
                 >
                   Read More
                 </a>
