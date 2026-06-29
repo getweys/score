@@ -103,7 +103,7 @@ function TerminalFeatureCard({
               className="group/row flex items-start gap-2 rounded-md px-1.5 py-1.5 transition-colors duration-500 hover:bg-brand-green-dark motion-reduce:transition-none sm:gap-2.5 sm:rounded-lg sm:px-2.5 sm:py-2.5"
             >
               <CheckIcon />
-              <span className="text-xs leading-snug text-slate-600 transition-colors duration-500 group-hover/row:text-on-green-dark sm:text-sm sm:leading-relaxed">
+              <span className="text-[13px] leading-snug text-slate-600 transition-colors duration-500 group-hover/row:text-on-green-dark sm:text-sm sm:leading-relaxed">
                 {item}
               </span>
             </li>
@@ -184,7 +184,7 @@ export function TerminalSection({
         >
           <motion.p
             variants={fadeUp}
-            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.25em] text-primary sm:text-xs"
+            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.25em] text-primary sm:text-[13px]"
           >
             <span className="size-1.5 rounded-full bg-primary" aria-hidden />
             {eyebrow}
@@ -210,7 +210,7 @@ export function TerminalSection({
 
           <motion.p
             variants={fadeUp}
-            className="mt-2.5 text-xs leading-relaxed text-slate-600 sm:mt-5 sm:text-sm"
+            className="mt-2.5 text-[13px] leading-relaxed text-slate-600 sm:mt-5 sm:text-sm"
           >
             {intro}
           </motion.p>

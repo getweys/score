@@ -41,7 +41,7 @@ export function CeoMessageSection() {
   const prose = reduceMotion ? noMotion : proseReveal;
 
   const bodyClass =
-    "text-justify text-xs leading-relaxed text-slate-700 antialiased sm:text-[1.0625rem] sm:leading-[1.84]";
+    "text-justify text-[14px] leading-relaxed text-slate-700 antialiased sm:text-[1.0625rem] sm:leading-[1.84]";
 
   const dropCapClass =
     `${bodyClass} after:block after:h-0 after:clear-both after:content-[''] [&:first-letter]:float-left [&:first-letter]:mr-2 [&:first-letter]:mt-0.5 [&:first-letter]:font-sans [&:first-letter]:font-semibold [&:first-letter]:text-[2rem] [&:first-letter]:leading-[0.92] [&:first-letter]:text-primary sm:[&:first-letter]:mr-4 sm:[&:first-letter]:mt-1 sm:[&:first-letter]:text-[3.35rem] lg:[&:first-letter]:text-[3.5rem]`;
@@ -61,7 +61,7 @@ export function CeoMessageSection() {
             viewport={viewportOnce}
           >
             <motion.p
-              className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-xs"
+              className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-[13px]"
               variants={fadeUp}
             >
               {ceoMessageEyebrow}

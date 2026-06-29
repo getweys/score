@@ -61,7 +61,7 @@ export function WeighStationSection() {
             {weighStationHeading}
           </motion.h2>
           <motion.p
-            className="mt-2.5 text-xs xs:text-sm leading-relaxed text-slate-600 sm:mt-5 sm:text-lg"
+            className="mt-2.5 text-[14px] xs:text-sm leading-relaxed text-slate-600 sm:mt-5 sm:text-lg"
             variants={fadeUp}
           >
             {weighStationIntro}
@@ -113,12 +113,12 @@ export function WeighStationSection() {
                   </span>
                   <div className="min-w-0 flex-1 overflow-hidden">
                     <p
-                      className={`text-[13px] font-bold leading-snug text-secondary transition-[color,transform] ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark motion-reduce:group-hover:translate-x-0 sm:text-base`}
+                      className={`text-[14px] font-bold leading-snug text-secondary transition-[color,transform] ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark motion-reduce:group-hover:translate-x-0 sm:text-base`}
                     >
                       {item.label}
                     </p>
                     <p
-                      className={`mt-0.5 text-[10px] leading-snug text-slate-600 transition-[color,transform,opacity] ${hoverDescDelay} ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark/90 motion-reduce:group-hover:translate-x-0 sm:text-sm`}
+                      className={`mt-0.5 text-[12px] leading-snug text-slate-600 transition-[color,transform,opacity] ${hoverDescDelay} ${hoverDuration} ${hoverEase} group-hover:translate-x-0.5 group-hover:text-on-green-dark/90 motion-reduce:group-hover:translate-x-0 sm:text-sm`}
                     >
                       {item.description}
                     </p>

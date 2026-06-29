@@ -26,8 +26,8 @@ export function TeamMemberTile({ member }: TeamMemberTileProps) {
         />
       </div>
       <div className="pointer-events-none mt-1 h-px w-8 rounded-full bg-primary/35 opacity-80 sm:mt-1.5 sm:w-10" aria-hidden />
-      <h3 className="mt-2 text-xs font-semibold leading-snug text-secondary sm:mt-3 sm:text-base">{member.name}</h3>
-      <p className="mt-1 max-w-52 text-[0.6875rem] leading-snug text-slate-600 sm:mt-1.5 sm:text-xs sm:leading-relaxed">
+      <h3 className="mt-2 text-[15px] font-semibold leading-snug text-secondary sm:mt-3 sm:text-base">{member.name}</h3>
+      <p className="mt-1 max-w-52 text-[0.6875rem] leading-snug text-slate-600 sm:mt-1.5 sm:text-[13px] sm:leading-relaxed">
         {member.role}
       </p>
     </motion.div>
@@ -49,7 +49,7 @@ export function TeamSection() {
           viewport={viewportOnce}
         >
           <motion.p
-            className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-xs"
+            className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-[13px]"
             variants={fadeUp}
           >
             {teamEyebrow}
@@ -60,7 +60,7 @@ export function TeamSection() {
           >
             {teamHeading}
           </motion.h2>
-          <motion.p className="mt-2 text-xs leading-relaxed text-slate-600 sm:mt-5 sm:text-sm" variants={fadeUp}>
+          <motion.p className="mt-2 text-[13px] leading-relaxed text-slate-600 sm:mt-5 sm:text-sm" variants={fadeUp}>
             {teamSubheading}
           </motion.p>
 

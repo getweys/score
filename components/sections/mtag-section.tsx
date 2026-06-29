@@ -61,7 +61,7 @@ export function MtagSection() {
             aria-hidden
           />
           <div className="absolute inset-0 flex flex-col items-center justify-end px-2 pb-2 text-center sm:pb-10 lg:pb-12">
-            <p className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/90 sm:text-xs">
+            <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-white/90 sm:text-[13px]">
               {mtagEyebrow}
             </p>
             <h2
@@ -70,7 +70,7 @@ export function MtagSection() {
             >
               {mtagHeading}
             </h2>
-            <p className="mt-1.5 sm:mt-4 max-w-2xl rounded-full border border-amber-300/60 bg-amber-400/95 px-2 py-0.5 sm:px-5 sm:py-2 text-[10px] font-bold uppercase tracking-wide text-secondary shadow-lg sm:text-xs">
+            <p className="mt-1.5 sm:mt-4 max-w-2xl rounded-full border border-amber-300/60 bg-amber-400/95 px-2 py-0.5 sm:px-5 sm:py-2 text-[11px] font-bold uppercase tracking-wide text-secondary shadow-lg sm:text-[13px]">
               {mtagDeadlineBanner}
             </p>
           </div>
@@ -79,7 +79,7 @@ export function MtagSection() {
 
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8">
         <motion.p
-          className="text-center text-xs md:text-[19px] font-semibold leading-relaxed text-slate-800"
+          className="text-center text-[14px] md:text-[19px] font-semibold text-slate-800"
           variants={fadeUpBlur}
           initial="hidden"
           whileInView="visible"
@@ -98,10 +98,10 @@ export function MtagSection() {
           <div className="grid gap-5 py-3 sm:grid-cols-2 lg:grid-cols-3 sm:gap-8 sm:py-6 lg:gap-0 lg:divide-x lg:divide-brand-green/20">
             <div className="min-w-0 lg:pr-8">
               <h3 className="text-sm sm:text-lg font-bold text-secondary">{mtagHowToHeading}</h3>
-              <p className="mt-1 text-xs sm:text-sm text-slate-600">{mtagHowToBody}</p>
+              <p className="mt-1 text-[13px] sm:text-sm text-slate-600">{mtagHowToBody}</p>
               <ul className="mt-2 space-y-1" role="list">
                 {mtagRequiredDocuments.map((doc) => (
-                  <li key={doc} className="flex items-start gap-2 text-xs sm:text-base text-secondary">
+                  <li key={doc} className="flex items-start gap-2 text-[13px] sm:text-base text-secondary">
                     <span className="mt-2 size-1 shrink-0 rounded-full bg-primary" aria-hidden />
                     {doc}
                   </li>
@@ -113,7 +113,7 @@ export function MtagSection() {
               <h3 className="text-sm sm:text-lg font-bold text-secondary">{mtagBenefitsHeading}</h3>
               <ul className="mt-1.5 sm:mt-2 space-y-1.5" role="list">
                 {mtagBenefits.map((benefit) => (
-                  <li key={benefit} className="flex items-start gap-2 text-xs sm:text-[15px] text-slate-800">
+                  <li key={benefit} className="flex items-start gap-2 text-[13px] sm:text-[15px] text-slate-800">
                     <CheckIcon />
                     <span>{benefit}</span>
                   </li>
@@ -140,10 +140,10 @@ export function MtagSection() {
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-brand-green/20 py-4">
-            <p className="text-xs sm:text-sm text-slate-600">{mtagNotice}</p>
+            <p className="text-[13px] sm:text-sm text-slate-600">{mtagNotice}</p>
             <a
               href={`tel:${contactEmergencyNumber}`}
-              className="shrink-0 text-xs sm:text-sm text-slate-600 transition-colors hover:text-primary"
+              className="shrink-0 text-[13px] sm:text-sm text-slate-600 transition-colors hover:text-primary"
             >
               Need help? Helpline{" "}
               <span className="font-bold text-primary">{contactEmergencyNumber}</span>

@@ -46,7 +46,7 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="flex flex-col items-center gap-3 border-t border-white/10 py-6 text-center text-xs text-on-green-dark/60 sm:flex-row sm:justify-between sm:text-left sm:text-sm">
+        <div className="flex flex-col items-center gap-3 border-t border-white/10 py-6 text-center text-[13px] text-on-green-dark/60 sm:flex-row sm:justify-between sm:text-left sm:text-sm">
           <p>{footerCopyright}</p>
           <p>
             {footerCreditLabel}

@@ -109,7 +109,7 @@ export function AboutContentSection() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <motion.p variants={fadeUp} className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
+            <motion.p variants={fadeUp} className="text-[13px] font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
               Who we are
             </motion.p>
             <motion.h2
@@ -154,7 +154,7 @@ export function AboutContentSection() {
             viewport={viewportOnce}
           >
             <motion.div className="relative mb-8 max-w-2xl sm:mb-10">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
+              <p className="text-[13px] font-bold uppercase tracking-[0.2em] text-primary sm:text-sm">
                 {aboutPillarsEyebrow}
               </p>
               <motion.h2

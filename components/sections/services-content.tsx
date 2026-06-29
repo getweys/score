@@ -78,7 +78,7 @@ export function ServicesSectionHeader({ align = "center" }: { align?: "center" |
       >
         {responsibilitiesHeading}
       </motion.h2>
-      <motion.p className="mt-2 text-xs leading-relaxed text-slate-600 sm:mt-6 sm:text-lg" variants={fadeUp}>
+      <motion.p className="mt-2 text-[13px] leading-relaxed text-slate-600 sm:mt-6 sm:text-lg" variants={fadeUp}>
         {responsibilitiesIntro}
       </motion.p>
     </motion.div>

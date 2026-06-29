@@ -115,7 +115,7 @@ export function HeroSection() {
               transition={{ duration: 0.75, delay: 0.25, ease: easeOut }}
               aria-hidden
             />
-            <motion.p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-white/90 sm:text-xs">
+            <motion.p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-white/90 sm:text-[13px]">
               {heroCaption}
             </motion.p>
             <motion.span

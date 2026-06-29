@@ -49,7 +49,7 @@ export function MapShowcaseSection() {
             {projectHeading}
           </motion.h2>
           <motion.p
-            className="mt-3 text-justify text-xs leading-relaxed text-slate-600 sm:mt-5 sm:text-sm sm:leading-7"
+            className="mt-3 text-justify text-[14px] leading-relaxed text-slate-600 sm:mt-5 sm:text-sm sm:leading-7"
             variants={fadeUp}
           >
             {projectBody}

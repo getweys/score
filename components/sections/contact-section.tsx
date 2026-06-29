@@ -15,10 +15,10 @@ const phoneHref = `tel:${phoneDisplay.replace(/-/g, "")}`;
 const mailHref = `mailto:${emailDisplay}`;
 
 const floatingControlClass =
-  "peer w-full rounded-none border-0 border-b border-brand-green/35 bg-transparent px-0 pb-2 pt-5 text-xs text-secondary shadow-none outline-none transition-[border-color,color] duration-200 placeholder:text-transparent focus:border-primary focus:ring-0 sm:pb-2.5 sm:pt-6 sm:text-sm";
+  "peer w-full rounded-none border-0 border-b border-brand-green/35 bg-transparent px-0 pb-2 pt-5 text-[13px] text-secondary shadow-none outline-none transition-[border-color,color] duration-200 placeholder:text-transparent focus:border-primary focus:ring-0 sm:pb-2.5 sm:pt-6 sm:text-sm";
 
 const floatingLabelClass =
-  "pointer-events-none absolute left-0 top-[1.15rem] origin-left text-xs text-slate-500 transition-all duration-200 ease-out peer-focus:top-0 peer-focus:text-[0.65rem] peer-focus:font-medium peer-focus:text-primary peer-focus:scale-[0.92] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[0.65rem] peer-[:not(:placeholder-shown)]:font-medium peer-[:not(:placeholder-shown)]:text-primary peer-[:not(:placeholder-shown)]:scale-[0.92] sm:top-[1.35rem] sm:text-sm sm:peer-focus:text-xs sm:peer-[:not(:placeholder-shown)]:text-xs";
+  "pointer-events-none absolute left-0 top-[1.15rem] origin-left text-[13px] text-slate-500 transition-all duration-200 ease-out peer-focus:top-0 peer-focus:text-[0.65rem] peer-focus:font-medium peer-focus:text-primary peer-focus:scale-[0.92] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[0.65rem] peer-[:not(:placeholder-shown)]:font-medium peer-[:not(:placeholder-shown)]:text-primary peer-[:not(:placeholder-shown)]:scale-[0.92] sm:top-[1.35rem] sm:text-sm sm:peer-focus:text-[13px] sm:peer-[:not(:placeholder-shown)]:text-[13px]";
 
 interface FloatingInputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -106,7 +106,7 @@ export function ContactSection() {
             <motion.div className="min-w-0 text-left" variants={headerStagger}>
               <motion.p
                 variants={fadeUp}
-                className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-xs"
+                className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-[13px]"
               >
                 {contactEyebrow}
               </motion.p>
@@ -116,7 +116,7 @@ export function ContactSection() {
               >
                 {contactHeading}
               </motion.h2>
-              <motion.p variants={fadeUp} className="mt-2 max-w-md text-xs leading-relaxed text-slate-600 sm:mt-3 sm:text-sm">
+              <motion.p variants={fadeUp} className="mt-2 max-w-md text-[13px] leading-relaxed text-slate-600 sm:mt-3 sm:text-sm">
                 {contactIntro}
               </motion.p>
             </motion.div>
@@ -126,10 +126,10 @@ export function ContactSection() {
                 <PhoneGlyph className="size-4 sm:size-[1.35rem]" />
               </ContactIconWrap>
               <div className="min-w-0 flex-1">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:text-xs">Phone</p>
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:text-[13px]">Phone</p>
                 <a
                   href={phoneHref}
-                  className="mt-0.5 block text-xs font-semibold text-secondary transition-colors hover:text-primary sm:mt-1 sm:text-sm"
+                  className="mt-0.5 block text-[13px] font-semibold text-secondary transition-colors hover:text-primary sm:mt-1 sm:text-sm"
                 >
                   {phoneDisplay}
                 </a>
@@ -141,10 +141,10 @@ export function ContactSection() {
                 <MailGlyph className="size-4 sm:size-[1.35rem]" />
               </ContactIconWrap>
               <div className="min-w-0 flex-1">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:text-xs">Email</p>
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:text-[13px]">Email</p>
                 <a
                   href={mailHref}
-                  className="mt-0.5 block wrap-break-word text-xs font-semibold text-secondary transition-colors hover:text-primary sm:mt-1 sm:text-sm"
+                  className="mt-0.5 block wrap-break-word text-[13px] font-semibold text-secondary transition-colors hover:text-primary sm:mt-1 sm:text-sm"
                 >
                   {emailDisplay}
                 </a>
@@ -156,8 +156,8 @@ export function ContactSection() {
                 <ClockGlyph className="size-4 sm:size-[1.35rem]" />
               </ContactIconWrap>
               <div className="min-w-0 flex-1">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:text-xs">Office hours</p>
-                <p className="mt-0.5 text-xs font-semibold text-secondary sm:mt-1 sm:text-sm">9 am to 6 pm</p>
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-slate-500 sm:text-[13px]">Office hours</p>
+                <p className="mt-0.5 text-[13px] font-semibold text-secondary sm:mt-1 sm:text-sm">9 am to 6 pm</p>
               </div>
             </motion.div>
           </motion.div>
@@ -175,8 +175,8 @@ export function ContactSection() {
                 e.preventDefault();
               }}
             >
-              <h3 className="text-sm font-semibold text-secondary sm:text-lg">Send a message</h3>
-              <p className="mt-0.5 text-xs text-slate-600 sm:mt-1 sm:text-sm">We&apos;ll get back to you as soon as we can.</p>
+              <h3 className="text-base font-semibold text-secondary sm:text-lg">Send a message</h3>
+              <p className="mt-0.5 text-[13px] text-slate-600 sm:mt-1 sm:text-sm">We&apos;ll get back to you as soon as we can.</p>
 
               <div className="mt-4 grid gap-4 sm:mt-6 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-6">
                 <FloatingInputField
@@ -216,7 +216,7 @@ export function ContactSection() {
               <div className="mt-4 flex justify-end sm:mt-6">
                 <motion.button
                   type="submit"
-                  className="inline-flex min-h-9 w-full items-center justify-center rounded-lg bg-primary px-6 py-2 text-xs font-medium uppercase tracking-widest text-white shadow-[0_8px_28px_-14px_rgba(92,107,72,0.42)] transition hover:bg-primary/95 sm:w-auto sm:min-h-10 sm:px-7 sm:py-2.5 sm:text-sm sm:tracking-[0.08em]"
+                  className="inline-flex min-h-9 w-full items-center justify-center rounded-lg bg-primary px-6 py-2 text-[13px] font-medium uppercase tracking-widest text-white shadow-[0_8px_28px_-14px_rgba(92,107,72,0.42)] transition hover:bg-primary/95 sm:w-auto sm:min-h-10 sm:px-7 sm:py-2.5 sm:text-sm sm:tracking-[0.08em]"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

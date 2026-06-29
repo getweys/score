@@ -36,7 +36,7 @@ export function PageHero({ breadcrumbLabel, eyebrow, title, intro }: PageHeroPro
         </motion.nav>
         <motion.p
           variants={fadeUp}
-          className="text-xs font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
+          className="text-[13px] font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
         >
           {eyebrow}
         </motion.p>

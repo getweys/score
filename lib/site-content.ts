@@ -223,7 +223,7 @@ export const responsibilityCards: ResponsibilityCard[] = [
   {
     iconSrc: "/images/Icon-2-01-1024x1024.png",
     number: "3",
-    title: "Row Management",
+    title: "ROW Management",
     body: "Coordination with civil administrations enables timely damage reporting, traffic management, and accident coverage. Advanced tolling systems help safeguard assets, prevent unauthorized activities, and support anti-encroachment efforts.",
   },
   {
