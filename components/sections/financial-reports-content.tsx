@@ -93,18 +93,18 @@ export function FinancialReportsContent({ showViewMore = true }: FinancialReport
           {financialEyebrow}
         </motion.p>
         <motion.h2
-          className="mt-1.5 text-lg font-bold leading-tight tracking-tight text-secondary sm:mt-2 sm:text-2xl"
+          className="mt-1.5 text-lg font-bold leading-tight tracking-tight text-secondary sm:mt-2 sm:text-3xl"
           variants={fadeUpBlur}
         >
           {financialHeading}
         </motion.h2>
-        <motion.p className="mt-2 text-[13px] leading-relaxed text-slate-600 sm:mt-3 sm:text-sm" variants={fadeUp}>
+        <motion.p className="mt-2 text-[13px] leading-relaxed text-slate-600 sm:mt-3 sm:text-base" variants={fadeUp}>
           {financialIntro}
         </motion.p>
       </motion.div>
 
       <ul
-        className="mx-auto mt-4 max-w-5xl list-none border-t border-brand-green/25 pt-1 sm:mt-8"
+        className="mx-auto mt-4 max-w-5xl list-none border-t border-brand-green/25 pt-1 sm:mt-20"
         role="list"
       >
         {financialRows.map((row) => (

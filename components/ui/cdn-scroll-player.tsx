@@ -3,10 +3,6 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type RefObject } from "react";
 
-function videoMimeType(src: string) {
-  return /\.mov(?:$|\?)/i.test(src) ? "video/quicktime" : "video/mp4";
-}
-
 function VideoPoster({
   posterSrc,
   title,
@@ -43,19 +39,21 @@ function VideoPoster({
   );
 }
 
-function playVideo(
-  video: HTMLVideoElement | null,
-  muted: boolean,
-  fromStart = false
-): Promise<boolean> {
-  if (!video) return Promise.resolve(false);
+async function startPlayback(video: HTMLVideoElement, preferMuted: boolean) {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     video.pause();
-    return Promise.resolve(false);
+    return false;
   }
-  if (fromStart) video.currentTime = 0;
-  video.muted = muted;
-  return video.play().then(() => true).catch(() => false);
+
+  video.muted = true;
+  const started = await video.play().then(() => true).catch(() => false);
+  if (!started) return false;
+
+  if (!preferMuted) {
+    video.muted = false;
+    video.volume = 1;
+  }
+  return true;
 }
 
 type CdnPlayerBaseProps = {
@@ -82,7 +80,7 @@ export function CdnScrollPlayer({
   const inViewRef = useRef(false);
   const isMutedRef = useRef(isMuted);
   const isReadyRef = useRef(false);
-  const [active, setActive] = useState(false);
+  const [near, setNear] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
   function markReady() {
@@ -91,112 +89,87 @@ export function CdnScrollPlayer({
     setIsReady(true);
   }
 
-  function resetReady() {
-    isReadyRef.current = false;
-    setIsReady(false);
-  }
-
   useEffect(() => {
     isMutedRef.current = isMuted;
-    if (videoRef.current) videoRef.current.muted = isMuted;
+    const video = videoRef.current;
+    if (!video || video.paused) return;
+    video.muted = isMuted;
   }, [isMuted]);
 
   useEffect(() => {
+    const node = videoRef.current;
     const target = hostWrapRef.current;
-    if (!target) return;
+    if (!node || !target) return;
+    const videoEl: HTMLVideoElement = node;
 
-    function activate() {
-      setActive(true);
-    }
-
-    function deactivate() {
-      const video = videoRef.current;
-      if (video) {
-        video.pause();
-        video.removeAttribute("src");
-        while (video.firstChild) video.removeChild(video.firstChild);
-        video.load();
+    function handleReady() {
+      markReady();
+      if (inViewRef.current) {
+        void startPlayback(videoEl, isMutedRef.current);
       }
-      resetReady();
-      setActive(false);
     }
 
-    const observer = new IntersectionObserver(
+    videoEl.addEventListener("loadeddata", handleReady);
+    videoEl.addEventListener("canplay", handleReady);
+    videoEl.addEventListener("playing", markReady);
+    videoEl.addEventListener("timeupdate", markReady);
+
+    const nearObserver = new IntersectionObserver(
       ([entry]) => {
-        inViewRef.current = entry?.isIntersecting ?? false;
-        if (inViewRef.current) activate();
-        else deactivate();
+        if (entry?.isIntersecting) setNear(true);
       },
-      { threshold: 0.4 }
+      { rootMargin: "1200px 0px", threshold: 0 }
     );
 
-    observer.observe(target);
+    const playObserver = new IntersectionObserver(
+      ([entry]) => {
+        inViewRef.current = entry?.isIntersecting ?? false;
+        if (inViewRef.current) {
+          void startPlayback(videoEl, isMutedRef.current);
+        } else {
+          videoEl.pause();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    nearObserver.observe(target);
+    playObserver.observe(target);
 
     function onVisibilityChange() {
-      const video = videoRef.current;
-      if (!video) return;
       if (document.visibilityState === "hidden") {
-        video.pause();
-      } else if (inViewRef.current && isReadyRef.current) {
-        void playVideo(video, isMutedRef.current);
+        videoEl.pause();
+      } else if (inViewRef.current) {
+        void startPlayback(videoEl, isMutedRef.current);
       }
     }
 
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => {
-      observer.disconnect();
+      nearObserver.disconnect();
+      playObserver.disconnect();
       document.removeEventListener("visibilitychange", onVisibilityChange);
+      videoEl.removeEventListener("loadeddata", handleReady);
+      videoEl.removeEventListener("canplay", handleReady);
+      videoEl.removeEventListener("playing", markReady);
+      videoEl.removeEventListener("timeupdate", markReady);
     };
-  }, [hostWrapRef]);
-
-  useEffect(() => {
-    if (!active) return;
-    const video = videoRef.current;
-    if (!video) return;
-
-    resetReady();
-
-    function handleReady() {
-      markReady();
-      void playVideo(video, isMutedRef.current, true).then((ok) => {
-        if (ok) markReady();
-      });
-    }
-
-    video.addEventListener("canplay", handleReady);
-    video.addEventListener("playing", markReady);
-
-    const source = document.createElement("source");
-    source.src = videoSrc;
-    source.type = videoMimeType(videoSrc);
-    video.appendChild(source);
-    video.load();
-
-    return () => {
-      video.removeEventListener("canplay", handleReady);
-      video.removeEventListener("playing", markReady);
-    };
-  }, [active, videoSrc]);
-
-  useEffect(() => {
-    if (!active || !isReady) return;
-    if (videoRef.current) videoRef.current.muted = isMuted;
-  }, [active, isReady, isMuted]);
-
-  const showPoster = !active || !isReady;
+  }, [hostWrapRef, videoSrc]);
 
   return (
     <>
-      {showPoster ? (
-        <VideoPoster posterSrc={posterSrc} title={title} showLoader={active && !isReady} />
+      {!isReady ? (
+        <VideoPoster posterSrc={posterSrc} title={title} showLoader={near} />
       ) : null}
       <video
         ref={videoRef}
+        src={near ? videoSrc : undefined}
         title={title}
         className={`${className} ${isReady ? "z-20" : "pointer-events-none opacity-0"}`}
         playsInline
         loop
-        preload="none"
+        muted
+        preload={near ? "auto" : "none"}
       />
     </>
   );
@@ -223,18 +196,18 @@ export function CdnVideoEmbed({
       ) : null}
       <video
         ref={videoRef}
+        src={videoSrc}
         title={title}
         className={`${className} ${isReady ? "z-20" : "pointer-events-none opacity-0"}`}
         playsInline
         loop
         controls
         muted={isMuted}
-        preload="metadata"
+        preload="auto"
+        onLoadedData={() => setIsReady(true)}
         onCanPlay={() => setIsReady(true)}
         onPlaying={() => setIsReady(true)}
-      >
-        <source src={videoSrc} type={videoMimeType(videoSrc)} />
-      </video>
+      />
     </>
   );
 }

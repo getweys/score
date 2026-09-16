@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/sections/site-header";
 export const metadata: Metadata = {
   title: "Contact Us - SCORE Pvt Ltd, a subsidiary of FWO",
   description:
-    "Contact SCORE Pvt Ltd — address, phone, emergency line, fax, email, and office hours at Zenith Plaza, Bahria Town Karachi.",
+    "Contact SCORE Pvt Ltd — send a message, call, or email us. Find our office location on the map.",
 };
 
 export default function ContactPage() {

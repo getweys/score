@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${roboto.variable} ${roboto.className} scroll-smooth antialiased`}>
-      <body className="min-h-screen bg-surface-green font-sans text-secondary">{children}</body>
+      <body suppressHydrationWarning className="min-h-screen bg-surface-green font-sans text-secondary">{children}</body>
     </html>
   );
 }

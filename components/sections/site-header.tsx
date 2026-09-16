@@ -101,7 +101,7 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
 
             {/* Desktop nav links */}
             <div className="hidden justify-center lg:flex">
-              <ul className="flex items-center gap-x-0.5 text-[13px] font-medium uppercase leading-snug tracking-[0.07em] lg:gap-x-0.5 lg:text-[13px] lg:tracking-[0.08em]">
+              <ul className="flex items-center gap-x-0.5 text-[13px] font-medium uppercase leading-snug tracking-[0.07em] lg:gap-x-2 lg:text-[13px] lg:tracking-[0.08em]">
                 {navLinks.map((item, index) => {
                   const isActive = navHrefMatchesActiveSection({ href: item.href, activeSection, pathname });
                   const className = linkClass(isActive);
@@ -131,8 +131,8 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
                           </motion.span>
                           <span
                             className={`absolute -bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-primary transition-all duration-300 ease-out ${isActive
-                                ? "w-full opacity-100"
-                                : "w-0 opacity-0 group-hover:w-full group-hover:opacity-70"
+                              ? "w-full opacity-100"
+                              : "w-0 opacity-0 group-hover:w-full group-hover:opacity-70"
                               }`}
                             aria-hidden
                           />
@@ -177,10 +177,10 @@ export function SiteHeader({ variant = "solid" }: SiteHeaderProps) {
               <motion.button
                 type="button"
                 className={`inline-flex items-center justify-center rounded-lg border p-2 lg:hidden ${menuOpen
-                    ? "border-primary/30 bg-primary/10 text-primary"
-                    : navOnDark
-                      ? "border-white/35 bg-white/10 text-white backdrop-blur-sm"
-                      : "border-brand-green/25 text-secondary"
+                  ? "border-primary/30 bg-primary/10 text-primary"
+                  : navOnDark
+                    ? "border-white/35 bg-white/10 text-white backdrop-blur-sm"
+                    : "border-brand-green/25 text-secondary"
                   }`}
                 aria-expanded={menuOpen}
                 aria-controls="mobile-nav"
