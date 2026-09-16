@@ -13,7 +13,7 @@ interface PageHeroProps {
 
 export function PageHero({ breadcrumbLabel, eyebrow, title, intro }: PageHeroProps) {
   return (
-    <section className="border-b border-brand-green/15 bg-surface-green pt-8 pb-8 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-16">
+    <section className="border-b border-brand-green/15 bg-surface-green pt-8 pb-8 sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-14">
       <motion.div
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
         variants={headerStagger}
@@ -21,19 +21,7 @@ export function PageHero({ breadcrumbLabel, eyebrow, title, intro }: PageHeroPro
         animate="visible"
         viewport={viewportHero}
       >
-        <motion.nav variants={fadeUp} aria-label="Breadcrumb" className="mb-5 text-sm text-slate-500">
-          <ol className="flex flex-wrap items-center gap-2">
-            <li>
-              <Link href="/" className="transition-colors hover:text-primary">
-                Home
-              </Link>
-            </li>
-            <li aria-hidden className="text-slate-400">
-              /
-            </li>
-            <li className="font-medium text-secondary">{breadcrumbLabel}</li>
-          </ol>
-        </motion.nav>
+
         <motion.p
           variants={fadeUp}
           className="text-[13px] font-bold uppercase tracking-[0.2em] text-primary sm:text-sm"
@@ -49,7 +37,7 @@ export function PageHero({ breadcrumbLabel, eyebrow, title, intro }: PageHeroPro
         {intro ? (
           <motion.p
             variants={fadeUpBlur}
-            className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:mt-5 sm:text-lg"
+            className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600 sm:mt-4 sm:text-lg"
           >
             {intro}
           </motion.p>

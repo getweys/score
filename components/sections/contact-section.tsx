@@ -1,8 +1,10 @@
 "use client";
 
+import { useActionState } from "react";
 import type { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 import { motion } from "framer-motion";
-import {
+import { submitContactForm } from "@/app/actions/submit-contact-form";
+import { contactFormInitialState } from "@/lib/contact-form";import {
   contactEyebrow,
   contactHeading,
   contactIntro,
@@ -89,6 +91,8 @@ function ContactIconWrap({ children }: { children: ReactNode }) {
 }
 
 export function ContactSection() {
+  const [state, formAction, isPending] = useActionState(submitContactForm, contactFormInitialState);
+
   return (
     <section
       id="contact"
@@ -169,14 +173,22 @@ export function ContactSection() {
             viewport={viewportOnce}
             variants={slideInRight}
           >
-            <form
-              className="bg-transparent lg:max-w-none"
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
+            <form action={formAction} className="bg-transparent lg:max-w-none">
               <h3 className="text-base font-semibold text-secondary sm:text-lg">Send a message</h3>
               <p className="mt-0.5 text-[13px] text-slate-600 sm:mt-1 sm:text-sm">We&apos;ll get back to you as soon as we can.</p>
+
+              {state.message ? (
+                <p
+                  role="status"
+                  className={`mt-4 rounded-lg px-3 py-2 text-[13px] sm:text-sm ${
+                    state.ok
+                      ? "bg-primary/10 text-primary"
+                      : "bg-red-50 text-red-700"
+                  }`}
+                >
+                  {state.message}
+                </p>
+              ) : null}
 
               <div className="mt-4 grid gap-4 sm:mt-6 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-6">
                 <FloatingInputField
@@ -216,11 +228,12 @@ export function ContactSection() {
               <div className="mt-4 flex justify-end sm:mt-6">
                 <motion.button
                   type="submit"
-                  className="inline-flex min-h-9 w-full items-center justify-center rounded-lg bg-primary px-6 py-2 text-[13px] font-medium uppercase tracking-widest text-white shadow-[0_8px_28px_-14px_rgba(92,107,72,0.42)] transition hover:bg-primary/95 sm:w-auto sm:min-h-10 sm:px-7 sm:py-2.5 sm:text-sm sm:tracking-[0.08em]"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  disabled={isPending}
+                  className="inline-flex min-h-9 w-full items-center justify-center rounded-lg bg-primary px-6 py-2 text-[13px] font-medium uppercase tracking-widest text-white shadow-[0_8px_28px_-14px_rgba(92,107,72,0.42)] transition hover:bg-primary/95 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:min-h-10 sm:px-7 sm:py-2.5 sm:text-sm sm:tracking-[0.08em]"
+                  whileHover={isPending ? undefined : { scale: 1.02 }}
+                  whileTap={isPending ? undefined : { scale: 0.98 }}
                 >
-                  Submit
+                  {isPending ? "Sending…" : "Submit"}
                 </motion.button>
               </div>
             </form>

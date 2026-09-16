@@ -8,6 +8,9 @@ export const topBarTaglineMobile = "SCORE, is a subsidiary of FWO";
 export const phoneDisplay = "021-37188215";
 export const emailDisplay = "info@score.com.pk";
 
+/** Inbox for website contact form submissions. */
+export const contactFormRecipient = emailDisplay;
+
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
@@ -31,7 +34,7 @@ export const heroVideoSrc = "/videos/15secvideo.mp4";
 /** Full-width video showcase (below hero). */
 export const mapSectionImage = "/images/map.png";
 
-/** M-9 project showcase video (CDN). */
+/** M-9 project showcase video (CDN). Convert this .mov to H.264 MP4 +faststart before production. */
 export const mapSectionVideoSrc =
   "https://getweys.fra1.cdn.digitaloceanspaces.com/FWO%26SCORE.mov";
 export const mapSectionVideoTitle = "FWO & SCORE M-9 Motorway video";
@@ -69,7 +72,7 @@ export const projectStats = [
   { value: "75–90", unit: "Min", label: "Travel time saved" },
 ] as const;
 
-export const projectReadMoreHref = "https://score.com.pk/about-us/";
+export const projectReadMoreHref = "/about";
 
 export const heroSlides = [
   "/images/14.jpeg",
@@ -487,6 +490,7 @@ export const truckTerminalBlocks = [
     ],
   },
 ] as const;
+/** Run ffmpeg -movflags +faststart on this file — moov atom is currently at the end. */
 export const truckTerminalVideoSrc =
   "https://getweys.fra1.cdn.digitaloceanspaces.com/score%20video.mp4";
 export const truckTerminalVideoTitle = "M-9 Truck Terminal promotional video";
@@ -524,15 +528,224 @@ export const busTerminalBlocks = [
     ],
   },
 ] as const;
+/** Convert this .mov to H.264 MP4 +faststart before production. */
 export const busTerminalVideoSrc =
   "https://getweys.fra1.cdn.digitaloceanspaces.com/SCORE%20BUS%20TERMINAL.mov";
 export const busTerminalVideoTitle = "Score Bus Terminal promotional video";
 export const busTerminalVideoPoster = "/images/Thumbnail-Future.jpg";
 
 export const footerLinks = [
-  { label: "Company’s Policies", href: "https://score.com.pk/companys-policies/" },
-  { label: "Privacy Policy", href: "https://score.com.pk/privacy-policy/" },
-  { label: "Terms & Conditions", href: "https://score.com.pk/terms-of-use/" },
+  { label: "Company’s Policies", href: "/companys-policies" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms & Conditions", href: "/terms-of-use" },
+] as const;
+
+/** Company policies page (PDF downloads hosted on existing SCORE media). */
+export const companyPoliciesEyebrow = "Governance";
+export const companyPoliciesHeading = "Company’s Policies";
+export const companyPoliciesIntro =
+  "SCORE maintains clear governance standards covering integrity, conflicts of interest, and workplace conduct.";
+
+export const companyPolicyRows = [
+  {
+    title: "Anti Corruption Policy",
+    downloadHref: "https://score.com.pk/wp-content/uploads/2025/04/Anti-Corruption.pdf",
+    previewHref: "https://score.com.pk/wp-content/uploads/2025/04/Anti-Corruption.pdf",
+  },
+  {
+    title: "Conflict of Interest Policy",
+    downloadHref: "https://score.com.pk/wp-content/uploads/2025/04/Conflict-of-Interest.pdf",
+    previewHref: "https://score.com.pk/wp-content/uploads/2025/04/Conflict-of-Interest.pdf",
+  },
+  {
+    title: "Code of Conduct Policy",
+    downloadHref: "https://score.com.pk/wp-content/uploads/2025/04/Policies-code-of-conduct.pdf",
+    previewHref: "https://score.com.pk/wp-content/uploads/2025/04/Policies-code-of-conduct.pdf",
+  },
+] as const;
+
+/** Privacy policy page. */
+export const privacyPolicyEyebrow = "Legal";
+export const privacyPolicyHeading = "Privacy Policy";
+export const privacyPolicyIntro =
+  "How SCORE Pvt Ltd collects, uses, stores, and protects information when you visit our website.";
+
+export type LegalSection = {
+  heading: string;
+  paragraphs: readonly string[];
+  bullets?: readonly string[];
+};
+
+export const privacyPolicySections: LegalSection[] = [
+  {
+    heading: "Overview",
+    paragraphs: [
+      "Welcome to the SCORE website (the “Site”). We understand that privacy online is important to users of our Site, especially when conducting business. This statement governs our privacy policies with respect to those users of the Site (“Visitors”) who visit without transacting business and Visitors who register to transact business on the Site and make use of the various services offered by SCORE Pvt Ltd, a subsidiary of FWO (collectively, “Services”) (“Authorized Customers”).",
+    ],
+  },
+  {
+    heading: "Personally Identifiable Information",
+    paragraphs: [
+      "“Personally Identifiable Information” refers to any information that identifies or can be used to identify, contact, or locate the person to whom such information pertains, including, but not limited to, name, address, phone number, fax number, email address, financial profiles, social security number, and credit card information. Personally Identifiable Information does not include information that is collected anonymously (that is, without identification of the individual user) or demographic information not connected to an identified individual.",
+    ],
+  },
+  {
+    heading: "What Personally Identifiable Information is collected?",
+    paragraphs: [
+      "We may collect basic user profile information from all of our Visitors. We collect the following additional information from our Authorized Customers: the names, addresses, phone numbers and email addresses of Authorized Customers, the nature and size of the business, and the nature and size of the advertising inventory that the Authorized Customer intends to purchase or sell.",
+    ],
+  },
+  {
+    heading: "What organizations are collecting the information?",
+    paragraphs: [
+      "In addition to our direct collection of information, our third party service vendors (such as credit card companies, clearinghouses and banks) who may provide such services as credit, insurance, and escrow services may collect this information from our Visitors and Authorized Customers. We do not control how these third parties use such information, but we do ask them to disclose how they use personal information provided to them from Visitors and Authorized Customers. Some of these third parties may be intermediaries that act solely as links in the distribution chain, and do not store, retain, or use the information given to them.",
+    ],
+  },
+  {
+    heading: "How does the Site use Personally Identifiable Information?",
+    paragraphs: [
+      "We use Personally Identifiable Information to customize the Site, to make appropriate service offerings, and to fulfill buying and selling requests on the Site. We may email Visitors and Authorized Customers about research or purchase and selling opportunities on the Site or information related to the subject matter of the Site. We may also use Personally Identifiable Information to contact Visitors and Authorized Customers in response to specific inquiries, or to provide requested information.",
+    ],
+  },
+  {
+    heading: "With whom may the information be shared?",
+    paragraphs: [
+      "Personally Identifiable Information about Authorized Customers may be shared with other Authorized Customers who wish to evaluate potential transactions with other Authorized Customers. We may share aggregated information about our Visitors, including the demographics of our Visitors and Authorized Customers, with our affiliated agencies and third party vendors. We also offer the opportunity to “opt out” of receiving information or being contacted by us or by any agency acting on our behalf.",
+    ],
+  },
+  {
+    heading: "How is Personally Identifiable Information stored?",
+    paragraphs: [
+      "Personally Identifiable Information collected by SCORE Pvt Ltd, a subsidiary of FWO is securely stored and is not accessible to third parties or employees of SCORE Pvt Ltd, a subsidiary of FWO except for use as indicated above.",
+    ],
+  },
+  {
+    heading: "What choices are available to Visitors?",
+    paragraphs: [
+      "Visitors and Authorized Customers may opt out of receiving unsolicited information from or being contacted by us and/or our vendors and affiliated agencies by responding to emails as instructed, or by contacting us at Zenith Plaza 10th Floor, Precinct – 1, Near Tauheed Square, Bahria Town Karachi.",
+    ],
+  },
+  {
+    heading: "Are Cookies Used on the Site?",
+    paragraphs: [
+      "Cookies are used for a variety of reasons. We use Cookies to obtain information about the preferences of our Visitors and the services they select. We also use Cookies for security purposes to protect our Authorized Customers. For example, if an Authorized Customer is logged on and the site is unused for more than 10 minutes, we will automatically log the Authorized Customer off.",
+    ],
+  },
+  {
+    heading: "How does SCORE use login information?",
+    paragraphs: [
+      "SCORE Pvt Ltd, a subsidiary of FWO uses login information, including, but not limited to, IP addresses, ISPs, and browser types, to analyze trends, administer the Site, track a user’s movement and use, and gather broad demographic information.",
+    ],
+  },
+  {
+    heading: "Partners and service providers",
+    paragraphs: [
+      "SCORE Pvt Ltd, a subsidiary of FWO has entered into and will continue to enter into partnerships and other affiliations with a number of vendors. Such vendors may have access to certain Personally Identifiable Information on a need to know basis for evaluating Authorized Customers for service eligibility. Our privacy policy does not cover their collection or use of this information.",
+      "We will disclose Personally Identifiable Information in order to comply with a court order or subpoena or a request from a law enforcement agency to release information. We will also disclose Personally Identifiable Information when reasonably necessary to protect the safety of our Visitors and Authorized Customers.",
+    ],
+  },
+  {
+    heading: "How does the Site keep Personally Identifiable Information secure?",
+    paragraphs: [
+      "All of our employees are familiar with our security policy and practices. The Personally Identifiable Information of our Visitors and Authorized Customers is only accessible to a limited number of qualified employees who are given a password in order to gain access to the information. We audit our security systems and processes on a regular basis. Sensitive information, such as credit card numbers or social security numbers, is protected by encryption protocols, in place to protect information sent over the Internet. While we take commercially reasonable measures to maintain a secure site, electronic communications and databases are subject to errors, tampering and break-ins, and we cannot guarantee or warrant that such events will not take place and we will not be liable to Visitors or Authorized Customers for any such occurrences.",
+    ],
+  },
+  {
+    heading: "Correcting inaccuracies",
+    paragraphs: [
+      "Visitors and Authorized Customers may contact us to update Personally Identifiable Information about them or to correct any inaccuracies by emailing us at info@score.com.pk.",
+    ],
+  },
+  {
+    heading: "Deleting or deactivating information",
+    paragraphs: [
+      "We provide Visitors and Authorized Customers with a mechanism to delete/deactivate Personally Identifiable Information from the Site’s database by contacting us. However, because of backups and records of deletions, it may be impossible to delete a Visitor’s entry without retaining some residual information. An individual who requests to have Personally Identifiable Information deactivated will have this information functionally deleted, and we will not sell, transfer, or use Personally Identifiable Information relating to that individual in any way moving forward.",
+    ],
+  },
+  {
+    heading: "What happens if the Privacy Policy Changes?",
+    paragraphs: [
+      "We will let our Visitors and Authorized Customers know about changes to our privacy policy by posting such changes on the Site. However, if we are changing our privacy policy in a manner that might cause disclosure of Personally Identifiable Information that a Visitor or Authorized Customer has previously requested not be disclosed, we will contact such Visitor or Authorized Customer to allow such Visitor or Authorized Customer to prevent such disclosure.",
+    ],
+  },
+  {
+    heading: "Links",
+    paragraphs: [
+      "This website may contain links to other web sites. Please note that when you click on one of these links, you are moving to another web site. We encourage you to read the privacy statements of these linked sites as their privacy policies may differ from ours.",
+    ],
+  },
+] as const;
+
+/** Terms of use page. */
+export const termsOfUseEyebrow = "Legal";
+export const termsOfUseHeading = "Terms & Conditions";
+export const termsOfUseIntro =
+  "These Terms govern your access to and use of the SCORE website and related services.";
+
+export const termsOfUseSections: LegalSection[] = [
+  {
+    heading: "Agreement",
+    paragraphs: [
+      "These Terms govern your access to, usage of all content, Product and Services available on this website (the “Service”) operated by SCORE Pvt Ltd, a subsidiary of FWO (“us”, “we”, or “our”).",
+      "Your access to our services is subject to your acceptance, without modification, of all of the terms and conditions contained herein and all other operating rules and policies published and that may be published from time to time by us.",
+      "Please read the Agreement carefully before accessing or using our Services. By accessing or using any part of our Services, you agree to be bound by these Terms. If you do not agree to any part of the terms of the Agreement, then you may not access or use our Services.",
+    ],
+  },
+  {
+    heading: "Intellectual Property",
+    paragraphs: [
+      "The Agreement does not transfer from Us to you any of Ours or third party intellectual property, and all right, title, and interest in and to such property will remain (as between the parties) solely with SCORE Pvt Ltd, a subsidiary of FWO and its licensors.",
+    ],
+  },
+  {
+    heading: "Third Party Services",
+    paragraphs: [
+      "In using the Services, you may use third-party services, products, software, embeds, or applications developed by a third party (“Third Party Services”).",
+      "If you use any Third Party Services, you understand that:",
+    ],
+    bullets: [
+      "Any use of a Third Party Service is at your own risk, and we shall not be responsible or liable to anyone for Third Party websites or Services.",
+      "You acknowledge and agree that We shall not be responsible or liable for any damage or loss caused or alleged to be caused by or in connection with the use of any such content, goods or services available on or through any such web sites or services.",
+    ],
+  },
+  {
+    heading: "Accounts",
+    paragraphs: [
+      "Where use of any part of our Services requires an account, you agree to provide us with complete and accurate information when you register for an account.",
+      "You will be solely responsible and liable for any activity that occurs under your account. You are responsible for keeping your account information up-to-date and for keeping your password secure.",
+      "You are responsible for maintaining the security of your account that you use to access the Service. You shall not share or misuse your access credentials. You must notify us immediately of any unauthorized uses of your account or upon becoming aware of any other breach of security.",
+    ],
+  },
+  {
+    heading: "Termination",
+    paragraphs: [
+      "We may terminate or suspend your access to all or any part of our Services at any time, with or without cause, with or without notice, effective immediately.",
+      "If you wish to terminate the Agreement or your SCORE Pvt Ltd, a subsidiary of FWO account, you may simply discontinue using our Services.",
+      "All provisions of the Agreement which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity, and limitations of liability.",
+    ],
+  },
+  {
+    heading: "Disclaimer",
+    paragraphs: [
+      "Our Services are provided “AS IS.” and “AS AVAILABLE” basis. SCORE Pvt Ltd, a subsidiary of FWO and its suppliers and licensors hereby disclaim all warranties of any kind, express or implied, including, without limitation, the warranties of merchantability, fitness for a particular purpose and non-infringement. Neither SCORE Pvt Ltd, a subsidiary of FWO, nor its suppliers and licensors, makes any warranty that our Services will be error free or that access thereto will be continuous or uninterrupted. You understand that you download from, or otherwise obtain content or services through, our Services at your own discretion and risk.",
+    ],
+  },
+  {
+    heading: "Jurisdiction and Applicable Law",
+    paragraphs: [
+      "Except to the extent any applicable law provides otherwise, the Agreement and any access to or use of our Services will be governed by the laws of Pakistan.",
+      "The proper venue for any disputes arising out of or relating to the Agreement and any access to or use of our Services will be the state and federal courts located in Pakistan.",
+    ],
+  },
+  {
+    heading: "Changes",
+    paragraphs: [
+      "SCORE Pvt Ltd, a subsidiary of FWO reserves the right, at our sole discretion, to modify or replace these Terms at any time.",
+      "If we make changes that are material, we will let you know by posting on our website, or by sending you an email or other communication before the changes take effect. The notice will designate a reasonable period of time after which the new terms will take effect.",
+      "If you disagree with our changes, then you should stop using our Services within the designated notice period, or once the changes become effective.",
+      "Your continued use of our Services will be subject to the new terms.",
+    ],
+  },
 ] as const;
 
 export const footerTagline =
