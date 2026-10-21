@@ -13,7 +13,7 @@ export const contactFormRecipient = emailDisplay;
 
 export const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
+  { label: "Services", href: "/#services" },
   { label: "About Us", href: "/about" },
   { label: "Our Team", href: "/team" },
   { label: "Financial Statements", href: "/financial" },
@@ -291,7 +291,7 @@ export const companyManagement: TeamMember[] = [
   {
     imageSrc: "/images/Muhammad-Adil.jpg",
     name: "Muhammad Adil",
-    role: "Company Secretary (CS)",
+    role: "Company Secretary (CS)/DyCFO",
   },
 ];
 
@@ -318,7 +318,7 @@ export const aboutParagraphs = [
 ] as const;
 
 export const aboutServicesCtaLabel = "Our Services";
-export const aboutServicesCtaHref = "/services";
+export const aboutServicesCtaHref = "/#services";
 
 export const aboutPillarsEyebrow = "Our purpose";
 export const aboutPillarsHeading = "Objective, vision & mission";
