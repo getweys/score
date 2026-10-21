@@ -55,9 +55,6 @@ export function navHrefMatchesActiveSection({
   if (href === "/financial") {
     return pathname === "/financial";
   }
-  if (href === "/services") {
-    return pathname === "/services";
-  }
   if (href === "/" || href === "#home") {
     return pathname === "/" && (activeSection === "home" || activeSection === "projects");
   }
